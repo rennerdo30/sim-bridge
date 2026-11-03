@@ -72,12 +72,15 @@ export async function startRelay(extra = {}) {
   const port = probe.address().port; await new Promise(resolve => probe.close(resolve));
   if (port === 8787) throw new Error('Live relay port is forbidden.');
   const environment = Object.fromEntries(Object.entries(process.env).filter(([name]) => !name.startsWith('SIM_BRIDGE_')));
-  const settings = { ...extra, SIM_BRIDGE_ACCESS_KEY: ownerKey };
+  const settings = { ...extra, SIM_BRIDGE_ACCESS_KEY: ownerKey,
+    ...(process.env.RELAY_TEST_DIAGNOSTICS ? { SIM_BRIDGE_TEST_DIAGNOSTICS: '1' } : {}) };
   const child = workerTarget
     ? await spawnWorker(port, settings, environment)
     : spawn(process.execPath, ['src/server.mjs'], { cwd: new URL('..', import.meta.url), env: { ...environment, ...(process.env.RELAY_TEST_SQL_ENGINE ? { SIM_BRIDGE_SQL_ENGINE: process.env.RELAY_TEST_SQL_ENGINE } : {}), ...settings, PORT: String(port) }, stdio: ['ignore', 'pipe', 'pipe'] });
   let output = ''; const gateways = new Map(), certificates = new Map();
   child.stdout.on('data', chunk => { output += chunk; }); child.stderr.on('data', chunk => { output += chunk; });
+  // Show unexpected relay errors while diagnosing a failing test.
+  if (process.env.RELAY_TEST_DIAGNOSTICS) for (const stream of [child.stdout, child.stderr]) stream.on('data', chunk => process.stderr.write(chunk));
   const base = `http://127.0.0.1:${port}`;
   const stop = async () => {
     for (const gateway of gateways.values()) gateway.worker?.stop();

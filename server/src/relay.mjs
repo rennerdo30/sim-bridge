@@ -826,6 +826,9 @@ export function createRelay(options) {
       }
       // Never hand internals (SQLite text, stack paths, parser output) to a caller.
       log.error('Unhandled request failure');
+      // Isolated test relays only: never enabled for an operator relay, whose
+      // logs must not carry exception text.
+      if (env.SIM_BRIDGE_TEST_DIAGNOSTICS === '1') console.error(error?.stack ?? error);
       return reply(res, 500, { error: 'The relay could not complete this request' });
     }
   }

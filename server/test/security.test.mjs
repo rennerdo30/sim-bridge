@@ -577,3 +577,15 @@ test('the owner can erase a bridge whose gateway never committed a policy', asyn
     assert.equal((await relay.request('/v1/bridges/synthetic-uncommitted', { method: 'DELETE', owner: true })).status, 404);
   } finally { await relay.stop(); }
 });
+
+test('an oversized request body is refused with 413', async () => {
+  const relay = await startRelay();
+  try {
+    const response = await fetch(`${relay.base}/v1/bridges/join`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ padding: 'x'.repeat(70 * 1024) }),
+    });
+    assert.equal(response.status, 413);
+  } finally { await relay.stop(); }
+});

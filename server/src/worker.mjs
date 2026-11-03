@@ -16,6 +16,8 @@ import { log } from './logger.mjs';
 const RELAY_OBJECT_NAME = 'relay';
 /** Bytes buffered for a slow event-stream reader before backpressure applies. */
 const STREAM_HIGH_WATER_BYTES = 64 * 1024;
+/** Just above the relay's 64 KiB request limit, so it can still answer 413. */
+const MAX_BUFFERED_BODY_BYTES = 64 * 1024 + 1;
 /**
  * Durable Objects do not reliably learn about client disconnects, so event
  * streams are rotated: an abandoned stream lingers at most this long.
@@ -25,6 +27,13 @@ const encoder = new TextEncoder();
 
 export default {
   async fetch(request, env) {
+    // Refuse an announced oversized body here, before streaming it on.
+    if (Number(request.headers.get('content-length')) > MAX_BUFFERED_BODY_BYTES) {
+      return Response.json({ error: 'Request too large' }, {
+        status: 413,
+        headers: { 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' },
+      });
+    }
     const relay = env.RELAY.get(env.RELAY.idFromName(RELAY_OBJECT_NAME));
     return relay.fetch(request);
   },
@@ -54,6 +63,7 @@ export class RelayObject {
       if (!hadLocation) delete globalThis.location;
     }
     const env = { ...this.env };
+    globalThis.__simBridgeTestDiagnostics = env.SIM_BRIDGE_TEST_DIAGNOSTICS === '1';
     return createRelay({
       env,
       database: createWasmMemoryDatabase(SQL),
@@ -90,15 +100,16 @@ export class RelayObject {
 /** Runs a Node-style (req, res) handler for one Fetch API request. */
 async function serve(handler, request) {
   const url = new URL(request.url);
-  const req = nodeRequest(request, url);
+  const req = nodeRequest(request, url, await readBody(request));
   const res = new StreamingResponse();
   // Fires when the client disconnects, which a long-lived event stream needs
   // to release presence; a stream that is merely unread never signals this.
   request.signal?.addEventListener('abort', () => res.closeFromClient(), { once: true });
   const finished = Promise.resolve()
     .then(() => handler(req, res))
-    .catch(() => {
+    .catch(error => {
       log.error('Unhandled request failure');
+      if (globalThis.__simBridgeTestDiagnostics) console.error(error?.stack ?? error);
       if (!res.headersSent) {
         res.writeHead(500, { 'content-type': 'application/json' });
         res.end(JSON.stringify({ error: 'The relay could not complete this request' }));
@@ -112,7 +123,36 @@ async function serve(handler, request) {
   return new Response(res.readable, { status: res.statusCode, headers: res.responseHeaders });
 }
 
-function nodeRequest(request, url) {
+/**
+ * Reads the request body completely before the relay sees the request. The
+ * relay may answer early (for example 403 or 400) without reading a body; if
+ * the Durable Object responded while the Worker was still streaming that body
+ * to it, workerd aborts the stream and the client receives a 500. Reading stops
+ * just past the relay's own limit, which then answers 413.
+ */
+async function readBody(request) {
+  if (!request.body) return [];
+  const chunks = [];
+  let size = 0;
+  const reader = request.body.getReader();
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(Buffer.from(value));
+      size += value.byteLength;
+      if (size > MAX_BUFFERED_BODY_BYTES) {
+        await reader.cancel();
+        break;
+      }
+    }
+  } finally {
+    reader.releaseLock?.();
+  }
+  return chunks;
+}
+
+function nodeRequest(request, url, body) {
   const headers = Object.fromEntries([...request.headers].map(([name, value]) => [name.toLowerCase(), value]));
   headers.host = url.host;
   return {
@@ -122,8 +162,7 @@ function nodeRequest(request, url) {
     // Cloudflare sets this header at its edge; a client cannot supply it.
     socket: { remoteAddress: request.headers.get('cf-connecting-ip') || 'unknown' },
     async *[Symbol.asyncIterator]() {
-      if (!request.body) return;
-      for await (const chunk of request.body) yield Buffer.from(chunk);
+      yield* body;
     },
   };
 }
