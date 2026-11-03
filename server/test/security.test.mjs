@@ -589,3 +589,13 @@ test('an oversized request body is refused with 413', async () => {
     assert.equal(response.status, 413);
   } finally { await relay.stop(); }
 });
+
+test('the dashboard and admin API can be switched off entirely', async () => {
+  const relay = await startRelay({ SIM_BRIDGE_DASHBOARD: 'off' });
+  try {
+    assert.equal((await fetch(`${relay.base}/`)).status, 404);
+    assert.equal((await fetch(`${relay.base}/app.js`)).status, 404);
+    assert.equal((await fetch(`${relay.base}/v1/admin/status`, { headers: { 'x-relay-key': accessKey } })).status, 404);
+    assert.equal((await fetch(`${relay.base}/health`)).status, 200, 'the app API keeps working');
+  } finally { await relay.stop(); }
+});

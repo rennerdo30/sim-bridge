@@ -79,6 +79,8 @@ code, pre { font-family: var(--mono); }
 .card.accent p { color: #5A4A2A; }
 .card pre { margin: 18px 0 0; background: var(--board); color: #DCE7E0; padding: 16px 18px; border-radius: 12px; overflow-x: auto; font-size: 0.86rem; line-height: 1.7; }
 .more { margin: 24px 0 0; font-weight: 600; }
+.deploy { margin: 16px 0 0; }
+.deploy img { height: 32px; width: auto; }
 
 .gallery { padding-top: 0; }
 .gallery-grid { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); gap: 24px; align-items: center; }

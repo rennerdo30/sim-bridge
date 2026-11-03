@@ -5,17 +5,52 @@ description: Run a self-hosted relay, create an Android gateway, and join phones
 
 ## What you need
 
-- An Android phone with an active SIM, the Sim Bridge app, and permission to act as a gateway.
-- A relay host reachable by every device you want to pair.
-- Sim Bridge on the client phones or desktops.
-- Node.js 22 or newer for the relay; development uses the Node 22 LTS line.
+- An Android phone with an active SIM and the Sim Bridge app. It becomes the gateway.
+- Your own relay. Sim Bridge has no central service: everyone runs a relay for
+  their own bridge, on Cloudflare (free plan, no server to maintain) or on a
+  computer of their own.
+- Sim Bridge on the other phones and computers you want to pair.
 
-The relay is owner-operated. There is no built-in hosted account or public relay
-credential. Keep the owner key and each bridge invitation private.
+Keep the relay's owner key and each bridge's recovery code private.
 
-## 1. Start your relay
+## 1. Run your relay
 
-Clone the source and install its locked relay dependencies:
+### Option A: Cloudflare Workers (recommended)
+
+The relay runs in your own Cloudflare account. It keeps everything in memory and writes
+nothing to disk, and a personal bridge fits Cloudflare's free plan.
+
+**One click:**
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/rennerdo30/sim-bridge/tree/main/server)
+
+1. Sign in to Cloudflare, or create a free account.
+2. When asked for `SIM_BRIDGE_ACCESS_KEY`, enter a new random secret of at least 32
+   characters, for example the output of `openssl rand -base64 36`. This is your
+   **owner key**; your Android phone needs it once to create the bridge.
+3. Deploy. Cloudflare shows the relay's address, for example
+   `https://sim-bridge-relay.<your-subdomain>.workers.dev`. That is your relay URL.
+
+**Or from the command line:**
+
+```sh
+git clone https://github.com/rennerdo30/sim-bridge.git
+cd sim-bridge/server
+npm ci
+npx wrangler login
+npx wrangler deploy
+npx wrangler secret put SIM_BRIDGE_ACCESS_KEY    # paste your new owner key
+```
+
+Check it: opening `https://<your relay URL>/health` shows `"ok":true`.
+
+Optional hardening: to hide the owner dashboard and admin API completely, run
+`npx wrangler secret put SIM_BRIDGE_DASHBOARD` and enter `off`. The apps keep working;
+enter `on` again whenever you want the dashboard back.
+
+### Option B: your own computer or server
+
+Requires Node.js 22 or newer.
 
 ```sh
 git clone https://github.com/rennerdo30/sim-bridge.git
@@ -23,25 +58,19 @@ cd sim-bridge/server
 npm ci
 ```
 
-Create a private `.env.local` file in `server/` and set `SIM_BRIDGE_ACCESS_KEY` to a
-long, randomly generated secret of your own. On Unix systems, restrict this file
-with `chmod 600 .env.local`. The file is ignored by Git. Do not reuse any test key
-or put the owner credential into an invitation.
-
-Start the relay with that configuration:
+Create a private `.env.local` file in `server/` with `SIM_BRIDGE_ACCESS_KEY=` set to a
+long random secret, restrict it with `chmod 600 .env.local` (the file is ignored by Git),
+and start the relay:
 
 ```sh
 node --env-file=.env.local src/server.mjs
 ```
 
-The default port is 8787. Open `http://localhost:8787` **on the relay host** for the
-owner dashboard and unlock it with the same owner key. The dashboard shows device
-and queue metadata, not decrypted message content.
-
-For a physical phone, select the relay's discovered LAN address or enter a reachable
-LAN URL. `localhost` on a phone points to the phone, not your relay computer. Cleartext
-HTTP is accepted only for local/private hosts. See
-[relay configuration](/docs/guides/relay/) before configuring HTTPS or another network.
+The relay listens on port 8787 and announces itself on your local network, so phones on
+the same Wi-Fi find it automatically. Cleartext HTTP is accepted only on local and private
+networks; to reach it from the internet, put it behind HTTPS, for example a Cloudflare
+Tunnel or Docker (see [relay configuration](/docs/guides/relay/)). The owner dashboard is
+at `http://localhost:8787` on that machine.
 
 ## 2. Create an Android gateway
 

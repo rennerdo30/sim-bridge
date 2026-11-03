@@ -1,52 +1,86 @@
 ---
-title: Sim Bridge privacy information
-description: How Sim Bridge handles messages, device data, encrypted relay traffic, and support requests.
+title: Privacy policy
+description: Sim Bridge collects no personal data. Your messages stay on your devices and the relay you run yourself.
 ---
 
-Last reviewed: 13 October 2026. Release-preparation notice for the current Sim Bridge source. Final store declarations and any hosted-service operator details remain pending review.
+Last updated: 3 November 2026. This policy applies to the Sim Bridge apps for Android, iOS,
+iPadOS, macOS, Windows and Linux, and to this website.
 
-## Scope and contact
+## In short
 
-Sim Bridge connects devices you pair to a relay you select. This notice describes the app and relay software; a relay operator’s hosting, backups, logs, and legal obligations may add processing beyond that software. Contact **[support@renner.dev](mailto:support@renner.dev)** for app support and privacy questions. If you operate or use a separately hosted relay, also consult that operator’s notice and contact them about data under their control.
+- **We collect nothing.** The developer of Sim Bridge operates no server, relay, account
+  system, analytics or advertising, and receives none of your messages, phone numbers,
+  contacts, verification codes or usage data.
+- **Your data stays with you.** Messages are stored on your own devices and pass only through
+  a relay **you** run, for example in your own Cloudflare account or on your own computer.
+- **End-to-end encrypted.** Everything that leaves a device is encrypted with AES-256-GCM
+  under a key that only your paired devices hold. Your relay cannot read it.
 
-## Data used by the app
+## What the app processes on your devices
 
-The Android gateway accesses incoming SMS, phone/call state, and SIM/subscription information when you enable those features and grant the required permissions or roles. A linked client displays decrypted messages and SIM details and can request SMS or call actions on an authorized Android gateway. Message bodies, sender/recipient numbers, verification codes, SIM labels, and command contents are sensitive information.
+To work, Sim Bridge uses data on the devices you pair:
 
-A locally generated bridge key and device token are stored using platform credential storage. App preferences retain the relay URL, bridge/device identifiers, settings, notification deduplication state, and other session metadata. Android uses a private native queue to persist events and command outcomes for recovery. Decrypted content is available to each paired device holding the key; device access and compromised devices can expose it.
+- **Android gateway:** incoming SMS, the SIM cards' names and numbers, and the state of phone
+  calls, when you grant the SMS and phone permissions. It sends SMS and places calls only when
+  you, or one of your paired devices, ask it to.
+- **All devices:** the bridge's encryption key and each device's credentials, kept in the
+  operating system's secure storage (such as the Keychain or the Android Keystore); the relay address, device names and settings; and the messages you have
+  received, kept so you can read them.
 
-## What reaches the relay
+This data never leaves your devices except encrypted, through your relay, to your other paired
+devices.
 
-Before message content and commands are uploaded, the app encrypts them with AES-256-GCM. The relay does not receive the bridge root key. Encryption does **not** hide all data: the relay handles device names and identifiers, bridge identifiers, gateway capabilities, enrollment/authentication records, ciphertext sizes, request timing, network addresses, and routing information. Device names are not encrypted; avoid putting sensitive information in them.
+## Your relay
 
-The current relay keeps application data only in process memory. It creates no application database or log files and does not read an earlier relay database. Device-token and enrollment-verifier hashes, routing records, short-lived encrypted queues, upload receipts, and optional push subscriptions are volatile. Abuse-protection counters can temporarily include a source IP address; expired counters are removed within approximately two minutes. Authenticated event streams notify devices when work changes; there is no routine two-second network polling.
+The relay is software you deploy yourself; the Sim Bridge developer has no access to it. It
+forwards only encrypted data. It keeps everything in memory, deletes encrypted messages and
+commands after at most five minutes, and writes no database or log files.
 
-Memory processing is still processing of personal data. The operating system or hosting provider may write swap, crash dumps, access logs, console output, or diagnostic data independently of the relay. A relay operator must review and control those facilities before promising a deployment has no persistent records. Use HTTPS for internet traffic; encryption of message content does not protect credentials sent over plaintext HTTP.
+To route data, your relay necessarily sees unencrypted metadata: device names and identifiers,
+which devices belong to a bridge, the size and timing of messages, and the IP addresses of your
+devices. Choose device names that reveal nothing sensitive. Whoever hosts your relay (for
+example Cloudflare, or the provider of your server) processes this connection data under their
+own terms and on your behalf.
 
-## Notifications, clipboard, and other recipients
+## Other services involved
 
-When iOS push is configured, the relay handles the device’s APNs token and submits an encrypted preview to Apple’s push service. Delivery metadata and a generic fallback alert are visible to the push infrastructure; the notification extension decrypts the preview on the paired iPhone. Local OS notifications can show decrypted content to someone viewing that device or its lock screen, depending on OS settings.
+- **Your mobile carrier** delivers the SMS and calls your gateway sends, as for any SMS or call.
+- **Apple Push Notification service**, only if you configure push on your relay: it delivers an
+  encrypted notification to your iPhone. Apple sees the device token and delivery metadata, not
+  the message.
+- **GitHub**, when a desktop app checks for and downloads updates (at most once a day, and only
+  if you keep automatic updates on): GitHub receives your IP address and the request, as for any
+  download. The website is hosted on GitHub Pages behind Cloudflare, which see the visits.
+- **App stores** (App Store, Google Play) process data about your download under their own
+  policies.
 
-Copying a verification code or recovery information puts sensitive data on the OS clipboard. Other apps, clipboard history, and synchronization tools may access it. Automatic code copying defaults off on desktop and can be changed in Settings. macOS cleanup is conditional and its clipboard markers are advisory; Windows and Linux do not guarantee expiry.
+The app contains no advertising, tracking, analytics or crash-reporting services.
 
-Sending an SMS or initiating a call uses the selected Android phone’s mobile carrier. Recipients and carriers receive information necessary to provide ordinary SMS/calling services. End-to-end encryption within Sim Bridge does not turn carrier SMS into an end-to-end encrypted carrier service.
+## Notifications and clipboard
 
-The current first-party app/relay source contains no advertising or marketing analytics integration. Third-party OS, network, hosting, and support services have their own practices. Store privacy labels require a review of the actual distributed dependencies and operating model; “encrypted” does not imply “no data processed.”
+Notifications can show message previews on your lock screen, depending on your system settings.
+When you copy a verification or recovery code, it is placed on the clipboard; Sim Bridge marks it
+as sensitive where the system supports that and clears it again after three minutes. Automatic
+copying of codes is off by default on computers.
 
-## Retention and deletion
+## Deleting your data
 
-Encrypted message buffers, commands, and push previews expire after at most five minutes, with additional count limits. Upload deduplication receipts are bounded and held in memory for at most 24 hours; they must not retain a message payload beyond the message lifetime. Relay enrollment and push subscriptions remain in memory until revoked or the relay process stops. No relay application data survives a restart. The Android gateway keeps durable authorization records, including current device certificates/public keys, identifiers, names, roles, enrollment policy, and an inactive-incarnation record when needed for deletion. These remain on that device until confirmed removal or deletion; its current policy restores pairing after a relay restart. Clients wait for the gateway and keep their existing identities. Clients that are offline beyond the message window can miss messages. Successful upload means relay acceptance, not confirmation that another device displayed or received the message.
+Everything Sim Bridge stores is on your devices and your relay. **Leave bridge** removes a
+device's pairing and credentials; uninstalling the app removes its data from that device.
+Restarting or deleting your relay removes everything it held. Messages already received by
+another paired device remain there until you remove them on that device.
 
-Use **Leave bridge** to request removal of that device. Leaving from the authority gateway requests deletion of the entire bridge. Permanent removal needs the Android gateway to save the policy change; local disconnection or an unsuccessful request does not establish permanent revocation. An owner can remove a linked device or use **Delete bridge** in the relay dashboard with that gateway available to save the deletion and disconnect devices. Revocation closes enrollment, but does not erase content already received by another paired device or rotate the shared bridge key. Contact the relay operator about any independent hosting records. Earlier versions wrote databases and logs; upgrading does not erase those earlier files or their backups. Operators must handle them separately and plan identity-preserving migration before replacing a legacy relay. For support correspondence, contact support@renner.dev to request access or deletion, subject to applicable obligations.
+## Children
 
-## GDPR / DSGVO preparation
+Sim Bridge is not directed at children under 13 and collects no data from anyone.
 
-GDPR and DSGVO name the same EU regulation. Memory-only relay processing and end-to-end encryption support data minimization and privacy by design; they do not establish legal compliance on their own. Before operating a hosted service, its operator must identify the controller, purposes and lawful bases, relevant recipients/processors, transfer safeguards, actual hosting retention, and how to exercise applicable rights. Those deployment-specific details remain pending here. OS permission grants are not a substitute for that review.
+## Your rights and contact
 
-Depending on the applicable legal basis and circumstances, you may have rights to information, access, rectification, erasure, restriction, portability, objection, and a complaint to a supervisory authority. Send requests about app support processing to support@renner.dev and requests about a separately operated relay to its operator. The controller must facilitate requests and observe the applicable response deadlines. [EDPB guidance on individuals’ rights](https://www.edpb.europa.eu/sme/be-compliant/respect-individuals-rights_en).
+Because the developer collects no personal data, there is nothing we can show, correct or delete
+on our side. If you email us, we use your email only to answer you and delete it when the request
+is done. For questions or requests under data-protection laws such as the GDPR, contact
+**[support@renner.dev](mailto:support@renner.dev)**. You also have the right to lodge a complaint
+with a data-protection supervisory authority.
 
-## Your choices
-
-Use only authorized devices, grant only permissions needed for enabled features, choose a relay you trust, keep invitation/recovery data private, and control notification previews and clipboard copying. You may stop the gateway or leave the bridge. The software does not need an advertising identifier or location permission for its current feature set.
-
-Do not include real SMS, phone numbers, recovery codes, live databases, or credentials in public issues. Support requests should use synthetic examples where possible. This notice will be updated when the distributed software or service model changes; review the release-specific notice before enabling a hosted service.
+We will update this policy if the app's data handling changes; the date above shows the latest
+version.

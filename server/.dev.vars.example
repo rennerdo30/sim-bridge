@@ -1,0 +1,8 @@
+# Secrets for the Sim Bridge relay on Cloudflare Workers.
+# The "Deploy to Cloudflare" button asks for these; for a manual deploy use
+#   npx wrangler secret put SIM_BRIDGE_ACCESS_KEY
+#
+# The owner key: a new random secret of at least 32 characters. Keep it private;
+# your Android phone needs it once to create the bridge. Generate one with
+#   openssl rand -base64 36
+SIM_BRIDGE_ACCESS_KEY=""

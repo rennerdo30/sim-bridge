@@ -57,8 +57,13 @@ and limits.
 
 ### 1. Run a relay
 
-The easiest option is **Cloudflare Workers**: no server to maintain, and the relay keeps all state in
-memory.
+There is no Sim Bridge service: you run your own relay. The easiest option is **Cloudflare Workers**,
+free for a personal bridge, with no server to maintain; the relay keeps all state in memory.
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/rennerdo30/sim-bridge/tree/main/server)
+
+When asked for `SIM_BRIDGE_ACCESS_KEY`, enter a new random secret of 32+ characters: your owner
+key. Or deploy from the command line:
 
 ```sh
 git clone https://github.com/rennerdo30/sim-bridge.git

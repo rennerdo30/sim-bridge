@@ -8,7 +8,8 @@
     "test:wasm": "RELAY_TEST_SQL_ENGINE=wasm node --test",
     "test:worker": "RELAY_TEST_TARGET=worker node --test --test-concurrency=2",
     "dev:worker": "wrangler dev --env-file test-support/empty.env",
-    "deploy:worker": "wrangler deploy"
+    "deploy:worker": "wrangler deploy",
+    "deploy": "wrangler deploy"
   },
   "engines": {
     "node": ">=22"
@@ -21,5 +22,12 @@
   "license": "MIT",
   "devDependencies": {
     "wrangler": "^4.137.0"
+  },
+  "cloudflare": {
+    "bindings": {
+      "SIM_BRIDGE_ACCESS_KEY": {
+        "description": "Owner key: a new random secret of at least 32 characters (for example from `openssl rand -base64 36`). Your Android phone needs it once to create the bridge. Keep it private."
+      }
+    }
   }
 }

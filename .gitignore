@@ -56,4 +56,5 @@ server/deploy/secrets/
 # Cloudflare Worker local state and secrets
 server/.wrangler/
 server/.dev.vars*
+!server/.dev.vars.example
 

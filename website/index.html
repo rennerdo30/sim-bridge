@@ -137,7 +137,7 @@
     <section id="relay" class="section">
       <div class="wrap">
         <h2>Run your own relay in minutes</h2>
-        <p class="section-lede">There is no Sim Bridge account and no central server. Choose where your relay runs.</p>
+        <p class="section-lede">There is no Sim Bridge account and no central server: everyone runs their own relay. Choose where yours runs.</p>
         <div class="cards two">
           <article class="card">
             <h3>Cloudflare Workers</h3>
@@ -145,6 +145,7 @@
             <pre><code>cd server && npm ci
 npx wrangler secret put SIM_BRIDGE_ACCESS_KEY
 npm run deploy:worker</code></pre>
+            <p class="deploy"><a href="https://deploy.workers.cloudflare.com/?url=https://github.com/rennerdo30/sim-bridge/tree/main/server"><img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare" width="160" height="32" loading="lazy"></a></p>
           </article>
           <article class="card">
             <h3>Your own machine</h3>

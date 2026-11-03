@@ -51,7 +51,7 @@ export default defineConfig({
           label: 'Help and policies',
           items: [
             { label: 'Support', slug: 'support' },
-            { label: 'Privacy information', slug: 'legal/privacy' },
+            { label: 'Privacy policy', slug: 'legal/privacy' },
             { label: 'Terms of use', slug: 'legal/terms' },
           ],
         },

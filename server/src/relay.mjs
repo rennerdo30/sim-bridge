@@ -29,6 +29,7 @@ export class RelayConfigurationError extends Error {}
 export function createRelay(options) {
   const env = options.env;
   const relayId = randomUUID();
+  const dashboardDisabled = ['off', 'false', '0'].includes(String(env.SIM_BRIDGE_DASHBOARD ?? 'on').toLowerCase());
   const startedAt = Date.now();
   const VERSION = '0.2.0';
   const PROTOCOL_VERSION = 2;
@@ -495,6 +496,11 @@ export function createRelay(options) {
     pushQueue.expire();
     const client = clientAddress(req);
 
+    // SIM_BRIDGE_DASHBOARD=off hides the owner dashboard and admin API entirely,
+    // so a relay on the public internet shows nothing beyond the app API.
+    if (dashboardDisabled && (staticFiles.has(url.pathname) || url.pathname.startsWith('/v1/admin/'))) {
+      return reply(res, 404, { error: 'Not found' });
+    }
     if (req.method === 'GET' && staticFiles.has(url.pathname)) {
       return await serveStatic(res, url.pathname);
     }
