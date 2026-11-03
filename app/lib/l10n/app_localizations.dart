@@ -875,7 +875,7 @@ abstract class AppLocalizations {
   /// No description provided for @callAudioNote.
   ///
   /// In en, this message translates to:
-  /// **'Call audio stays on the Android gateway. Sim Bridge shows call activity and can start or end calls, but mobile platforms do not expose cellular audio to apps.'**
+  /// **'Call audio stays on the Android gateway. Sim Bridge shows when it rings and can start calls on it; mobile platforms do not pass cellular audio to other apps.'**
   String get callAudioNote;
 
   /// No description provided for @cancel.
@@ -2011,6 +2011,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get close;
+
+  /// Title of a call event when Android does not share the caller's number.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone call'**
+  String get callWithoutNumber;
 }
 
 class _AppLocalizationsDelegate

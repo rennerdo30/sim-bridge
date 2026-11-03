@@ -1,7 +1,6 @@
 package app.simbridge.sim_bridge
 
 import android.Manifest
-import android.app.role.RoleManager
 import android.content.ClipData
 import android.content.ClipDescription
 import android.content.ClipboardManager
@@ -19,7 +18,6 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 private const val PERMISSION_REQUEST = 42
-private const val PHONE_ROLE_REQUEST = 43
 private val MMI_CHARACTERS = Regex("[*#]")
 private val NUMBER_SEPARATORS = Regex("[ \\u00a0()\\-./]")
 private val DTMF_SUFFIX = Regex("^[0-9,;\\u00a0 ]*$")
@@ -113,14 +111,6 @@ class MainActivity : FlutterActivity() {
                         if (missing.isNotEmpty())
                             ActivityCompat.requestPermissions(this, missing.toTypedArray(), PERMISSION_REQUEST)
                         result.success(true)
-                    }
-                    "requestPhoneRole" -> {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            val roles = getSystemService(RoleManager::class.java)
-                            if (!roles.isRoleHeld(RoleManager.ROLE_DIALER))
-                                startActivityForResult(roles.createRequestRoleIntent(RoleManager.ROLE_DIALER), PHONE_ROLE_REQUEST)
-                            result.success(roles.isRoleHeld(RoleManager.ROLE_DIALER))
-                        } else result.success(false)
                     }
                     "setSecureScreen" -> {
                         val secure = call.argument<Boolean>("secure") ?: true

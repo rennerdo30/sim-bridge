@@ -129,7 +129,7 @@
   "leaveBridgeWarning": "Die Kopie des Bridge-Schlüssels auf diesem Telefon wird gelöscht. Um die Bridge wieder zu nutzen, musst du sie von einem anderen Telefon der Bridge aus koppeln — mach das also nur, wenn du eines zur Hand hast.",
   "leaveBridgeGatewayWarning": "Dieses Telefon stellt die SIM bereit. Nach dem Verlassen verlieren deine anderen Telefone den Zugriff darauf, bis du erneut koppelst.",
   "leaveBridgeConfirm": "Verlassen und Schlüssel löschen",
-  "callAudioNote": "Der Anrufton bleibt auf dem Android-Gateway. Sim Bridge zeigt Anrufaktivität und kann Anrufe starten oder beenden, aber mobile Plattformen geben den Mobilfunkton nicht an Apps weiter.",
+  "callAudioNote": "Der Anrufton bleibt auf dem Android-Gateway. Sim Bridge zeigt, wenn es klingelt, und kann dort Anrufe starten; mobile Plattformen geben den Mobilfunkton nicht an andere Apps weiter.",
   "cancel": "Abbrechen",
   "removeDevice": "Entfernen",
   "removeDeviceTitle": "{name} entfernen?",
@@ -345,5 +345,6 @@
   "aboutLicenses": "Lizenzen",
   "updatesCheckNow": "Nach Updates suchen",
   "updatesManaged": "Updates werden vom renner.dev-Launcher verwaltet",
-  "close": "Schließen"
+  "close": "Schließen",
+  "callWithoutNumber": "Telefonanruf"
 }

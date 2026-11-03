@@ -24,7 +24,7 @@ One Android phone with an active SIM becomes the **gateway**. Every other device
 
 - read incoming SMS on all paired devices, with verification codes detected and shown large;
 - send SMS through the gateway, choosing the SIM on dual-SIM phones, and see the carrier result;
-- start and end calls on the gateway phone from another device (call audio stays on Android);
+- start calls on the gateway phone from another device and see incoming and ongoing calls (call audio stays on Android);
 - pair with a QR code on phones, or a 52-character recovery code on any device;
 - use it in English or German.
 

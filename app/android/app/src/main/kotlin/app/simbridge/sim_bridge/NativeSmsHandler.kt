@@ -2,7 +2,6 @@ package app.simbridge.sim_bridge
 
 import android.Manifest
 import android.app.PendingIntent
-import android.app.role.RoleManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -85,17 +84,10 @@ internal object NativeSmsHandler {
                 else result.success(outbox.ackReceipt(id))
             }
             "getSubscriptions" -> getSubscriptions(context, result)
-            "hasPhoneRole" -> result.success(hasPhoneRole(context))
-            "controlCall" -> {
-                val action = call.argument<String>("action")
-                val callId = call.argument<String>("callId")
-                when {
-                    action != "reject" && action != "disconnect" -> result.error("bad_action", "Unsupported call action", null)
-                    callId.isNullOrBlank() -> result.error("no_call", "The call to control was not identified", null)
-                    SimBridgeInCallService.control(action, callId) -> result.success(true)
-                    else -> result.error("no_call", "That call is no longer active", null)
-                }
-            }
+            // Sim Bridge is not the default phone app, so it can place calls
+            // (CALL_PHONE) but cannot answer, reject or end them.
+            "hasPhoneRole" -> result.success(false)
+            "controlCall" -> result.error("unsupported", "Call control is not available", null)
             "sendSms" -> sendSms(context, call, result)
             "placeCall" -> placeCall(context, call, result)
             else -> result.notImplemented()
@@ -143,9 +135,6 @@ internal object NativeSmsHandler {
         return accounts.firstOrNull { it.id == subscriptionId.toString() }
     }
 
-    private fun hasPhoneRole(context: Context): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-        context.getSystemService(RoleManager::class.java).isRoleHeld(RoleManager.ROLE_DIALER)
-
     private fun sendSms(context: Context, call: MethodCall, result: MethodChannel.Result) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             result.error("permission_denied", "SEND_SMS permission is required", null)
@@ -183,7 +172,6 @@ internal object NativeSmsHandler {
 
     private fun placeCall(context: Context, call: MethodCall, result: MethodChannel.Result) {
         try {
-            if (!hasPhoneRole(context)) error("Sim Bridge must be the default phone app")
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                 result.error("permission_denied", "CALL_PHONE permission is required", null)
                 return

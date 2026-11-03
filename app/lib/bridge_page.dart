@@ -77,7 +77,6 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
   bool gateway = false;
   bool busy = false;
   bool relayOnline = false;
-  bool phoneRole = false;
   bool bridgeJoinable = true;
   bool autoCopyCodes = false;
   bool _notificationServiceAvailable = false;
@@ -1772,10 +1771,6 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
     bool readRoster,
   ) async {
     final api = BridgeApi.forSession(current);
-    if (gateway && Platform.isAndroid) {
-      // The foreground service is the sole queue consumer and executor.
-      phoneRole = await platform.invokeMethod<bool>('hasPhoneRole') ?? false;
-    }
     if (readMessages) {
       // Only what this phone has not already decrypted.
       final page = await api.messagesSince(current, _lastMessageSeq);
@@ -3775,7 +3770,12 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
                           switch (event['address']?.toString()) {
                             final String address when address.isNotEmpty =>
                               address,
-                            _ => l10n.privateNumber,
+                            // Without the default-phone role Android shares
+                            // the call state but not the caller's number.
+                            _ =>
+                              isCall
+                                  ? l10n.callWithoutNumber
+                                  : l10n.privateNumber,
                           },
                           overflow: TextOverflow.ellipsis,
                           style: mono(size: 14, weight: FontWeight.w700),
@@ -4133,18 +4133,7 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
                 subtitle: l10n.gatewayAutostartDescription,
                 onTap: _openGatewayAutostartSettings,
               ),
-              const Divider(height: 1, indent: 64),
-              SettingsTile(
-                icon: Icons.phone_in_talk_outlined,
-                title: l10n.settingsCallControl,
-                subtitle: phoneRole
-                    ? l10n.callControlReady
-                    : l10n.callControlNeedsRole,
-                trailing: phoneRole
-                    ? const Icon(Icons.verified_rounded, color: Palette.signal)
-                    : null,
-                onTap: phoneRole ? null : _requestPhoneRole,
-              ),
+
               const Divider(height: 1, indent: 64),
               SettingsTile(
                 icon: Icons.sim_card_outlined,
@@ -4407,16 +4396,6 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
         );
         setState(() {});
       }
-    } catch (exception) {
-      if (mounted) {
-        setState(() => error = _describeFailure(exception));
-      }
-    }
-  }
-
-  Future<void> _requestPhoneRole() async {
-    try {
-      await platform.invokeMethod('requestPhoneRole');
     } catch (exception) {
       if (mounted) {
         setState(() => error = _describeFailure(exception));

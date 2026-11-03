@@ -476,7 +476,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get callAudioNote =>
-      'Der Anrufton bleibt auf dem Android-Gateway. Sim Bridge zeigt Anrufaktivität und kann Anrufe starten oder beenden, aber mobile Plattformen geben den Mobilfunkton nicht an Apps weiter.';
+      'Der Anrufton bleibt auf dem Android-Gateway. Sim Bridge zeigt, wenn es klingelt, und kann dort Anrufe starten; mobile Plattformen geben den Mobilfunkton nicht an andere Apps weiter.';
 
   @override
   String get cancel => 'Abbrechen';
@@ -1165,4 +1165,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get close => 'Schließen';
+
+  @override
+  String get callWithoutNumber => 'Telefonanruf';
 }

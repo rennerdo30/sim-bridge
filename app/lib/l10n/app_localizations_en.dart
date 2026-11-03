@@ -471,7 +471,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get callAudioNote =>
-      'Call audio stays on the Android gateway. Sim Bridge shows call activity and can start or end calls, but mobile platforms do not expose cellular audio to apps.';
+      'Call audio stays on the Android gateway. Sim Bridge shows when it rings and can start calls on it; mobile platforms do not pass cellular audio to other apps.';
 
   @override
   String get cancel => 'Cancel';
@@ -1150,4 +1150,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get close => 'Close';
+
+  @override
+  String get callWithoutNumber => 'Phone call';
 }

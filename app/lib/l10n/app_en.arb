@@ -254,7 +254,7 @@
   "leaveBridgeWarning": "This phone's copy of the bridge key is erased. To use the bridge again you must pair it from another phone in the bridge, so do this only if you have one to hand.",
   "leaveBridgeGatewayWarning": "This phone provides the SIM. After leaving, your other phones lose access to it until you pair again.",
   "leaveBridgeConfirm": "Leave and erase keys",
-  "callAudioNote": "Call audio stays on the Android gateway. Sim Bridge shows call activity and can start or end calls, but mobile platforms do not expose cellular audio to apps.",
+  "callAudioNote": "Call audio stays on the Android gateway. Sim Bridge shows when it rings and can start calls on it; mobile platforms do not pass cellular audio to other apps.",
   "cancel": "Cancel",
   "removeDevice": "Remove",
   "removeDeviceTitle": "Remove {name}?",
@@ -668,5 +668,9 @@
   "close": "Close",
   "@close": {
     "description": "About screen and update text."
+  },
+  "callWithoutNumber": "Phone call",
+  "@callWithoutNumber": {
+    "description": "Title of a call event when Android does not share the caller's number."
   }
 }

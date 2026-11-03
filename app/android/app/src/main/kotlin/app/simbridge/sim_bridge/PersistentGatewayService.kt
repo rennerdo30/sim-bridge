@@ -40,6 +40,7 @@ class PersistentGatewayService : Service() {
     private var quiesced = false
     private var pendingStopResult: MethodChannel.Result? = null
     private var restartAfterDestroy = false
+    private var callMonitor: CallStateMonitor? = null
     private var wakeLock: PowerManager.WakeLock? = null
     private var loggedFirstSync = false
     private var lastSuccessfulSyncElapsedMs: Long? = null
@@ -78,6 +79,7 @@ class PersistentGatewayService : Service() {
             .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "simbridge:gateway")
             .also { it.acquire() }
         try { connectivity.registerDefaultNetworkCallback(networkCallback) } catch (_: Exception) { }
+        callMonitor = CallStateMonitor(applicationContext).also { it.start() }
         try {
             val loader = FlutterInjector.instance().flutterLoader()
             loader.startInitialization(this)
@@ -233,6 +235,8 @@ class PersistentGatewayService : Service() {
         getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
             .putBoolean("relayOnline", false).putString("state", "stopped").apply()
         try { connectivity.unregisterNetworkCallback(networkCallback) } catch (_: Exception) { }
+        callMonitor?.stop()
+        callMonitor = null
         wakeLock?.takeIf { it.isHeld }?.release()
         wakeLock = null
         shutdownEngine()

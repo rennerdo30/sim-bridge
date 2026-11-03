@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0 (in preparation)
+
+- Android gateway no longer asks to become the default phone app, as Google Play requires a
+  full dialer for that role. Calls are still started from paired devices, and paired devices
+  still see when the gateway rings, answers and hangs up; the caller's number is not shown, and
+  calls can no longer be declined or ended from another device.
+- Android store build: signed with the Play upload key, target API 36, 16 KB page-size aligned.
+- iOS privacy manifests for the app and its notification extension.
+
 ## 1.1.1
 
 - Windows installer: Sim Bridge artwork and icon, a page to choose the install folder (it must
