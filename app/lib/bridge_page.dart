@@ -8,11 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'api.dart';
 import 'authorization_coordinator.dart';
+import 'desktop_updater.dart';
 import 'device_authorization.dart';
 import 'gateway_runtime.dart';
 import 'gateway_readiness.dart';
@@ -85,6 +89,13 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
   bool _pairingUnavailable = false;
   bool _gatewayRestarting = false;
   int? relayLatency;
+  // Desktop updates: the installed version, an available release, and whether
+  // a check or download is running.
+  String? _appVersion;
+  DesktopRelease? _availableUpdate;
+  bool _autoUpdateCheck = true, _updateBusy = false;
+  static const _autoUpdatePreference = 'autoUpdateCheck';
+  static const _lastUpdateCheckPreference = 'lastUpdateCheckAt';
   int tab = 0;
   String? error;
   BonsoirDiscovery? _discovery;
@@ -123,6 +134,203 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
     _notificationInitialization = _initializeNotifications();
     unawaited(Log.initialize());
     _restore();
+    // Widget tests never reach the network for updates.
+    if (host.isDesktop && !Platform.environment.containsKey('FLUTTER_TEST')) {
+      unawaited(_initializeUpdates());
+    }
+  }
+
+  Future<void> _initializeUpdates() async {
+    try {
+      final info = await PackageInfo.fromPlatform();
+      final prefs = await SharedPreferences.getInstance();
+      if (!mounted) return;
+      setState(() {
+        _appVersion = info.version;
+        _autoUpdateCheck = prefs.getBool(_autoUpdatePreference) ?? true;
+      });
+      final last = DateTime.tryParse(
+        prefs.getString(_lastUpdateCheckPreference) ?? '',
+      );
+      if (_autoUpdateCheck &&
+          (last == null ||
+              DateTime.now().difference(last) >= updateCheckInterval)) {
+        await _checkForUpdates(automatic: true);
+      }
+    } catch (failure) {
+      Log.warn('Update check unavailable', failure);
+    }
+  }
+
+  Future<void> _checkForUpdates({bool automatic = false}) async {
+    final version = _appVersion;
+    if (version == null || _updateBusy) return;
+    setState(() => _updateBusy = true);
+    final updater = DesktopUpdater(currentVersion: version);
+    try {
+      // Record the attempt first, so a failing network also respects the daily limit.
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+        _lastUpdateCheckPreference,
+        DateTime.now().toIso8601String(),
+      );
+      final release = await updater.check();
+      if (!mounted) return;
+      setState(() => _availableUpdate = release);
+      if (release != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.updatesNotice(release.version)),
+            duration: const Duration(seconds: 10),
+            action: SnackBarAction(
+              label: l10n.updatesShow,
+              onPressed: () => unawaited(_offerUpdate(release)),
+            ),
+          ),
+        );
+      } else if (!automatic) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.updatesUpToDate(version))));
+      }
+    } catch (failure) {
+      Log.warn('Update check failed', failure);
+      if (mounted && !automatic) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.updatesCheckFailed)));
+      }
+    } finally {
+      updater.close();
+      if (mounted) setState(() => _updateBusy = false);
+    }
+  }
+
+  Future<void> _offerUpdate(DesktopRelease release) async {
+    final install = release.method == UpdateMethod.install;
+    final accepted = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.updatesAvailableTitle(release.version)),
+        content: Text(
+          install ? l10n.updatesInstallBody : l10n.updatesDownloadBody,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => unawaited(
+              launchUrl(release.pageUrl, mode: LaunchMode.externalApplication),
+            ),
+            child: Text(l10n.updatesReleaseNotes),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(l10n.updatesLater),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(install ? l10n.updatesInstall : l10n.updatesDownload),
+          ),
+        ],
+      ),
+    );
+    if (accepted != true || !mounted) return;
+    await _applyUpdate(release);
+  }
+
+  Future<void> _applyUpdate(DesktopRelease release) async {
+    final version = _appVersion;
+    if (version == null || _updateBusy) return;
+    setState(() => _updateBusy = true);
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(l10n.updatesDownloading),
+        duration: const Duration(minutes: 10),
+      ),
+    );
+    final updater = DesktopUpdater(currentVersion: version);
+    try {
+      if (release.method == UpdateMethod.install) {
+        final folder = await getTemporaryDirectory();
+        final setup = await updater.download(
+          release,
+          Directory('${folder.path}${Platform.pathSeparator}sim-bridge-update'),
+        );
+        await DesktopUpdater.startWindowsInstaller(setup);
+        // The installer waits for this window to close, then restarts Sim Bridge.
+        exit(0);
+      }
+      final downloads = await getDownloadsDirectory();
+      if (downloads == null) throw const UpdateException('no_downloads_folder');
+      final file = await updater.download(release, downloads);
+      messenger.hideCurrentSnackBar();
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(l10n.updatesDownloaded(file.uri.pathSegments.last)),
+        ),
+      );
+      await launchUrl(Uri.directory(downloads.path));
+    } catch (failure) {
+      Log.warn('Update download failed', failure);
+      messenger.hideCurrentSnackBar();
+      messenger.showSnackBar(SnackBar(content: Text(l10n.updatesFailed)));
+    } finally {
+      updater.close();
+      if (mounted) setState(() => _updateBusy = false);
+    }
+  }
+
+  Future<void> _setAutoUpdateCheck(bool enabled) async {
+    setState(() => _autoUpdateCheck = enabled);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_autoUpdatePreference, enabled);
+  }
+
+  Widget _updatesCard() {
+    final version = _appVersion;
+    final update = _availableUpdate;
+    return Card(
+      child: Column(
+        children: [
+          SettingsTile(
+            icon: update != null
+                ? Icons.system_update_alt_rounded
+                : Icons.verified_outlined,
+            title: l10n.updatesTitle,
+            subtitle: _updateBusy
+                ? l10n.updatesChecking
+                : update != null
+                ? l10n.updatesAvailableSubtitle(update.version)
+                : l10n.updatesCurrentVersion(version ?? '…'),
+            trailing: _updateBusy
+                ? const SizedBox.square(
+                    dimension: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : null,
+            onTap: _updateBusy || version == null
+                ? null
+                : update != null
+                ? () => unawaited(_offerUpdate(update))
+                : () => unawaited(_checkForUpdates()),
+          ),
+          const Divider(height: 1, indent: 56),
+          SwitchListTile(
+            secondary: const Icon(Icons.update_rounded, color: Palette.fir),
+            title: Text(
+              l10n.updatesAutomatic,
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+            subtitle: Text(
+              l10n.updatesAutomaticSubtitle,
+              style: const TextStyle(color: Palette.haze, fontSize: 12),
+            ),
+            value: _autoUpdateCheck,
+            onChanged: (value) => unawaited(_setAutoUpdateCheck(value)),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -3890,6 +4098,7 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
           ],
         ),
       ),
+      if (host.isDesktop) ...[const SizedBox(height: 14), _updatesCard()],
       const SizedBox(height: 14),
       Card(
         child: SettingsTile(

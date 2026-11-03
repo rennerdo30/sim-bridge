@@ -10,7 +10,8 @@
   // Release asset names, with or without a version: Sim-Bridge[-<version>]-<platform>.<ext>
   var PATTERNS = {
     macos: /^Sim-Bridge-(?:[0-9][0-9A-Za-z.+-]*-)?macos-arm64\.(?:zip|dmg)$/i,
-    windows: /^Sim-Bridge-(?:[0-9][0-9A-Za-z.+-]*-)?windows-x64\.zip$/i,
+    windows: /^Sim-Bridge-(?:[0-9][0-9A-Za-z.+-]*-)?windows-x64-setup\.exe$/i,
+    windowsPortable: /^Sim-Bridge-(?:[0-9][0-9A-Za-z.+-]*-)?windows-x64\.zip$/i,
     linux: /^Sim-Bridge-(?:[0-9][0-9A-Za-z.+-]*-)?linux-x64\.(?:zip|tar\.gz)$/i
   };
   var LABELS = { macos: 'Download for macOS', windows: 'Download for Windows', linux: 'Download for Linux' };

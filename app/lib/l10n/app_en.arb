@@ -514,5 +514,115 @@
   "errorUnexpected": "Something went wrong. Try again.",
   "@errorUnexpected": {
     "description": "User-facing message for a failed relay, network or device operation."
+  },
+  "updatesTitle": "Updates",
+  "@updatesTitle": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesCurrentVersion": "Version {version}",
+  "@updatesCurrentVersion": {
+    "description": "Desktop in-app update text.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updatesAvailableSubtitle": "Version {version} is available",
+  "@updatesAvailableSubtitle": {
+    "description": "Desktop in-app update text.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updatesChecking": "Checking for updates…",
+  "@updatesChecking": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesUpToDate": "Sim Bridge {version} is up to date",
+  "@updatesUpToDate": {
+    "description": "Desktop in-app update text.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updatesCheckFailed": "Could not check for updates. Check your connection and try again.",
+  "@updatesCheckFailed": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesAutomatic": "Check for updates automatically",
+  "@updatesAutomatic": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesAutomaticSubtitle": "Once a day, from the Sim Bridge releases on GitHub",
+  "@updatesAutomaticSubtitle": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesAvailableTitle": "Sim Bridge {version} is available",
+  "@updatesAvailableTitle": {
+    "description": "Desktop in-app update text.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updatesInstallBody": "Sim Bridge downloads and verifies the update, closes, installs it and starts again. Your pairing and settings are kept.",
+  "@updatesInstallBody": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesDownloadBody": "Sim Bridge downloads and verifies the new version and saves it in your Downloads folder. Then quit Sim Bridge and replace it with the new version. Your pairing and settings are kept.",
+  "@updatesDownloadBody": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesInstall": "Install and restart",
+  "@updatesInstall": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesDownload": "Download",
+  "@updatesDownload": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesLater": "Later",
+  "@updatesLater": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesReleaseNotes": "Release notes",
+  "@updatesReleaseNotes": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesDownloading": "Downloading and verifying the update…",
+  "@updatesDownloading": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesDownloaded": "Saved {file} in your Downloads folder",
+  "@updatesDownloaded": {
+    "description": "Desktop in-app update text.",
+    "placeholders": {
+      "file": {
+        "type": "String"
+      }
+    }
+  },
+  "updatesFailed": "The update could not be downloaded or verified. Try again later.",
+  "@updatesFailed": {
+    "description": "Desktop in-app update text."
+  },
+  "updatesNotice": "Sim Bridge {version} is available",
+  "@updatesNotice": {
+    "description": "Desktop in-app update text.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updatesShow": "Update",
+  "@updatesShow": {
+    "description": "Desktop in-app update text."
   }
 }

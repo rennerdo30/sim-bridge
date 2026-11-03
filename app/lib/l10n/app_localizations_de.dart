@@ -1052,4 +1052,81 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get errorUnexpected => 'Etwas ist schiefgelaufen. Versuche es erneut.';
+
+  @override
+  String get updatesTitle => 'Updates';
+
+  @override
+  String updatesCurrentVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String updatesAvailableSubtitle(String version) {
+    return 'Version $version ist verfügbar';
+  }
+
+  @override
+  String get updatesChecking => 'Suche nach Updates …';
+
+  @override
+  String updatesUpToDate(String version) {
+    return 'Sim Bridge $version ist aktuell';
+  }
+
+  @override
+  String get updatesCheckFailed =>
+      'Updates konnten nicht geprüft werden. Prüfe deine Verbindung und versuche es erneut.';
+
+  @override
+  String get updatesAutomatic => 'Automatisch nach Updates suchen';
+
+  @override
+  String get updatesAutomaticSubtitle =>
+      'Einmal täglich, aus den Sim-Bridge-Releases auf GitHub';
+
+  @override
+  String updatesAvailableTitle(String version) {
+    return 'Sim Bridge $version ist verfügbar';
+  }
+
+  @override
+  String get updatesInstallBody =>
+      'Sim Bridge lädt das Update herunter, prüft es, schließt sich, installiert es und startet neu. Kopplung und Einstellungen bleiben erhalten.';
+
+  @override
+  String get updatesDownloadBody =>
+      'Sim Bridge lädt die neue Version herunter, prüft sie und speichert sie in deinem Downloads-Ordner. Beende danach Sim Bridge und ersetze die App durch die neue Version. Kopplung und Einstellungen bleiben erhalten.';
+
+  @override
+  String get updatesInstall => 'Installieren und neu starten';
+
+  @override
+  String get updatesDownload => 'Herunterladen';
+
+  @override
+  String get updatesLater => 'Später';
+
+  @override
+  String get updatesReleaseNotes => 'Versionshinweise';
+
+  @override
+  String get updatesDownloading => 'Update wird heruntergeladen und geprüft …';
+
+  @override
+  String updatesDownloaded(String file) {
+    return '$file wurde in deinem Downloads-Ordner gespeichert';
+  }
+
+  @override
+  String get updatesFailed =>
+      'Das Update konnte nicht heruntergeladen oder geprüft werden. Versuche es später erneut.';
+
+  @override
+  String updatesNotice(String version) {
+    return 'Sim Bridge $version ist verfügbar';
+  }
+
+  @override
+  String get updatesShow => 'Aktualisieren';
 }

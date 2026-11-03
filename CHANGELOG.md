@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.1.0
+
+- Windows installer: `Sim-Bridge-<version>-windows-x64-setup.exe` installs Sim Bridge for your
+  account without administrator rights, adds a Start menu entry and an uninstaller, and keeps
+  your pairing and settings across updates. The portable zip remains available.
+- Automatic updates on the desktop: Sim Bridge checks for a new release once a day (switchable
+  under Settings → Updates, with Check now) and verifies every download against the release
+  checksums. Windows installs the update and restarts; macOS and Linux save the verified new
+  version in your Downloads folder.
+- Linux packages are portable zips.
+
+Updating from 1.0.0 is a one-time manual install; later versions arrive through the updater.
+
 ## 1.0.0
 
 First public release.

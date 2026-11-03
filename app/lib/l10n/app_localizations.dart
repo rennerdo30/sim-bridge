@@ -1825,6 +1825,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Try again.'**
   String get errorUnexpected;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates'**
+  String get updatesTitle;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String updatesCurrentVersion(String version);
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version} is available'**
+  String updatesAvailableSubtitle(String version);
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking for updates…'**
+  String get updatesChecking;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Sim Bridge {version} is up to date'**
+  String updatesUpToDate(String version);
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not check for updates. Check your connection and try again.'**
+  String get updatesCheckFailed;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Check for updates automatically'**
+  String get updatesAutomatic;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a day, from the Sim Bridge releases on GitHub'**
+  String get updatesAutomaticSubtitle;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Sim Bridge {version} is available'**
+  String updatesAvailableTitle(String version);
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Sim Bridge downloads and verifies the update, closes, installs it and starts again. Your pairing and settings are kept.'**
+  String get updatesInstallBody;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Sim Bridge downloads and verifies the new version and saves it in your Downloads folder. Then quit Sim Bridge and replace it with the new version. Your pairing and settings are kept.'**
+  String get updatesDownloadBody;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Install and restart'**
+  String get updatesInstall;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get updatesDownload;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get updatesLater;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Release notes'**
+  String get updatesReleaseNotes;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading and verifying the update…'**
+  String get updatesDownloading;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved {file} in your Downloads folder'**
+  String updatesDownloaded(String file);
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'The update could not be downloaded or verified. Try again later.'**
+  String get updatesFailed;
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Sim Bridge {version} is available'**
+  String updatesNotice(String version);
+
+  /// Desktop in-app update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get updatesShow;
 }
 
 class _AppLocalizationsDelegate

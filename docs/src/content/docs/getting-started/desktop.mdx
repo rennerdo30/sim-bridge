@@ -7,32 +7,26 @@ Desktop Sim Bridge is a client for an existing bridge. Create the bridge on an A
 gateway first, then pair the desktop with its relay URL and 52-character recovery code.
 There is no desktop SIM gateway or camera pairing.
 
-## Get the right bundle
+## Get the right download
 
-Use assets attached to a published
-[GitHub release](https://github.com/rennerdo30/sim-bridge/releases) when available.
-Development bundles are also produced by
-[Desktop builds](https://github.com/rennerdo30/sim-bridge/actions/workflows/desktop.yml).
-Choose a successful run and download the artifact matching your operating system and
-CPU architecture. Actions downloads may require signing into GitHub.
+Download from the [latest release](https://github.com/rennerdo30/sim-bridge/releases/latest)
+or the [homepage](https://sim-bridge.renner.dev/#download).
 
-| Target | Bundle | What to retain |
+| Target | Download | Notes |
 | --- | --- | --- |
-| macOS Apple Silicon | arm64 DMG | `Sim Bridge.app` |
-| macOS Intel | x86_64 DMG | `Sim Bridge.app` |
-| Windows x64 | ZIP | Entire release directory, including DLLs and `data/` |
-| Linux x64 | tar.gz | Entire bundle, preserving executable permissions |
+| macOS Apple silicon | `Sim-Bridge-<version>-macos-arm64.zip` | Developer ID signed and notarized |
+| macOS Intel | `Sim-Bridge-<version>-macos-x86_64.zip` | Developer ID signed and notarized |
+| Windows x64 | `Sim-Bridge-<version>-windows-x64-setup.exe` | Installer; recommended |
+| Windows x64 | `Sim-Bridge-<version>-windows-x64.zip` | Portable, no installation |
+| Linux x64 | `Sim-Bridge-<version>-linux-x64.zip` | Portable bundle |
 
-Packages include SHA-256 checksums. Compare the downloaded archive's hash with the
-associated checksum before using it. Follow the notes attached to that particular
-release: signing and verification can differ between development and release builds.
+Each release lists the SHA-256 of every file in `SHA256SUMS.txt`.
 
 ## macOS
 
-The minimum target is macOS 12.0. Open the matching DMG and drag **Sim Bridge** into
-Applications. CI builds use ad-hoc signing and are not notarized. They should not be
-described as Developer ID distribution packages. macOS may show a security prompt;
-follow your organization's policy and Apple's controls for the specific downloaded build.
+The minimum target is macOS 12.0. Unzip the download and move **Sim Bridge** to
+Applications. The app is signed with a Developer ID and notarized by Apple, so it opens
+without a security warning.
 
 Credential storage uses the login Keychain. Local-network access is needed for relay
 discovery; local notifications depend on OS permission. The app retains native menus
@@ -41,19 +35,23 @@ process available to sync.
 
 ## Windows
 
-Extract the **entire** ZIP and launch `sim_bridge.exe` from its extracted folder.
-Keep adjacent DLLs and the `data/` folder. Moving only the executable breaks its
-runtime assets and plugins.
+Run `Sim-Bridge-<version>-windows-x64-setup.exe`. It installs Sim Bridge for your Windows
+account only, so no administrator rights are needed, adds a Start menu entry and appears in
+**Settings → Apps** for uninstalling. Your pairing and settings stay when you update or
+uninstall. The installer is not yet code-signed, so SmartScreen may ask you to confirm it
+once (**More info → Run anyway**).
+
+For the portable zip, extract the **entire** archive and start `sim_bridge.exe` from that
+folder. Keep the DLLs and the `data/` folder next to it.
 
 The source build needs Visual Studio's **Desktop development with C++**, the Windows
 SDK, and C++ ATL libraries. These are build requirements, not a requirement to install
-Visual Studio on every client computer. Windows code signing and an installer remain
-separate release tasks; check the release's signing notes.
+Visual Studio on every client computer. The installer is built with NSIS from
+`app/windows/installer/sim-bridge.nsi`.
 
 ## Linux
 
-Extract the tar.gz without flattening its directories and launch `./sim_bridge` from
-the bundle. Runtime services have distinct responsibilities:
+Unzip the download without flattening its folders and start `./sim_bridge` from it. Runtime services have distinct responsibilities:
 
 | Requirement | Purpose |
 | --- | --- |
@@ -69,6 +67,17 @@ managers, configure an appropriate session service rather than assuming a keyrin
 The bundle includes a `.desktop` file and icon under `share/`. Distribution packaging
 can install them in the standard application/icon directories and make `sim_bridge`
 available on `PATH`. A portable bundle alone does not register a system launcher.
+
+## Updates
+
+Sim Bridge checks the latest release once a day while it runs; turn this off or use
+**Check now** under **Settings → Updates**. Only stable releases of this project are offered,
+and every download is verified against the release's checksums before it is used.
+
+- **Windows:** **Install and restart** downloads the installer, closes Sim Bridge, installs
+  the update and starts it again.
+- **macOS and Linux:** **Download** saves the verified new version in your Downloads folder.
+  Quit Sim Bridge and replace it with the new version.
 
 ## Sync and clipboard behavior
 

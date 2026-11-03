@@ -14,6 +14,7 @@ PACKAGES = {
     'Sim-Bridge-macOS-arm64': 'Sim-Bridge-macOS-arm64.zip',
     'Sim-Bridge-macOS-x86_64': 'Sim-Bridge-macOS-x86_64.zip',
     'Sim-Bridge-windows-x64': 'Sim-Bridge-windows-x64.zip',
+    'Sim-Bridge-windows-x64-setup': 'Sim-Bridge-windows-x64-setup.exe',
     'Sim-Bridge-linux-x64': 'Sim-Bridge-linux-x64.zip',
 }
 # Published asset names, versioned per release: Sim-Bridge-<version>-<platform>.zip.
@@ -22,6 +23,7 @@ PUBLISHED = {
     'Sim-Bridge-macOS-arm64': 'macos-arm64.zip',
     'Sim-Bridge-macOS-x86_64': 'macos-x86_64.zip',
     'Sim-Bridge-windows-x64': 'windows-x64.zip',
+    'Sim-Bridge-windows-x64-setup': 'windows-x64-setup.exe',
     'Sim-Bridge-linux-x64': 'linux-x64.zip',
 }
 SHA_PATTERN = re.compile(r'[0-9a-f]{40}(?:[0-9a-f]{24})?')
@@ -96,7 +98,7 @@ def assemble(args):
     artifacts = Path(args.artifacts)
     actual_artifacts = {item.name for item in artifacts.iterdir()}
     if actual_artifacts != set(PACKAGES):
-        raise ValueError('Expected exactly the four desktop artifacts from this workflow run.')
+        raise ValueError('Expected exactly the desktop artifacts from this workflow run.')
 
     checked = []
     for artifact, filename in PACKAGES.items():
@@ -147,7 +149,8 @@ checks, and the documentation build passed before this draft was created. Packag
 
 - macOS arm64 and Intel: zipped app bundles built in CI with an ad-hoc signature. Replace them
   with Developer ID signed, notarized builds before publishing.
-- Windows x64: unsigned portable zip with the executable, DLLs and Flutter data.
+- Windows x64: unsigned per-user installer (`-setup.exe`, also used by the in-app updater) and a
+  portable zip with the executable, DLLs and Flutter data.
 - Linux x64: unsigned portable zip with the executable and all bundled resources.
 
 These packages are not store-ready releases. Native device behavior, installers, production
@@ -159,7 +162,7 @@ audio remains on Android.
 This release is intentionally a **draft**. Review the packages and release notes before any
 manual publication. This workflow does not publish a public release or upload to app stores.
 ''')
-    print('Verified four packages; prepared four versioned packages and SHA256SUMS.txt.')
+    print(f'Verified {len(PACKAGES)} packages; prepared versioned packages and SHA256SUMS.txt.')
 
 
 def main():

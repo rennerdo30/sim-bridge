@@ -19,6 +19,7 @@ cd ../docs && npm ci && npm run build
 | Platform | Asset | Notes |
 | --- | --- | --- |
 | macOS (Apple silicon) | `Sim-Bridge-<version>-macos-arm64.zip` | The `.app` bundle; Developer ID signing and notarization when available |
+| Windows x64 | `Sim-Bridge-<version>-windows-x64-setup.exe` | Per-user NSIS installer (`app/windows/installer/sim-bridge.nsi`); the in-app updater runs it silently |
 | Windows x64 | `Sim-Bridge-<version>-windows-x64.zip` | Portable folder: `sim_bridge.exe` with its DLLs and `data/` |
 | Linux x64 | `Sim-Bridge-<version>-linux-x64.zip` | Portable bundle; needs GTK 3 and a Secret Service. A `.tar.gz` may be added; the launcher installs zips |
 
@@ -28,6 +29,15 @@ launcher pick assets by these names, so keep them exact.
 Builds run on native hosts: macOS with `app/tool/build_macos_desktop.sh`, Windows with
 `flutter build windows --release`, Linux with `flutter build linux --release` (see
 [app/README.md](app/README.md)). Package the complete bundle, not only the executable.
+
+## Updates
+
+Desktop builds check `releases/latest` of this repository once a day (switchable in
+Settings, with **Check now**). They accept only assets of that release, from its own
+`releases/download/` URLs, and verify each download against the release's
+`SHA256SUMS.txt`. Windows installs the setup silently and restarts; macOS and Linux save the
+verified package in Downloads. Drafts and prereleases are never offered, so publishing the
+release is what ships an update.
 
 ## CI
 

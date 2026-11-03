@@ -49,7 +49,7 @@ class ReleaseIntegrityTests(unittest.TestCase):
 
     def test_other_run_or_stale_package_is_rejected(self):
         (self.inputs / 'another-run').mkdir()
-        with self.assertRaisesRegex(ValueError, 'exactly the four'):
+        with self.assertRaisesRegex(ValueError, 'exactly the desktop artifacts'):
             release.assemble(self.args)
         self.assertFalse(self.args.output.exists())
 

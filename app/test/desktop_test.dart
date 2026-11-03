@@ -152,7 +152,14 @@ void main() {
         expect(find.text(l10n.gatewayChecksTitle), findsNothing);
         await tester.drag(find.byType(ListView).last, const Offset(0, -400));
         await tester.pump();
-        final toggle = tester.widget<Switch>(find.byType(Switch).first);
+        // Desktop automatic code copying defaults off; the updates switch above
+        // it defaults on, so find the copy switch by its own row.
+        final toggle = tester.widget<Switch>(
+          find.descendant(
+            of: find.widgetWithText(SettingsTile, l10n.settingsAutoCopy),
+            matching: find.byType(Switch),
+          ),
+        );
         expect(toggle.value, isFalse);
         expect(tester.takeException(), isNull);
         await tester.pumpWidget(const SizedBox());

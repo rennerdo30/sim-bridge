@@ -1039,4 +1039,81 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorUnexpected => 'Something went wrong. Try again.';
+
+  @override
+  String get updatesTitle => 'Updates';
+
+  @override
+  String updatesCurrentVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String updatesAvailableSubtitle(String version) {
+    return 'Version $version is available';
+  }
+
+  @override
+  String get updatesChecking => 'Checking for updates…';
+
+  @override
+  String updatesUpToDate(String version) {
+    return 'Sim Bridge $version is up to date';
+  }
+
+  @override
+  String get updatesCheckFailed =>
+      'Could not check for updates. Check your connection and try again.';
+
+  @override
+  String get updatesAutomatic => 'Check for updates automatically';
+
+  @override
+  String get updatesAutomaticSubtitle =>
+      'Once a day, from the Sim Bridge releases on GitHub';
+
+  @override
+  String updatesAvailableTitle(String version) {
+    return 'Sim Bridge $version is available';
+  }
+
+  @override
+  String get updatesInstallBody =>
+      'Sim Bridge downloads and verifies the update, closes, installs it and starts again. Your pairing and settings are kept.';
+
+  @override
+  String get updatesDownloadBody =>
+      'Sim Bridge downloads and verifies the new version and saves it in your Downloads folder. Then quit Sim Bridge and replace it with the new version. Your pairing and settings are kept.';
+
+  @override
+  String get updatesInstall => 'Install and restart';
+
+  @override
+  String get updatesDownload => 'Download';
+
+  @override
+  String get updatesLater => 'Later';
+
+  @override
+  String get updatesReleaseNotes => 'Release notes';
+
+  @override
+  String get updatesDownloading => 'Downloading and verifying the update…';
+
+  @override
+  String updatesDownloaded(String file) {
+    return 'Saved $file in your Downloads folder';
+  }
+
+  @override
+  String get updatesFailed =>
+      'The update could not be downloaded or verified. Try again later.';
+
+  @override
+  String updatesNotice(String version) {
+    return 'Sim Bridge $version is available';
+  }
+
+  @override
+  String get updatesShow => 'Update';
 }
