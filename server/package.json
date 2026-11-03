@@ -6,7 +6,7 @@
     "start": "node src/server.mjs",
     "test": "node --test",
     "test:wasm": "RELAY_TEST_SQL_ENGINE=wasm node --test",
-    "test:worker": "RELAY_TEST_TARGET=worker node --test --test-concurrency=4",
+    "test:worker": "RELAY_TEST_TARGET=worker node --test --test-concurrency=2",
     "dev:worker": "wrangler dev --env-file test-support/empty.env",
     "deploy:worker": "wrangler deploy"
   },
