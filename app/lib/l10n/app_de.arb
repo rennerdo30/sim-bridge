@@ -334,5 +334,16 @@
   "updatesDownloaded": "{file} wurde in deinem Downloads-Ordner gespeichert",
   "updatesFailed": "Das Update konnte nicht heruntergeladen oder geprüft werden. Versuche es später erneut.",
   "updatesNotice": "Sim Bridge {version} ist verfügbar",
-  "updatesShow": "Aktualisieren"
+  "updatesShow": "Aktualisieren",
+  "aboutTitle": "Über Sim Bridge",
+  "aboutTooltip": "Info, Updates und Lizenzen",
+  "aboutTagline": "Die SMS und Bestätigungscodes deines Android-Telefons auf jedem Gerät, Ende-zu-Ende-verschlüsselt, über ein Relay, das du selbst betreibst.",
+  "aboutLegalese": "Freie und quelloffene Software unter der MIT-Lizenz.",
+  "aboutWebsite": "Website",
+  "aboutSource": "Quellcode",
+  "aboutPrivacy": "Datenschutz",
+  "aboutLicenses": "Lizenzen",
+  "updatesCheckNow": "Nach Updates suchen",
+  "updatesManaged": "Updates werden vom renner.dev-Launcher verwaltet",
+  "close": "Schließen"
 }

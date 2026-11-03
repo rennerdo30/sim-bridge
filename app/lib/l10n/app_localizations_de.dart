@@ -1129,4 +1129,40 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get updatesShow => 'Aktualisieren';
+
+  @override
+  String get aboutTitle => 'Über Sim Bridge';
+
+  @override
+  String get aboutTooltip => 'Info, Updates und Lizenzen';
+
+  @override
+  String get aboutTagline =>
+      'Die SMS und Bestätigungscodes deines Android-Telefons auf jedem Gerät, Ende-zu-Ende-verschlüsselt, über ein Relay, das du selbst betreibst.';
+
+  @override
+  String get aboutLegalese =>
+      'Freie und quelloffene Software unter der MIT-Lizenz.';
+
+  @override
+  String get aboutWebsite => 'Website';
+
+  @override
+  String get aboutSource => 'Quellcode';
+
+  @override
+  String get aboutPrivacy => 'Datenschutz';
+
+  @override
+  String get aboutLicenses => 'Lizenzen';
+
+  @override
+  String get updatesCheckNow => 'Nach Updates suchen';
+
+  @override
+  String get updatesManaged =>
+      'Updates werden vom renner.dev-Launcher verwaltet';
+
+  @override
+  String get close => 'Schließen';
 }

@@ -50,33 +50,58 @@ VIAddVersionKey "LegalCopyright" "MIT License"
 !include x64.nsh
 !include FileFunc.nsh
 
-!define MUI_ICON "..\runner\resources\app_icon.ico"
-!define MUI_UNICON "..\runner\resources\app_icon.ico"
+!define MUI_ICON "art\installer.ico"
+!define MUI_UNICON "art\installer.ico"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "art\welcome.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "art\welcome.bmp"
+!define MUI_HEADERIMAGE
+!define MUI_HEADERIMAGE_RIGHT
+!define MUI_HEADERIMAGE_BITMAP "art\header.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP "art\header.bmp"
 !define MUI_ABORTWARNING
+
+; Page texts must be defined before each page is inserted.
+!define MUI_WELCOMEPAGE_TITLE "$(WelcomeTitle)"
+!define MUI_WELCOMEPAGE_TEXT "$(WelcomeText)"
+!insertmacro MUI_PAGE_WELCOME
+!define MUI_PAGE_CUSTOMFUNCTION_LEAVE VerifyInstallFolder
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+!define MUI_FINISHPAGE_TITLE "$(FinishTitle)"
+!define MUI_FINISHPAGE_TEXT "$(FinishText)"
 !define MUI_FINISHPAGE_RUN
+!define MUI_FINISHPAGE_RUN_TEXT "$(RunNow)"
 !define MUI_FINISHPAGE_RUN_FUNCTION LaunchApp
 !define MUI_FINISHPAGE_SHOWREADME
 !define MUI_FINISHPAGE_SHOWREADME_TEXT "$(DesktopShortcut)"
 !define MUI_FINISHPAGE_SHOWREADME_FUNCTION CreateDesktopShortcut
 !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
-
-!insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_LANGUAGE "English"
 !insertmacro MUI_LANGUAGE "German"
 
+LangString WelcomeTitle ${LANG_ENGLISH} "Install Sim Bridge ${VERSION}"
+LangString WelcomeTitle ${LANG_GERMAN} "Sim Bridge ${VERSION} installieren"
+LangString WelcomeText ${LANG_ENGLISH} "Sim Bridge brings the SMS messages and verification codes of your Android phone to this computer, end-to-end encrypted.$\r$\n$\r$\nSetup installs Sim Bridge for your Windows account, so no administrator rights are needed. Your pairing and settings are kept when you update or uninstall."
+LangString WelcomeText ${LANG_GERMAN} "Sim Bridge bringt die SMS und Bestätigungscodes deines Android-Telefons Ende-zu-Ende-verschlüsselt auf diesen Computer.$\r$\n$\r$\nSetup installiert Sim Bridge für dein Windows-Konto, Administratorrechte sind nicht nötig. Kopplung und Einstellungen bleiben beim Aktualisieren und Deinstallieren erhalten."
+LangString FinishTitle ${LANG_ENGLISH} "Sim Bridge is installed"
+LangString FinishTitle ${LANG_GERMAN} "Sim Bridge ist installiert"
+LangString FinishText ${LANG_ENGLISH} "Sim Bridge ${VERSION} is ready. You find it in the Start menu, and it keeps itself up to date."
+LangString FinishText ${LANG_GERMAN} "Sim Bridge ${VERSION} ist bereit. Du findest es im Startmenü, und es hält sich selbst aktuell."
+LangString RunNow ${LANG_ENGLISH} "Start Sim Bridge"
+LangString RunNow ${LANG_GERMAN} "Sim Bridge starten"
 LangString DesktopShortcut ${LANG_ENGLISH} "Create a desktop shortcut"
 LangString DesktopShortcut ${LANG_GERMAN} "Verknüpfung auf dem Desktop erstellen"
 LangString NeedsX64 ${LANG_ENGLISH} "Sim Bridge requires 64-bit Windows."
 LangString NeedsX64 ${LANG_GERMAN} "Sim Bridge benötigt 64-Bit-Windows."
 LangString StillRunning ${LANG_ENGLISH} "Sim Bridge is still running. Close it, then choose Retry."
 LangString StillRunning ${LANG_GERMAN} "Sim Bridge läuft noch. Schließe die App und wähle dann Wiederholen."
-LangString WelcomeText ${LANG_ENGLISH} "This installs Sim Bridge ${VERSION} for your Windows account.$\r$\n$\r$\nYour pairing and settings are kept when you update or uninstall."
-LangString WelcomeText ${LANG_GERMAN} "Damit wird Sim Bridge ${VERSION} für dein Windows-Konto installiert.$\r$\n$\r$\nKopplung und Einstellungen bleiben beim Aktualisieren und Deinstallieren erhalten."
-!define MUI_WELCOMEPAGE_TEXT "$(WelcomeText)"
+LangString NotWritable ${LANG_ENGLISH} "Setup cannot write to this folder with your account's rights. Choose a folder in your user profile, for example the suggested one."
+LangString NotEmpty ${LANG_ENGLISH} "This folder already contains other files. Choose an empty folder, or a folder that only holds Sim Bridge, so uninstalling never removes anything else."
+LangString NotEmpty ${LANG_GERMAN} "Dieser Ordner enthält bereits andere Dateien. Wähle einen leeren Ordner oder einen, der nur Sim Bridge enthält, damit beim Deinstallieren nichts anderes entfernt wird."
+LangString NotWritable ${LANG_GERMAN} "Setup kann mit den Rechten deines Kontos nicht in diesen Ordner schreiben. Wähle einen Ordner in deinem Benutzerprofil, zum Beispiel den vorgeschlagenen."
 
 Var Relaunch
 
@@ -116,6 +141,37 @@ Function .onInit
   ${IfNot} ${Errors}
     StrCpy $Relaunch 1
   ${EndIf}
+FunctionEnd
+
+; Directory page: the folder must be writable with the user's rights, and either new,
+; empty, or an existing Sim Bridge installation, because uninstalling removes it.
+Function VerifyInstallFolder
+  ${If} ${FileExists} "$INSTDIR\*.*"
+  ${AndIfNot} ${FileExists} "$INSTDIR\${APP_EXE}"
+    FindFirst $0 $1 "$INSTDIR\*.*"
+    ${Do}
+      ${If} $1 == ""
+        ${ExitDo}
+      ${EndIf}
+      ${If} $1 != "."
+      ${AndIf} $1 != ".."
+        FindClose $0
+        MessageBox MB_OK|MB_ICONEXCLAMATION "$(NotEmpty)"
+        Abort
+      ${EndIf}
+      FindNext $0 $1
+    ${Loop}
+    FindClose $0
+  ${EndIf}
+  ClearErrors
+  CreateDirectory "$INSTDIR"
+  FileOpen $0 "$INSTDIR\.sim-bridge-write-test" w
+  ${If} ${Errors}
+    MessageBox MB_OK|MB_ICONEXCLAMATION "$(NotWritable)"
+    Abort
+  ${EndIf}
+  FileClose $0
+  Delete "$INSTDIR\.sim-bridge-write-test"
 FunctionEnd
 
 Function LaunchApp

@@ -1116,4 +1116,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updatesShow => 'Update';
+
+  @override
+  String get aboutTitle => 'About Sim Bridge';
+
+  @override
+  String get aboutTooltip => 'About, updates and licenses';
+
+  @override
+  String get aboutTagline =>
+      'Your Android SMS and verification codes on every device, end-to-end encrypted, through a relay you run yourself.';
+
+  @override
+  String get aboutLegalese => 'Free and open source under the MIT License.';
+
+  @override
+  String get aboutWebsite => 'Website';
+
+  @override
+  String get aboutSource => 'Source code';
+
+  @override
+  String get aboutPrivacy => 'Privacy';
+
+  @override
+  String get aboutLicenses => 'Licenses';
+
+  @override
+  String get updatesCheckNow => 'Check for updates';
+
+  @override
+  String get updatesManaged => 'Updates are managed by the renner.dev launcher';
+
+  @override
+  String get close => 'Close';
 }

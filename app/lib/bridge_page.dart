@@ -15,6 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'api.dart';
+import 'app_info.dart';
 import 'authorization_coordinator.dart';
 import 'desktop_updater.dart';
 import 'device_authorization.dart';
@@ -134,10 +135,7 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
     _notificationInitialization = _initializeNotifications();
     unawaited(Log.initialize());
     _restore();
-    // Widget tests never reach the network for updates.
-    if (host.isDesktop && !Platform.environment.containsKey('FLUTTER_TEST')) {
-      unawaited(_initializeUpdates());
-    }
+    unawaited(_initializeUpdates());
   }
 
   Future<void> _initializeUpdates() async {
@@ -149,6 +147,7 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
         _appVersion = info.version;
         _autoUpdateCheck = prefs.getBool(_autoUpdatePreference) ?? true;
       });
+      if (!_updatesSupported) return;
       final last = DateTime.tryParse(
         prefs.getString(_lastUpdateCheckPreference) ?? '',
       );
@@ -162,9 +161,16 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
     }
   }
 
+  /// Desktop builds update themselves unless the renner.dev launcher manages
+  /// them; widget tests never reach the network for updates.
+  bool get _updatesSupported =>
+      host.isDesktop &&
+      !updatesManagedExternally &&
+      !Platform.environment.containsKey('FLUTTER_TEST');
+
   Future<void> _checkForUpdates({bool automatic = false}) async {
     final version = _appVersion;
-    if (version == null || _updateBusy) return;
+    if (version == null || _updateBusy || !_updatesSupported) return;
     setState(() => _updateBusy = true);
     final updater = DesktopUpdater(currentVersion: version);
     try {
@@ -286,9 +292,163 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
     await prefs.setBool(_autoUpdatePreference, enabled);
   }
 
+  Future<void> _showAbout() async {
+    final version = _appVersion;
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (dialogContext, setDialogState) {
+          final update = _availableUpdate;
+          Future<void> open(String url) =>
+              launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+          return AlertDialog(
+            contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
+            content: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 420),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const BrandMark(size: 48),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(l10n.appTitle, style: display(size: 24)),
+                              Text(
+                                l10n.updatesCurrentVersion(version ?? '…'),
+                                style: mono(size: 13, color: Palette.haze),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Text(l10n.aboutTagline),
+                    const SizedBox(height: 8),
+                    Text(
+                      l10n.aboutLegalese,
+                      style: const TextStyle(color: Palette.haze, fontSize: 13),
+                    ),
+                    if (host.isDesktop) ...[
+                      const SizedBox(height: 16),
+                      if (updatesManagedExternally)
+                        Text(
+                          l10n.updatesManaged,
+                          style: const TextStyle(color: Palette.haze),
+                        )
+                      else ...[
+                        if (update != null)
+                          FilledButton.icon(
+                            onPressed: () {
+                              Navigator.pop(dialogContext);
+                              unawaited(_offerUpdate(update));
+                            },
+                            icon: const Icon(Icons.system_update_alt_rounded),
+                            label: Text(
+                              l10n.updatesAvailableSubtitle(update.version),
+                            ),
+                          )
+                        else
+                          OutlinedButton.icon(
+                            onPressed: _updateBusy || version == null
+                                ? null
+                                : () async {
+                                    await _checkForUpdates();
+                                    if (dialogContext.mounted) {
+                                      setDialogState(() {});
+                                    }
+                                  },
+                            icon: const Icon(Icons.refresh_rounded),
+                            label: Text(
+                              _updateBusy
+                                  ? l10n.updatesChecking
+                                  : l10n.updatesCheckNow,
+                            ),
+                          ),
+                        SwitchListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(l10n.updatesAutomatic),
+                          subtitle: Text(
+                            l10n.updatesAutomaticSubtitle,
+                            style: const TextStyle(
+                              color: Palette.haze,
+                              fontSize: 12,
+                            ),
+                          ),
+                          value: _autoUpdateCheck,
+                          onChanged: (value) async {
+                            await _setAutoUpdateCheck(value);
+                            if (dialogContext.mounted) setDialogState(() {});
+                          },
+                        ),
+                      ],
+                    ],
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 4,
+                      children: [
+                        TextButton(
+                          onPressed: () => unawaited(open(projectWebsite)),
+                          child: Text(l10n.aboutWebsite),
+                        ),
+                        TextButton(
+                          onPressed: () => unawaited(open(projectSource)),
+                          child: Text(l10n.aboutSource),
+                        ),
+                        TextButton(
+                          onPressed: () => unawaited(open(projectPrivacy)),
+                          child: Text(l10n.aboutPrivacy),
+                        ),
+                        TextButton(
+                          onPressed: () => showLicensePage(
+                            context: dialogContext,
+                            applicationName: l10n.appTitle,
+                            applicationVersion: version,
+                            applicationIcon: const Padding(
+                              padding: EdgeInsets.all(12),
+                              child: BrandMark(size: 48),
+                            ),
+                            applicationLegalese: l10n.aboutLegalese,
+                          ),
+                          child: Text(l10n.aboutLicenses),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: Text(l10n.close),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   Widget _updatesCard() {
     final version = _appVersion;
     final update = _availableUpdate;
+    if (updatesManagedExternally) {
+      return Card(
+        child: SettingsTile(
+          icon: Icons.verified_outlined,
+          title: l10n.updatesTitle,
+          subtitle:
+              '${l10n.updatesCurrentVersion(version ?? '…')} · ${l10n.updatesManaged}',
+        ),
+      );
+    }
     return Card(
       child: Column(
         children: [
@@ -3395,6 +3555,17 @@ class _BridgePageState extends State<BridgePage> with WidgetsBindingObserver {
       ),
     );
     return Scaffold(
+      // About, updates and licenses must be reachable before pairing too.
+      floatingActionButton: FloatingActionButton.small(
+        heroTag: 'about',
+        tooltip: l10n.aboutTooltip,
+        backgroundColor: Palette.porcelain,
+        foregroundColor: Palette.fir,
+        elevation: 1,
+        onPressed: _showAbout,
+        child: const Icon(Icons.info_outline_rounded),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: LayoutBuilder(

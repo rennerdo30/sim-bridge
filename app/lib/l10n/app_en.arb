@@ -624,5 +624,49 @@
   "updatesShow": "Update",
   "@updatesShow": {
     "description": "Desktop in-app update text."
+  },
+  "aboutTitle": "About Sim Bridge",
+  "@aboutTitle": {
+    "description": "About screen and update text."
+  },
+  "aboutTooltip": "About, updates and licenses",
+  "@aboutTooltip": {
+    "description": "About screen and update text."
+  },
+  "aboutTagline": "Your Android SMS and verification codes on every device, end-to-end encrypted, through a relay you run yourself.",
+  "@aboutTagline": {
+    "description": "About screen and update text."
+  },
+  "aboutLegalese": "Free and open source under the MIT License.",
+  "@aboutLegalese": {
+    "description": "About screen and update text."
+  },
+  "aboutWebsite": "Website",
+  "@aboutWebsite": {
+    "description": "About screen and update text."
+  },
+  "aboutSource": "Source code",
+  "@aboutSource": {
+    "description": "About screen and update text."
+  },
+  "aboutPrivacy": "Privacy",
+  "@aboutPrivacy": {
+    "description": "About screen and update text."
+  },
+  "aboutLicenses": "Licenses",
+  "@aboutLicenses": {
+    "description": "About screen and update text."
+  },
+  "updatesCheckNow": "Check for updates",
+  "@updatesCheckNow": {
+    "description": "About screen and update text."
+  },
+  "updatesManaged": "Updates are managed by the renner.dev launcher",
+  "@updatesManaged": {
+    "description": "About screen and update text."
+  },
+  "close": "Close",
+  "@close": {
+    "description": "About screen and update text."
   }
 }

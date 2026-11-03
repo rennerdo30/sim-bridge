@@ -7,7 +7,11 @@ class MainFlutterWindow: NSWindow {
   private var clipboardOwnedChangeCount: Int?
 
   override func awakeFromNib() {
-    let flutterViewController = FlutterViewController()
+    // Forward command-line arguments (such as --managed-updates from the
+    // renner.dev launcher) to Dart's main(), as the Windows and Linux runners do.
+    let project = FlutterDartProject()
+    project.dartEntrypointArguments = Array(CommandLine.arguments.dropFirst())
+    let flutterViewController = FlutterViewController(project: project)
     contentViewController = flutterViewController
     title = "Sim Bridge"
     contentMinSize = NSSize(width: 760, height: 600)

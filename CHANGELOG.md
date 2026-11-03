@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.1.1
+
+- Windows installer: Sim Bridge artwork and icon, a page to choose the install folder (it must
+  be empty or an existing Sim Bridge folder you can write to, so uninstalling never removes
+  anything else), and clearer welcome and finish texts in English and German.
+- Windows: the native title bar and caption buttons now use the app's light colours instead of
+  a dark bar in system dark mode.
+- About Sim Bridge, available everywhere including before pairing: version, check for updates,
+  automatic updates, website, source code, privacy and all licenses.
+- Copies installed by the renner.dev launcher leave updates to the launcher
+  (`--managed-updates`, or detected from the launcher's install folder).
+- Update checks keep working when the GitHub API rate-limits a shared network.
+
 ## 1.1.0
 
 - Windows installer: `Sim-Bridge-<version>-windows-x64-setup.exe` installs Sim Bridge for your

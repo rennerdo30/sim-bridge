@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'app_info.dart';
 import 'bridge_page.dart';
 import 'gateway_runtime.dart';
 import 'logging.dart';
@@ -7,7 +8,11 @@ import 'platform_support.dart';
 import 'l10n/app_localizations.dart';
 import 'theme.dart';
 
-void main() => runApp(const SimBridgeApp());
+void main(List<String> arguments) {
+  updatesManagedExternally = detectManagedUpdates(arguments);
+  registerBundledLicenses();
+  runApp(const SimBridgeApp());
+}
 
 @pragma('vm:entry-point')
 Future<void> gatewayMain() async {

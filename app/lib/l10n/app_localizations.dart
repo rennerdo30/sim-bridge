@@ -1945,6 +1945,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update'**
   String get updatesShow;
+
+  /// About screen and update text.
+  ///
+  /// In en, this message translates to:
+  /// **'About Sim Bridge'**
+  String get aboutTitle;
+
+  /// About screen and update text.
+  ///
+  /// In en, this message translates to:
+  /// **'About, updates and licenses'**
+  String get aboutTooltip;
+
+  /// About screen and update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Android SMS and verification codes on every device, end-to-end encrypted, through a relay you run yourself.'**
+  String get aboutTagline;
+
+  /// About screen and update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Free and open source under the MIT License.'**
+  String get aboutLegalese;
+
+  /// About screen and update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get aboutWebsite;
+
+  /// About screen and update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Source code'**
+  String get aboutSource;
+
+  /// About screen and update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get aboutPrivacy;
+
+  /// About screen and update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Licenses'**
+  String get aboutLicenses;
+
+  /// About screen and update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Check for updates'**
+  String get updatesCheckNow;
+
+  /// About screen and update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates are managed by the renner.dev launcher'**
+  String get updatesManaged;
+
+  /// About screen and update text.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
 }
 
 class _AppLocalizationsDelegate
