@@ -1,0 +1,12 @@
+# Keep secrets, legacy databases/logs and development files out of the image.
+.env*
+data/
+node_modules/
+test/
+test-support/
+deploy/
+*.sqlite*
+*.log
+*.p8
+*.pem
+*.key

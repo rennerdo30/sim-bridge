@@ -1,0 +1,105 @@
+---
+title: Development
+description: Build from locked dependencies, run isolated checks, and work on native targets safely.
+---
+
+## Toolchains
+
+Flutter is pinned to 3.38.6 in desktop CI; the app requires Dart 3.10.7 compatibility.
+The relay uses Node 22 LTS. Documentation needs Node 22.12 or newer and pins its own
+Astro/Starlight/Galaxy dependencies. Commit the appropriate lockfile when deliberately
+changing a dependency.
+
+Native app builds require their matching operating systems:
+
+| Host | Build prerequisites |
+| --- | --- |
+| macOS | Xcode, command-line tools, CocoaPods |
+| Windows | Visual Studio Desktop development with C++, Windows SDK, C++ ATL |
+| Linux | clang, CMake, Ninja, pkg-config, GTK3 development headers, libsecret development headers |
+| Android | Flutter Android toolchain and JDK 17 for native unit tests |
+
+## App checks
+
+From `app/`:
+
+```sh
+flutter pub get --enforce-lockfile
+flutter analyze
+flutter test
+```
+
+For localization changes, edit both English and German ARB sources and run
+`flutter gen-l10n`. Follow the shared palette/type/shape tokens; presentational widgets
+receive their strings from callers. Preserve platform capability boundaries and shared
+storage/channel contracts when refactoring paired-device behavior.
+
+From `app/android/`, with `JAVA_HOME` pointing to JDK 17:
+
+```sh
+./gradlew :app:testDebugUnitTest
+```
+
+Use `gradlew.bat :app:testDebugUnitTest` in Windows Command Prompt.
+
+## Relay checks
+
+From `server/`:
+
+```sh
+npm ci
+npm test
+```
+
+Node suites use disposable loopback ports, in-memory SQLite state and forbidden-file-write fixtures, and
+mock APNs delivery. Relay subprocesses filter inherited operator `SIM_BRIDGE_*` settings.
+Do not load `.env.local`, probe port 8787, or point tests at `server/data/sim-bridge.sqlite`.
+Those may belong to an operating bridge.
+
+## Optional native macOS smoke test
+
+From the repository root, start the isolated synthetic fixture:
+
+```sh
+node app/tool/desktop_smoke_relay.mjs
+```
+
+In a second terminal, from `app/`:
+
+```sh
+flutter drive --profile -d macos --target=integration_test/desktop_smoke_test.dart \
+  --driver=test_driver/desktop_smoke_driver.dart --no-pub
+```
+
+The fixture uses disposable loopback port 18798 and temporary data. It tests real
+macOS Keychain access and an encrypted client roundtrip without SIM hardware. It does
+not establish visible notifications, carrier delivery, pairing UI operation, or
+cross-process credential restoration. See the
+[native smoke test README](https://github.com/rennerdo30/sim-bridge/blob/main/app/integration_test/README.md)
+for cleanup and custom-port instructions.
+
+## Documentation
+
+From `docs/`:
+
+```sh
+npm ci
+npm run dev
+npm run build
+```
+
+The documentation is served under `/docs/` of https://sim-bridge.renner.dev. Keep screenshot provenance and synthetic-data
+labels accurate. The Pages workflow validates pull requests and deploys only from `main`.
+The template's dark/light theme behavior is retained with Sim Bridge's green branding.
+
+## Pull requests and verification
+
+Describe the behavior change, relevant checks, and runtime limits. Keep real phone IDs,
+owner settings, credentials, messages, and signing material out of source and reports.
+Retain third-party font notices when packaging assets. The repository's
+[contribution guide](https://github.com/rennerdo30/sim-bridge/blob/main/CONTRIBUTING.md)
+contains the project-wide conventions.
+
+Desktop CI covers analysis, widget tests, and native release compilation. Mobile
+installation, carrier operations, signing credentials, and store submission require
+separate authorized workflows and evidence.

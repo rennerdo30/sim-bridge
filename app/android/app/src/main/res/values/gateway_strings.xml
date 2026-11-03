@@ -1,0 +1,11 @@
+<resources>
+    <string name="gateway_notification_channel">SIM gateway</string>
+    <string name="gateway_notification_channel_description">Keeps the encrypted SIM relay available</string>
+    <string name="gateway_notification_title">SIM gateway</string>
+    <string name="gateway_notification_starting">Starting secure relay</string>
+    <string name="gateway_notification_connected">Connected to relay</string>
+    <string name="gateway_notification_waiting">Waiting for relay connection</string>
+    <string name="gateway_notification_attention">Open Sim Bridge to check gateway</string>
+    <string name="gateway_notification_stopping">Stopping gateway</string>
+    <string name="gateway_notification_backlog">Large message queue waiting to upload</string>
+</resources>

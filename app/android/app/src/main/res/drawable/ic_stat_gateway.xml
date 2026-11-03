@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Monochrome SIM card with chip contacts for the gateway status bar notification. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M7,2h7l5,5v13a2,2 0,0 1,-2 2H7a2,2 0,0 1,-2 -2V4a2,2 0,0 1,2 -2zM8.5,10.5v7h7v-7zM10,12h1.75v1.5H10zM12.25,12H14v1.5h-1.75zM10,14.5h1.75V16H10zM12.25,14.5H14V16h-1.75z" />
+</vector>

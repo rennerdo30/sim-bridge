@@ -1,0 +1,119 @@
+---
+title: Setup and pairing
+description: Run a self-hosted relay, create an Android gateway, and join phones or desktop clients.
+---
+
+## What you need
+
+- An Android phone with an active SIM, the Sim Bridge app, and permission to act as a gateway.
+- A relay host reachable by every device you want to pair.
+- Sim Bridge on the client phones or desktops.
+- Node.js 22 or newer for the relay; development uses the Node 22 LTS line.
+
+The relay is owner-operated. There is no built-in hosted account or public relay
+credential. Keep the owner key and each bridge invitation private.
+
+## 1. Start your relay
+
+Clone the source and install its locked relay dependencies:
+
+```sh
+git clone https://github.com/rennerdo30/sim-bridge.git
+cd sim-bridge/server
+npm ci
+```
+
+Create a private `.env.local` file in `server/` and set `SIM_BRIDGE_ACCESS_KEY` to a
+long, randomly generated secret of your own. On Unix systems, restrict this file
+with `chmod 600 .env.local`. The file is ignored by Git. Do not reuse any test key
+or put the owner credential into an invitation.
+
+Start the relay with that configuration:
+
+```sh
+node --env-file=.env.local src/server.mjs
+```
+
+The default port is 8787. Open `http://localhost:8787` **on the relay host** for the
+owner dashboard and unlock it with the same owner key. The dashboard shows device
+and queue metadata, not decrypted message content.
+
+For a physical phone, select the relay's discovered LAN address or enter a reachable
+LAN URL. `localhost` on a phone points to the phone, not your relay computer. Cleartext
+HTTP is accepted only for local/private hosts. See
+[relay configuration](/docs/guides/relay/) before configuring HTTPS or another network.
+
+## 2. Create an Android gateway
+
+Open Sim Bridge on the Android phone, choose **SIM gateway**, enter the relay URL and
+owner key, and create the bridge. Grant the SMS and phone permissions needed by the
+operations you intend to use. The app generates the bridge's encryption key locally.
+
+Check **Settings → Gateway checks**. Permission grants, background restrictions,
+battery optimization, notification visibility, and worker connectivity are separate
+checks. Some manufacturers require their own background autostart setting. If the app
+offers **I enabled autostart**, that records your confirmation; it does not read or
+grant the manufacturer switch.
+
+The foreground gateway worker uploads durable events and processes commands. Android
+may still restrict it; force-stop requires reopening the app. A connected status is
+not a guarantee of permanent availability.
+
+## 3. Join another device
+
+Create an invitation on a paired device. On another phone, scan the QR invitation or
+enter its relay URL and full 52-character recovery code. Desktop clients use the
+manual relay URL and recovery code path.
+
+Keep the Android owner gateway connected during enrollment so it can save the new
+member's authorization. The client keeps its own independent signing identity;
+the shared invitation alone does not prove an existing device's identity.
+
+The invitation contains access to the bridge key. Anyone who receives it may join
+while enrollment is permitted, so transfer it through a trusted channel. The relay
+owner key is used to create/administer bridges and is not part of invitations.
+
+After pairing, select an Android gateway and SIM for outgoing requests. Confirm the
+device roster and gateway health before trying an SMS with synthetic, non-sensitive
+test content. Carrier callbacks determine the outgoing SMS result.
+
+## If pairing or sync fails
+
+1. Confirm the relay process is running and the entered URL is reachable from that device.
+2. Check local-network permission and firewall rules. Discovery uses mDNS/Bonjour;
+   manual URLs remain available when discovery is unavailable.
+3. Check that the full recovery code belongs to the intended bridge and enrollment is open.
+4. On Android, review **Gateway checks** and the foreground-service status.
+5. Keep desktop applications open or minimized for event sync and local notifications.
+
+After a relay restart, keep existing pairing data and bring the Android owner
+gateway online. It restores its current authorization policy and other clients
+resume with their existing IDs and keys. Waiting for it is expected; creating a
+new bridge would replace identities and is not the restart-recovery procedure.
+Pending relay work is lost at restart, while phone-side execution journals remain.
+Removal, locking, and deletion need the gateway to save the change before success
+can be confirmed. Do not restore stale gateway authorization backups.
+
+Existing installations from before gateway-held authorization need a planned,
+identity-preserving migration before replacing the relay. See the
+[migration contract](https://github.com/rennerdo30/sim-bridge/blob/main/PAIRING-RECOVERY-PROTOCOL.md#existing-installation-migration).
+
+For an operator-approved recovery, open **Settings → Operator pairing recovery**
+on each existing device and copy its public identity details through a trusted
+channel to the operator. They contain the existing bridge/device IDs and a signing
+public key, not the private signing key, message encryption key, or bearer token.
+The operator verifies device identities and roles, explicitly approves the Android
+owner gateway as authority, and prepares the restore request described in the
+protocol. The copied `publicKey` is the restore member's `devicePublicKey`.
+
+After the operator returns the matching certificate, paste it into that same
+dialog. The authority gateway also receives the exact approved policy JSON;
+bring its headless worker online to install and restore it before other clients
+resume. **Apply approved recovery** preserves the existing pairing IDs and native
+journals. Rejection leaves existing credentials intact. This is a migration path,
+not a substitute for verifying the operator's approval or for rotating a lost
+message encryption key. Do not put certificates, verifier values, private operator
+requests, or real device identifiers in public issues or Git.
+
+For Linux, discovery and credential storage have different system requirements;
+see [desktop installation](/docs/getting-started/desktop/#linux).

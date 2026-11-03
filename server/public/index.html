@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Sim Bridge Relay</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="brand"><span class="logo" aria-hidden="true"><svg width="20" height="16" viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="18" height="14" rx="3"/><path d="M7.3 1v14M12.7 1v14M1 8h18"/></svg></span><div><strong>Sim Bridge</strong><small>Zero-knowledge relay</small></div></div>
+      <div class="health"><i></i><span id="healthLabel">Checking relay</span></div>
+    </header>
+
+    <section class="hero">
+      <div><p class="eyebrow">RELAY CONTROL</p><h1>Private infrastructure,<br><em>clearly visible.</em></h1><p class="lede">Monitor encrypted traffic metadata and verify relay integrity without exposing message contents or bridge secrets.</p></div>
+      <div class="login" id="loginPanel">
+        <label for="relayKey">Relay access key</label>
+        <div class="key-row"><input id="relayKey" type="password" autocomplete="off" placeholder="Enter owner key"><button id="connectButton">Unlock dashboard</button></div>
+        <p>The key stays in this tab's memory and is never persisted.</p>
+      </div>
+    </section>
+
+    <section id="dashboard" class="dashboard hidden">
+      <div class="topline"><div><p class="eyebrow">LIVE OVERVIEW</p><h2 id="relayName">Relay</h2></div><button class="secondary" id="refreshButton">Refresh</button></div>
+      <div class="metrics">
+        <article><span>Bridges</span><strong id="bridges">—</strong></article>
+        <article><span>Phones</span><strong id="devices">—</strong></article>
+        <article><span>Gateways</span><strong id="gateways">—</strong></article>
+        <article><span>Encrypted events</span><strong id="messages">—</strong></article>
+        <article><span>Pending commands</span><strong id="pending">—</strong></article>
+      </div>
+
+      <div class="grid">
+        <article class="panel"><div class="panel-title"><div><p class="eyebrow">SYSTEM</p><h3>Relay details</h3></div><span class="secure">Ciphertext only</span></div><dl><div><dt>Uptime</dt><dd id="uptime">—</dd></div><div><dt>Protocol</dt><dd id="protocol">—</dd></div><div><dt>Storage</dt><dd id="storage">—</dd></div><div><dt>Transport</dt><dd id="transport">—</dd></div><div><dt>Discovery</dt><dd id="discovery">—</dd></div><div><dt>Relay ID</dt><dd id="relayId">—</dd></div></dl></article>
+        <article class="panel"><div class="panel-title"><div><p class="eyebrow">DIAGNOSTICS</p><h3>Debug tests</h3></div></div><div class="actions"><button id="latencyButton">Run latency test</button><button id="selfTestButton">Run integrity test</button></div><div id="testOutput" class="output">Ready to test. No bridge content will be read.</div></article>
+      </div>
+
+      <article class="panel devices"><div class="panel-title"><div><p class="eyebrow">PRESENCE</p><h3>Connected phones</h3></div><span id="deviceCount">0 devices</span></div><div id="deviceList" class="device-list"><p class="empty">No phones have joined this relay.</p></div></article>
+
+      <article class="panel devices"><div class="panel-title"><div><p class="eyebrow">ACCESS</p><h3>Bridges</h3></div><span class="secure">Lock a bridge once your phones are paired</span></div><div id="bridgeList" class="device-list"><p class="empty">No bridges on this relay.</p></div></article>
+    </section>
+  </main>
+  <div id="toast" role="status"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>

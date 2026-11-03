@@ -1,0 +1,77 @@
+---
+title: Your SIM. Every screen.
+description: Share an Android SIM's messages across your phones and desktops through a self-hosted encrypted bridge.
+template: splash
+hero:
+  tagline: One Android gateway. Your phones and desktops. A relay that carries ciphertext.
+  image:
+    file: ../../assets/logo.svg
+    alt: Sim Bridge's gold SIM and bridge icon on deep green.
+  actions:
+    - text: Set up your bridge
+      link: /docs/getting-started/setup/
+      icon: right-arrow
+      variant: primary
+    - text: Explore the app
+      link: /docs/gallery/
+      icon: right-arrow
+      variant: secondary
+    - text: Source on GitHub
+      link: https://github.com/rennerdo30/sim-bridge
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Keep the SIM on Android
+
+Sim Bridge connects Android gateways with iOS, Android, macOS, Windows, and Linux
+clients. Receive a shared inbox, choose a gateway and SIM for outgoing SMS, and request
+call controls through the Android phone. The physical SIM and carrier audio stay there.
+
+<img class="app-shot" src="/docs/screenshots/desktop-inbox.png" alt="Sim Bridge desktop inbox rendered from the app's Flutter widgets with synthetic messages." />
+<p class="shot-caption">Actual app widgets with synthetic demonstration data. This image is a UI rendering, not proof of carrier SMS delivery.</p>
+
+## Follow the path that fits
+
+<CardGrid>
+  <Card title="Pair your devices" icon="right-arrow">
+    Start an owner-controlled relay, create a bridge on an Android gateway, and join
+    your other devices with a QR invitation or recovery code.
+    [Setup and pairing](/docs/getting-started/setup/)
+  </Card>
+  <Card title="Use a desktop client" icon="laptop">
+    Install the complete bundle for your operating system. Desktop clients use manual
+    recovery-code pairing and sync while the application is running.
+    [Desktop installation](/docs/getting-started/desktop/)
+  </Card>
+  <Card title="Understand the boundary" icon="lock">
+    Content is sealed on devices with AES-256-GCM. The relay temporarily buffers encrypted envelopes
+    and routing metadata in memory; it does not receive the bridge's root key.
+    [Security and privacy](/docs/guides/security/)
+  </Card>
+</CardGrid>
+
+## Platform roles
+
+| Platform | Client | Physical SIM gateway | Pairing |
+| --- | --- | --- | --- |
+| Android | Yes | Yes, with permissions and gateway setup | QR or recovery code |
+| iOS | Yes | No | QR or recovery code |
+| macOS / Windows / Linux | Yes | No | Relay URL and recovery code |
+
+iOS cannot import these messages into Apple Messages or read a SIM's SMS for other
+devices. Desktop clients do not carry cellular audio or provide a background tray
+service. Read the [architecture](/docs/guides/architecture/) for how commands,
+gateway workers, and optional iPhone notifications fit together.
+
+## Build status and distribution
+
+The repository includes native desktop build workflows, isolated relay tests, and
+mobile source targets. Downloads and verification depend on the specific release or
+Actions run. A successful build does not establish carrier delivery or native
+notification behavior on every operating system.
+
+See [releases and app stores](/docs/guides/releases/) for development artifacts,
+release signing, and the remaining distribution steps. Sim Bridge is self-hosted;
+these docs do not provide a managed relay account.

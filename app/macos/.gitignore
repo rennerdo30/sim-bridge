@@ -1,0 +1,10 @@
+# Flutter-related
+**/Flutter/ephemeral/
+**/Pods/
+
+# Xcode-related
+**/dgph
+**/xcuserdata/
+
+# Owner certificate/team overrides stay local; CI uses ad-hoc signing.
+Runner/Configs/LocalSigning.xcconfig

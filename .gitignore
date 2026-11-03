@@ -1,0 +1,59 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+server/node_modules/
+server/data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+app/bugreport-*.zip
+app/.dart_tool/
+app/build/
+app/ios/Pods/
+app/ios/.symlinks/
+app/android/.gradle/
+*.log
+
+# Android release signing material — never commit
+app/android/key.properties
+*.jks
+*.keystore
+
+# Local tool and account configuration, and operational notes
+.agent-bridge/
+.aws/
+/LOCAL-DEVELOPMENT.md
+
+# Apple signing and private TLS/key material
+*.p8
+*.p12
+*.pem
+*.key
+*.mobileprovision
+*.provisionprofile
+
+# Locally prepared source/distribution archives at the repository root
+/sim-bridge*.zip
+/sim-bridge*.tar
+/sim-bridge*.tar.gz
+/sim-bridge*.tgz
+/Sim-Bridge*.dmg
+
+# Optional local Wi-Fi ADB endpoint
+/app/tool/.gateway-adb
+
+# Python validation and screenshot tooling caches
+__pycache__/
+*.pyc
+.venv/
+
+# Relay deployment secrets
+server/deploy/relay.env
+server/deploy/tunnel.env
+server/deploy/secrets/
+
+# Cloudflare Worker local state and secrets
+server/.wrangler/
+server/.dev.vars*
+

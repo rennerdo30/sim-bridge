@@ -1,0 +1,518 @@
+{
+  "relayPairingExpired": "This device is no longer authorized by the gateway. Your keys and local history are preserved. Use operator pairing recovery if the operator has approved restoring this device.",
+  "relayEventReconnecting": "Reconnecting to the relay event stream…",
+  "@@locale": "en",
+  "appTitle": "Sim Bridge",
+  "onboardingHeadline": "One SIM.\nEvery phone.",
+  "onboardingTagline": "Texts, verification codes and calls from your SIM, on every phone you own. End-to-end encrypted — the relay can't read any of it.",
+  "trustEncrypted": "End-to-end encrypted",
+  "trustKeysLocal": "Keys never leave your phones",
+  "setupTitle": "Set up this phone",
+  "setupSubtitle": "Connect to your private relay to get started.",
+  "relayUrlLabel": "Relay URL",
+  "relayKeyLabel": "Relay access key",
+  "deviceNameLabel": "Device name",
+  "defaultDeviceNameIos": "iPhone",
+  "defaultDeviceNameAndroid": "Android gateway",
+  "discoverySearching": "Looking for relays on this network…",
+  "discoveryNone": "No relay found on this network",
+  "discoveryRetry": "Scan again",
+  "discoveryUnavailable": "Local relay discovery is unavailable: {details}",
+  "@discoveryUnavailable": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "roleGateway": "SIM gateway",
+  "roleClient": "Client only",
+  "iosClientTitle": "Client mode on iPhone",
+  "iosClientBody": "View activity and send encrypted commands from this phone. An Android phone provides the SIM.",
+  "createBridge": "Create a bridge",
+  "scanInvitation": "Scan invitation",
+  "enterCode": "Enter code",
+  "manualJoinTitle": "Enter invitation",
+  "manualJoinSubtitle": "Use the details shown on the trusted phone.",
+  "recoveryCodeFieldLabel": "52-character recovery code",
+  "joinBridge": "Join bridge",
+  "pairTitle": "Pair another phone",
+  "pairSubtitle": "Scan the QR code or enter the details manually.",
+  "pairMethods": "QR code or recovery code",
+  "recoveryCodeLabel": "Recovery code",
+  "pairWarning": "Anyone with these details can decrypt this bridge. Share them only with a phone you trust.",
+  "labelCopied": "{label} copied",
+  "@labelCopied": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "copyTooltip": "Copy",
+  "tabActivity": "Activity",
+  "tabDevices": "Devices",
+  "tabSettings": "Settings",
+  "fabNew": "New",
+  "pairDeviceTooltip": "Pair another phone",
+  "bridgeHealthy": "Bridge is healthy",
+  "bridgeOffline": "Relay unreachable",
+  "relayLatency": "Relay {milliseconds} ms · content stays encrypted",
+  "@relayLatency": {
+    "placeholders": {
+      "milliseconds": {
+        "type": "String"
+      }
+    }
+  },
+  "reconnecting": "Trying to reconnect securely…",
+  "metricDevices": "Devices",
+  "metricGateway": "SIM gateway",
+  "statusOnline": "Online",
+  "statusOffline": "Offline",
+  "recentActivity": "Recent activity",
+  "eventsCount": "{count, plural, =1{1 event} other{{count} events}}",
+  "@eventsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyActivityTitle": "Quiet for now",
+  "emptyActivityBody": "Texts and calls that reach your gateway will appear here.",
+  "privateNumber": "Private number",
+  "unknownSender": "Unknown sender",
+  "callIncoming": "Incoming call",
+  "callMissed": "Missed call",
+  "callDialed": "Dialed on gateway",
+  "callActive": "Call in progress",
+  "callOnHold": "Call on hold",
+  "callEnded": "Call ended",
+  "callActivity": "Call activity",
+  "declineCall": "Decline",
+  "hangUpCall": "Hang up",
+  "smsStatusSent": "Sent to carrier",
+  "smsStatusWaiting": "Waiting for carrier confirmation",
+  "smsStatusFailed": "Failed · {reason}",
+  "@smsStatusFailed": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "smsFailureDefault": "The mobile network rejected this message",
+  "otpLabel": "Verification code",
+  "otpCopied": "Verification code copied",
+  "notificationOtpTitle": "Verification code {code}",
+  "@notificationOtpTitle": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationMessageVia": "Message via {gateway}",
+  "@notificationMessageVia": {
+    "placeholders": {
+      "gateway": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationChannelName": "Bridged messages",
+  "notificationChannelDescription": "Incoming messages from your SIM gateway",
+  "composeTitle": "Use the remote SIM",
+  "composeSubtitle": "Choose what to do with your line.",
+  "actionSms": "Send a text",
+  "actionSmsSubtitle": "End-to-end encrypted, sent by your gateway",
+  "actionCall": "Place a call",
+  "actionCallSubtitle": "Dials on the Android gateway — audio stays there",
+  "smsSheetTitle": "New message",
+  "callSheetTitle": "Place a call",
+  "smsSheetSubtitle": "Sent privately through {gateway} · {sim}.",
+  "@smsSheetSubtitle": {
+    "placeholders": {
+      "gateway": {
+        "type": "String"
+      },
+      "sim": {
+        "type": "String"
+      }
+    }
+  },
+  "callSheetSubtitle": "Dials with {gateway} · {sim}. Audio stays on the gateway.",
+  "@callSheetSubtitle": {
+    "placeholders": {
+      "gateway": {
+        "type": "String"
+      },
+      "sim": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumberLabel": "Phone number",
+  "messageLabel": "Message",
+  "encryptAndSend": "Encrypt & send",
+  "dialOnGateway": "Dial on gateway",
+  "queuedSms": "Encrypted request queued — waiting for carrier confirmation",
+  "queuedCall": "Encrypted dial request queued — waiting for the gateway",
+  "chooseSim": "Choose a SIM",
+  "chooseSimSubtitle": "Select the line for this action.",
+  "defaultLine": "Default line",
+  "simDetailsUnavailable": "SIM details unavailable",
+  "unknownCarrier": "Unknown carrier",
+  "simSlot": "Slot {number}",
+  "@simSlot": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "simNumber": "SIM {number}",
+  "@simNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "devicesTitle": "Your devices",
+  "devicesSubtitle": "Live presence across this bridge",
+  "thisPhone": "This phone",
+  "roleClientShort": "Client",
+  "unnamedPhone": "Unnamed phone",
+  "simCount": "{count, plural, =1{1 SIM} other{{count} SIMs}}",
+  "@simCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "onlineNow": "Online now",
+  "seenJustNow": "Seen just now",
+  "seenMinutesAgo": "{count, plural, =1{Seen 1 minute ago} other{Seen {count} minutes ago}}",
+  "@seenMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "seenHoursAgo": "{count, plural, =1{Seen 1 hour ago} other{Seen {count} hours ago}}",
+  "@seenHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeJustNow": "Just now",
+  "timeMinutesAgo": "{count}m ago",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHoursAgo": "{count}h ago",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{count}d ago",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsTitle": "Settings",
+  "settingsRole": "Device role",
+  "roleGatewayFull": "Android SIM gateway",
+  "roleClientIos": "iPhone client — the SIM stays on your Android gateway",
+  "settingsRelay": "Relay",
+  "settingsEncryption": "Encryption",
+  "settingsEncryptionSubtitle": "AES-256-GCM · 256-bit key from your pairing",
+  "settingsCallControl": "Remote call control",
+  "callControlReady": "Decline and hang up from any phone",
+  "callControlNeedsRole": "Requires the Android phone role",
+  "settingsSims": "Active SIMs",
+  "noActiveSim": "No active SIM detected",
+  "leaveBridge": "Leave bridge",
+  "leaveBridgeSubtitle": "Removes the keys and session from this phone",
+  "leaveBridgeTitle": "Leave this bridge?",
+  "leaveBridgeWarning": "This phone's copy of the bridge key is erased. To use the bridge again you must pair it from another phone in the bridge, so do this only if you have one to hand.",
+  "leaveBridgeGatewayWarning": "This phone provides the SIM. After leaving, your other phones lose access to it until you pair again.",
+  "leaveBridgeConfirm": "Leave and erase keys",
+  "callAudioNote": "Call audio stays on the Android gateway. Sim Bridge shows call activity and can start or end calls, but mobile platforms do not expose cellular audio to apps.",
+  "cancel": "Cancel",
+  "removeDevice": "Remove",
+  "removeDeviceTitle": "Remove {name}?",
+  "@removeDeviceTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "removeDeviceSubtitle": "That phone loses access to this bridge straight away.",
+  "removeDeviceKeyWarning": "It still holds a copy of the bridge key, so it can read messages it already downloaded. To cut it off completely, create a new bridge and pair your phones again.",
+  "removeDeviceGatewayWarning": "This phone provides the SIM. Removing it also deletes the message history it sent to this bridge.",
+  "removeDeviceRejoinWarning": "This bridge is open to new devices, so the removed phone could rejoin with the recovery code. Close enrollment below to prevent that.",
+  "removeDeviceConfirm": "Remove this phone",
+  "deviceRemoved": "{name} was removed",
+  "@deviceRemoved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ownerBadge": "Owner",
+  "settingsNotifications": "Notifications",
+  "notificationsAllowed": "Allowed — codes and messages will alert you",
+  "notificationsBlocked": "Blocked — allow notifications in system settings",
+  "notificationsUnknown": "Allow notifications to see new messages",
+  "openSettings": "Open settings",
+  "testCodeTitle": "Test a verification code",
+  "testCodeSubtitle": "Notify this phone with a fake code, nothing is sent",
+  "testCodeSent": "Test code {code} sent. Try a keyboard suggestion or paste it into a code field.",
+  "@testCodeSent": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "testMessageTitle": "Send a test message to your phones",
+  "testMessageSubtitle": "A simulated incoming SMS, encrypted through the relay",
+  "testMessageSent": "Test message with code {code} sent to your other phones.",
+  "@testMessageSent": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "testSender": "Sim Bridge test",
+  "testCodeBody": "Your Sim Bridge verification code is {code}",
+  "@testCodeBody": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "testNotificationsUnavailable": "Allow notifications for Sim Bridge first, then try again.",
+  "simulatedBadge": "Test",
+  "settingsAutoCopy": "Verification codes",
+  "autoCopyOn": "Copied automatically, ready to paste",
+  "autoCopyOff": "Copy them yourself from the message",
+  "settingsEnrollment": "New devices",
+  "enrollmentOpen": "Anyone with the recovery code can join",
+  "enrollmentClosed": "Closed — no phone can join",
+  "enrollmentOpened": "This bridge now accepts new devices",
+  "enrollmentClosed2": "This bridge no longer accepts new devices",
+  "ownerOnlyHint": "Only {name} can remove phones or change this.",
+  "@ownerOnlyHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmJoinTitle": "Join this bridge?",
+  "confirmJoinSubtitle": "Check these details before your phone connects.",
+  "confirmJoinGatewayWarning": "This phone will share its SIM: texts and call activity will be encrypted and sent to the relay above. Continue only if you set up that relay yourself.",
+  "confirmJoinClientNote": "This phone will read activity from the bridge. Continue only if you recognise the relay above.",
+  "errorInvalidInvitation": "That invitation could not be read. Ask for a fresh QR code.",
+  "errorInvalidRecoveryCode": "That recovery code is not valid. Check all 52 characters and try again.",
+  "errorInsecureRelay": "A relay outside your local network must use https.",
+  "errorSmsFields": "Enter a phone number and a message",
+  "errorPhoneField": "Enter a phone number",
+  "errorNoGateway": "No Android gateway is connected",
+  "errorCallGateway": "The gateway for this call is unavailable",
+  "scanTitle": "Scan invitation",
+  "scanHint": "Point this phone at the QR code on a trusted device.",
+  "testCodeKeyboardSubtitle": "Generate a test code, then try a keyboard suggestion or paste it here.",
+  "verificationCodeLabel": "Verification code",
+  "sendTestCode": "Send test code",
+  "gatewayRuntimeTitle": "Background gateway",
+  "gatewayRuntimeRunning": "Running · relay connected",
+  "gatewayRuntimeWaiting": "Running · waiting to reconnect. Messages stay queued.",
+  "gatewayRuntimeStopped": "Background runtime is stopped. Use Restart gateway below.",
+  "gatewayRuntimeUnauthorized": "Pairing credentials were rejected. Messages stay queued.",
+  "gatewayRuntimePermissions": "Required phone permissions are missing. Messages stay queued.",
+  "gatewayBatteryTitle": "Battery settings",
+  "gatewayBatteryUnrestricted": "Battery optimization is off. Android can still stop the app.",
+  "gatewayBatteryRestricted": "Battery optimization may delay syncing. Review background restrictions.",
+  "gatewayStopFailed": "Could not stop the gateway safely. Pairing and queued messages were kept. Try again.",
+  "commandOutcomeUnknown": "Outcome unknown · not retried automatically",
+  "testMessageQueued": "Test message with code {code} queued. It will upload when the gateway connects.",
+  "@testMessageQueued": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "pairingUnavailable": "Stored pairing could not be opened. Unlock the phone and reopen the app. Existing pairing data has been kept.",
+  "gatewayClearFailed": "Could not finish clearing this phone. Try again.",
+  "gatewayRestart": "Restart gateway",
+  "gatewayRestartDescription": "Restart after the previous worker has stopped. Pairing and queued messages are kept.",
+  "gatewayNotSynced": "Not yet",
+  "gatewayRuntimeDetails": "{status}\nQueued: {pending} · Last sync: {time}",
+  "@gatewayRuntimeDetails": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "pending": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "gatewayAutostartTitle": "Background autostart",
+  "gatewayAutostartDescription": "Enable Sim Bridge in your device’s system settings. This app cannot confirm that setting.",
+  "gatewaySettingsUnavailable": "System settings could not be opened. Open this app’s settings manually.",
+  "gatewayChecksTitle": "Gateway checks",
+  "gatewayNeedsAttention": "Gateway needs attention",
+  "gatewayReviewSetup": "Review setup",
+  "gatewayCheckedNow": "Checked just now",
+  "gatewayNotChecked": "Not checked",
+  "gatewayChecksSubtitle": "These checks show current device settings. Android can still restrict background activity.",
+  "gatewayCheckReceive": "Receive SMS",
+  "gatewayCheckSend": "Send SMS",
+  "gatewayCheckSim": "SIM access",
+  "gatewayPermissionGranted": "Permission granted",
+  "gatewayReceiveMissing": "Incoming SMS permission is missing. New SMS cannot be captured.",
+  "gatewaySendMissing": "SMS sending permission is missing. Remote SMS cannot be sent.",
+  "gatewaySimMissing": "Phone state permission is missing. SIM access is unavailable.",
+  "gatewayAllowPermissions": "Allow permissions",
+  "gatewayOpenPermissions": "Open app permissions",
+  "gatewayCheckBackground": "Background activity",
+  "gatewayBackgroundAllowed": "No system background restriction detected",
+  "gatewayBackgroundRestricted": "Background activity is restricted. Review this app’s system settings.",
+  "gatewayNotificationsVisible": "Gateway notifications are visible",
+  "gatewayNotificationsHidden": "Gateway notifications are hidden. The worker may still run, but its status is not visible.",
+  "gatewayAutostartPending": "Check the device’s autostart setting and enable Sim Bridge. The app cannot read this switch.",
+  "gatewayAutostartManual": "Confirmed by you · Not checked by the app",
+  "gatewayOpenAutostart": "Open autostart settings",
+  "gatewayConfirmAutostart": "I enabled autostart",
+  "gatewayCheckAgain": "Check again",
+  "gatewayCheckActionFailed": "Could not update gateway setup. Try again.",
+  "gatewayRelayConnected": "Relay connected",
+  "gatewayQueuedWarning": "{count} events are waiting to upload.",
+  "@gatewayQueuedWarning": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "gatewayRuntimeUnpaired": "Local pairing is unavailable. Unlock this phone and review its pairing settings. Stored data has been kept.",
+  "gatewayReviewPairing": "Review pairing settings",
+  "defaultDeviceNameMac": "My Mac",
+  "defaultDeviceNameWindows": "My Windows PC",
+  "defaultDeviceNameLinux": "My Linux PC",
+  "desktopClientTitle": "A client on your computer",
+  "desktopClientBody": "Read messages, copy verification codes, and send SMS or call requests through your paired Android gateway. This computer cannot share a SIM.",
+  "desktopOnboardingHeadline": "Your SIM.\nOn your computer.",
+  "desktopOnboardingTagline": "Keep your Android SIM connected and bring its messages and verification codes to your desk. Only your paired devices can read them.",
+  "desktopSetupSubtitle": "Join your existing bridge using its relay URL and recovery code. Create a new bridge on its Android SIM gateway first.",
+  "desktopAvailabilityTitle": "Keep Sim Bridge open",
+  "desktopAvailabilityBody": "Sync and notifications work while the app is running, including when minimized. They pause when you quit the app or your computer sleeps. There is no desktop background service or remote push.",
+  "desktopRole": "Desktop client · Android gateway required",
+  "desktopThisDevice": "This computer",
+  "desktopClipboardBody": "Automatic copying is optional and off by default. Windows and Linux use the system clipboard without automatic expiry; clipboard history or other apps may retain codes.",
+  "desktopNotificationsUnknown": "System notification permission cannot be checked here. Try a test notification and review your system notification settings.",
+  "desktopNotificationsAvailable": "Connected to the system notification service. Whether alerts are shown depends on your system settings.",
+  "desktopNotificationAction": "Open Sim Bridge",
+  "desktopNotificationSettingsHelp": "Review Sim Bridge in your system notification settings.",
+  "desktopCodeTestSubtitle": "Show a local test alert. Copies a code only when automatic copying is enabled.",
+  "desktopSetupTitle": "Set up this computer",
+  "desktopTrustKeys": "Keys stay on your devices",
+  "desktopPairTitle": "Pair another device",
+  "desktopPairWarning": "Anyone with these details can decrypt this bridge. Share them only with a device you trust.",
+  "desktopManualJoinSubtitle": "Use the details shown on a trusted paired device.",
+  "desktopConfirmJoinSubtitle": "Check these details before your computer connects.",
+  "desktopConfirmJoinClientNote": "This computer will read activity from the bridge. Continue only if you recognise the relay above.",
+  "desktopLeaveBridgeSubtitle": "Removes the keys and session from this computer",
+  "desktopLeaveBridgeWarning": "This computer’s copy of the bridge key is erased. To join again, use the recovery details from another paired device.",
+  "desktopPairingUnavailable": "Stored pairing could not be opened. Unlock your computer or credential store and reopen the app. Existing pairing data has been kept.",
+  "desktopUnnamedDevice": "Unnamed device",
+  "pairingRecoveryWaiting": "Waiting for the Android gateway to restore secure pairing. Your keys and local history are preserved.",
+  "pairingLegacyMigration": "This pairing needs an operator-approved upgrade. Your credentials and gateway journal are preserved.",
+  "gatewayCreationRequired": "Create the bridge on its Android SIM gateway, then pair this device.",
+  "pairExistingBridge": "Pair an existing bridge",
+  "leavePolicyPending": "Removal is not confirmed. Keep the Android gateway connected and try again; your credentials and journal are preserved.",
+  "operatorRecoveryTitle": "Operator pairing recovery",
+  "operatorRecoveryBody": "Send these public identity details to your relay operator. Paste their certificate and, for the Android authority gateway, its approved policy. Existing keys, IDs and journals stay on this device.",
+  "operatorRecoveryCopy": "Copy public identity",
+  "operatorRecoveryCertificate": "Operator-issued certificate",
+  "operatorRecoveryPolicy": "Gateway policy JSON",
+  "operatorRecoveryApply": "Apply approved recovery",
+  "operatorRecoverySummary": "Upgrade an existing pairing after operator approval",
+  "operatorRecoveryRejected": "Recovery was not accepted. Check the operator-issued certificate and policy; existing credentials are preserved.",
+  "operatorPrivateVerifier": "Copy private enrollment verifier",
+  "operatorPrivateVerifierWarning": "This verifier can authorize enrollment when the operator opens the bridge. Share it only with your trusted relay operator. Encryption keys, device tokens and signing seeds are excluded.",
+  "operatorIdentityPending": "The gateway has not prepared its protected signing identity yet. Keep the gateway service available and try again. No new key was created by this screen.",
+  "authorityRemovalWarning": "Removing this authority gateway permanently deactivates the entire bridge. Every paired device loses access.",
+  "errorRelayUnreachable": "Cannot reach the relay. Check the address and your connection, then try again.",
+  "@errorRelayUnreachable": {
+    "description": "User-facing message for a failed relay, network or device operation."
+  },
+  "errorRelayUnauthorized": "The relay no longer accepts this device. Pair it again from your gateway.",
+  "@errorRelayUnauthorized": {
+    "description": "User-facing message for a failed relay, network or device operation."
+  },
+  "errorRelayRefused": "The relay refused this request.",
+  "@errorRelayRefused": {
+    "description": "User-facing message for a failed relay, network or device operation."
+  },
+  "errorRelayNotFound": "The relay does not know this bridge. Check the relay address.",
+  "@errorRelayNotFound": {
+    "description": "User-facing message for a failed relay, network or device operation."
+  },
+  "errorGatewayBusy": "The Android gateway has to confirm this first. Keep it online and try again.",
+  "@errorGatewayBusy": {
+    "description": "User-facing message for a failed relay, network or device operation."
+  },
+  "errorRelayBusy": "Too many attempts. Wait a minute and try again.",
+  "@errorRelayBusy": {
+    "description": "User-facing message for a failed relay, network or device operation."
+  },
+  "errorRelayFailure": "The relay could not complete the request. Try again later.",
+  "@errorRelayFailure": {
+    "description": "User-facing message for a failed relay, network or device operation."
+  },
+  "errorRelayResponse": "The relay sent an unexpected response. Check that the address points to a Sim Bridge relay.",
+  "@errorRelayResponse": {
+    "description": "User-facing message for a failed relay, network or device operation."
+  },
+  "errorPermissionDenied": "Sim Bridge needs a permission for this. Allow it in the system settings.",
+  "@errorPermissionDenied": {
+    "description": "User-facing message for a failed relay, network or device operation."
+  },
+  "errorDeviceAction": "This device could not complete the action. Try again.",
+  "@errorDeviceAction": {
+    "description": "User-facing message for a failed relay, network or device operation."
+  },
+  "errorUnexpected": "Something went wrong. Try again.",
+  "@errorUnexpected": {
+    "description": "User-facing message for a failed relay, network or device operation."
+  }
+}

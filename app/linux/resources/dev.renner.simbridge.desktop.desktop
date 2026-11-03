@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Sim Bridge
+Comment=Encrypted SMS and call controls through your Android gateway
+Exec=sim_bridge
+Icon=sim-bridge
+Terminal=false
+Categories=Network;Utility;
+StartupWMClass=dev.renner.simbridge.desktop

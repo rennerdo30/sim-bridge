@@ -1,0 +1,46 @@
+# Sim Bridge relay behind a Cloudflare Tunnel. No host ports are published:
+# cloudflared reaches the relay over the private `relay` network and provides
+# public HTTPS. Copy relay.env.example to relay.env and fill in your values.
+name: sim-bridge
+
+services:
+  relay:
+    build: ..
+    image: sim-bridge-relay:local
+    restart: unless-stopped
+    env_file: relay.env
+    environment:
+      SIM_BRIDGE_DISCOVERY: "off"
+      # Only cloudflared on this private network may supply the client address.
+      SIM_BRIDGE_TRUSTED_PROXIES: 172.30.87.0/24
+      SIM_BRIDGE_CLIENT_IP_HEADER: cf-connecting-ip
+      NODE_OPTIONS: --max-old-space-size=192
+    mem_limit: 256m
+    cpus: 0.5
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    networks: [relay]
+    # Optional APNs key, mounted read-only from outside the repository:
+    # volumes:
+    #   - ./secrets/apns.p8:/run/secrets/apns.p8:ro
+
+  cloudflared:
+    image: cloudflare/cloudflared:2026.10.7
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    env_file: tunnel.env
+    mem_limit: 128m
+    depends_on:
+      relay:
+        condition: service_healthy
+    networks: [relay]
+
+networks:
+  relay:
+    ipam:
+      config:
+        - subnet: 172.30.87.0/24

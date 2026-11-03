@@ -1,0 +1,8 @@
+#include "../../Flutter/Flutter-Debug.xcconfig"
+#include "Warnings.xcconfig"
+
+// Build for this host by default. Xcode 27 lipo rejects Flutter 3.38's
+// multi-architecture verify invocation; command-line ARCHS can override this
+// default when building another native architecture with compatible tooling.
+ARCHS = $(NATIVE_ARCH_ACTUAL)
+ONLY_ACTIVE_ARCH = YES

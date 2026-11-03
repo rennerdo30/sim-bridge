@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="icon-title icon-description">
+  <title id="icon-title">Sim Bridge app icon</title>
+  <desc id="icon-description">A gold SIM card with a clipped upper-right corner on deep green. A dark bridge connects two contact banks inside the card.</desc>
+  <!-- Editable master. Full-bleed background; platform launchers supply the mask.
+       All colors come from app/lib/theme.dart. No fonts or external assets. -->
+  <defs>
+    <linearGradient id="board" x1="128" y1="0" x2="896" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1E3A30"/>
+      <stop offset="1" stop-color="#0E1B16"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="272" y1="160" x2="768" y2="864" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4E7C8"/>
+      <stop offset="0.48" stop-color="#D9A13F"/>
+      <stop offset="1" stop-color="#D9A13F"/>
+    </linearGradient>
+  </defs>
+  <rect id="background" width="1024" height="1024" fill="url(#board)"/>
+  <g id="sim-mark">
+    <!-- One large SIM chamfer and three small bevels, matching simShape(). -->
+    <path id="sim-card" d="M256 160H612L800 348V840L776 864H248L224 840V192Z" fill="url(#gold)"/>
+    <!-- The two banks and spanning arch form one bold bridge silhouette.
+         Wide gaps preserve the mark at small launcher sizes. -->
+    <g id="bridge-contacts" fill="#0E1B16">
+      <path id="bridge-arch" d="M324 532V490C324 386 408 320 512 320S700 386 700 490V532H636V490C636 426 582 384 512 384S388 426 388 490V532Z"/>
+      <path id="bridge-deck" d="M304 512H720V568H304Z"/>
+      <path id="left-contact" d="M324 596H388V712H324Z"/>
+      <path id="right-contact" d="M636 596H700V712H636Z"/>
+      <path id="left-base" d="M304 740H408V768H304Z"/>
+      <path id="right-base" d="M616 740H720V768H616Z"/>
+    </g>
+  </g>
+</svg>

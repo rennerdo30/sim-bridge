@@ -1,0 +1,69 @@
+---
+title: Releases and app stores
+description: Distinguish development bundles from signed distribution and store publication.
+---
+
+## GitHub distribution
+
+Published release assets belong on the
+[GitHub releases page](https://github.com/rennerdo30/sim-bridge/releases), together with
+version, platform/architecture, checksums, signing status, and known limitations.
+Until a suitable release asset is available, successful
+[Desktop builds](https://github.com/rennerdo30/sim-bridge/actions/workflows/desktop.yml)
+runs provide development artifacts. See
+[desktop installation](/docs/getting-started/desktop/) for complete-bundle handling.
+
+The desktop workflow builds macOS arm64, macOS Intel, Windows x64, and Linux x64 on
+matching native hosts. It uploads full runnable bundles and SHA-256 checksums. It does
+not itself notarize macOS, sign Windows binaries, submit apps to stores, or verify a
+real carrier SMS path. Check the actual workflow/release result for what succeeded.
+
+## Signing and packaging
+
+| Target | Development output | Distribution work to verify |
+| --- | --- | --- |
+| macOS | Ad-hoc signed app in a DMG | Appropriate distribution signing, notarization, and target-architecture runtime checks |
+| Windows | Full portable ZIP | Signing and an installer/package if offered, plus runtime checks |
+| Linux | Full portable tar.gz | Distro/package dependencies, launcher integration if offered, and desktop-session checks |
+| Android | Flutter APK | Private release key, upgrade compatibility, runtime permissions, and device behavior |
+| iOS | App plus notification extension | Apple signing/profiles, matching APNs environment, and physical-device delivery |
+
+Private signing keys, APNs `.p8` keys, provisioning profiles, and store credentials do
+not belong in this repository. A fresh desktop checkout can build without the owner's
+private certificate. An Android release without a configured private release key may
+fall back to the public debug key; do not mistake that for a production signing identity.
+
+## App stores remain separate
+
+No App Store or Google Play availability is implied by a GitHub build or download.
+Store registration, account-specific identifiers, signing, privacy/support URLs,
+screenshots, declarations, and review are separate steps. Leave unknown store values
+pending rather than inventing IDs or claims.
+
+Android SMS/call capabilities need a distribution policy assessment under
+[Google Play's SMS and Call Log permission policy](https://support.google.com/googleplay/android-developer/answer/10208820).
+iOS remains a
+client and cannot act as another phone's SIM gateway or add messages to Apple Messages.
+Review the platform's current requirements before a submission; technical compilation
+alone is not store approval.
+
+## Release evidence
+
+For each candidate, record which native builds passed, which tests ran, and which
+device/runtime paths were actually observed. Synthetic gallery images illustrate the
+interface, not carrier delivery. A locked-device APNs test, an Android foreground-worker
+check, or a native notification observation should name the tested build and environment
+without publishing sensitive identifiers.
+
+## Licenses
+
+The project is distributed under the repository's
+[MIT license](https://github.com/rennerdo30/sim-bridge/blob/main/LICENSE). Bundled fonts
+have separate SIL Open Font License 1.1 notices included in app assets and beside relay
+dashboard fonts. Keep those notices when redistributing the software or font files.
+
+This documentation site also includes notices for its bundled
+[Inter font](/docs/notices/Inter-OFL.txt),
+[JetBrains Mono font](/docs/notices/JetBrainsMono-OFL.txt),
+[Galaxy theme](/docs/notices/Galaxy-MIT.txt), and
+[documentation template](/docs/notices/Template-MIT.txt).

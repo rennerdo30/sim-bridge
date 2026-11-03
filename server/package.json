@@ -1,0 +1,25 @@
+{
+  "name": "sim-bridge-relay",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test",
+    "test:wasm": "RELAY_TEST_SQL_ENGINE=wasm node --test",
+    "test:worker": "RELAY_TEST_TARGET=worker node --test --test-concurrency=4",
+    "dev:worker": "wrangler dev --env-file test-support/empty.env",
+    "deploy:worker": "wrangler deploy"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "bonjour-service": "^1.4.4",
+    "sql.js": "^1.15.2"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^4.137.0"
+  }
+}

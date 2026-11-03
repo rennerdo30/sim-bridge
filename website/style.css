@@ -1,0 +1,131 @@
+/* Sim Bridge homepage. Tokens mirror app/lib/theme.dart (Palette, Fonts). */
+@font-face { font-family: "Bricolage"; src: url("fonts/BricolageGrotesque-ExtraBold.ttf") format("truetype"); font-weight: 800; font-display: swap; }
+@font-face { font-family: "Bricolage"; src: url("fonts/BricolageGrotesque-SemiBold.ttf") format("truetype"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("fonts/JetBrainsMono-Medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+
+:root {
+  --porcelain: #F6F2EA;
+  --paper: #FFFFFF;
+  --board: #0E1B16;
+  --board-2: #1E3A30;
+  --fir: #2C5A48;
+  --ink: #141C18;
+  --haze: #5E6B64;
+  --line: #E4DED1;
+  --chip: #D9A13F;
+  --chip-soft: #F4E7C8;
+  --signal: #2E8B57;
+  --radius: 18px;
+  --cut: 22px;
+  --display: "Bricolage", ui-sans-serif, system-ui, sans-serif;
+  --body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; overflow-x: hidden; background: var(--porcelain); color: var(--ink); font: 17px/1.6 var(--body); -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--fir); }
+a:hover { color: var(--board-2); }
+h1, h2, h3 { font-family: var(--display); line-height: 1.08; margin: 0; letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.9rem, 3.4vw, 2.7rem); font-weight: 800; }
+h3 { font-size: 1.2rem; font-weight: 600; }
+code, pre { font-family: var(--mono); }
+:focus-visible { outline: 3px solid var(--chip); outline-offset: 3px; border-radius: 6px; }
+
+.wrap { width: min(1160px, 100% - 40px); margin-inline: auto; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--chip); color: var(--board); padding: 8px 14px; border-radius: 8px; z-index: 10; }
+.skip:focus { left: 12px; }
+
+/* The SIM chamfer: one large cut corner, matching simShape(). */
+.sim { clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%); }
+
+.top { position: sticky; top: 0; z-index: 5; background: rgba(14, 27, 22, 0.92); backdrop-filter: blur(10px); }
+.top-row { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font: 800 1.2rem var(--display); }
+.brand img { border-radius: 8px; }
+.top nav { display: flex; gap: 22px; flex-wrap: wrap; }
+.top nav a { color: #D8E2DC; text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+.top nav a:hover { color: var(--chip); }
+
+.hero { background: radial-gradient(120% 90% at 85% 0%, var(--board-2) 0%, var(--board) 62%); color: #fff; padding: 72px 0 96px; overflow: hidden; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 48px; align-items: center; }
+.eyebrow { font: 500 0.85rem var(--mono); color: var(--chip); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 18px; }
+.hero h1 { font-size: clamp(2.8rem, 6.4vw, 5rem); font-weight: 800; }
+.lede { font-size: 1.18rem; color: #CFDAD3; margin: 22px 0 30px; max-width: 34ch; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.button { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; font: 600 1.05rem var(--display); text-decoration: none; clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%); }
+.button.primary { background: var(--chip); color: var(--board); }
+.button.primary:hover { background: #E8B455; color: var(--board); }
+.button.ghost { background: rgba(255, 255, 255, 0.08); color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.35); }
+.button.ghost:hover { background: rgba(255, 255, 255, 0.16); color: #fff; }
+.release-note { font: 500 0.85rem var(--mono); color: #A9B8AF; margin: 14px 0 0; }
+.badges { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 28px 0 0; }
+.badges li { font: 500 0.8rem var(--mono); color: var(--chip-soft); border: 1px solid rgba(217, 161, 63, 0.45); padding: 6px 12px; border-radius: 999px; }
+
+.hero-shots { position: relative; min-height: 420px; }
+.shot { border-radius: 14px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45); }
+.shot.desktop { width: 100%; }
+.shot.phone { position: absolute; width: 30%; right: -2%; bottom: -14%; border-radius: 22px; border: 6px solid #0A1310; }
+
+.section { padding: 88px 0; }
+.section-lede { color: var(--haze); font-size: 1.12rem; margin: 14px 0 36px; max-width: 60ch; }
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.cards.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
+.card p { color: var(--haze); margin: 10px 0 0; }
+.card.accent { background: var(--chip-soft); border-color: var(--chip); }
+.card.accent p { color: #5A4A2A; }
+.card pre { margin: 18px 0 0; background: var(--board); color: #DCE7E0; padding: 16px 18px; border-radius: 12px; overflow-x: auto; font-size: 0.86rem; line-height: 1.7; }
+.more { margin: 24px 0 0; font-weight: 600; }
+
+.gallery { padding-top: 0; }
+.gallery-grid { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); gap: 24px; align-items: center; }
+.gallery figure { margin: 0; }
+.gallery img { border-radius: 14px; box-shadow: 0 18px 50px rgba(14, 27, 22, 0.18); }
+.gallery figcaption { color: var(--haze); font-size: 0.95rem; margin-top: 12px; }
+
+.dark { background: var(--board); color: #fff; }
+.dark .section-lede { color: #B8C4BC; }
+.dark a { color: var(--chip); }
+.split { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr); gap: 48px; }
+.checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 18px; }
+.checks li { position: relative; padding-left: 34px; color: #CFDAD3; }
+.checks li::before { content: ""; position: absolute; left: 0; top: 5px; width: 18px; height: 18px; background: var(--chip); clip-path: polygon(0 0, 70% 0, 100% 30%, 100% 100%, 0 100%); }
+.checks strong { color: #fff; }
+
+.soft { background: #EFE9DD; }
+.platforms { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 30px; }
+.platform { display: flex; flex-direction: column; gap: 4px; padding: 22px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; color: var(--ink); }
+.platform strong { font: 800 1.25rem var(--display); }
+.platform span { color: var(--haze); font-size: 0.92rem; }
+a.platform:hover { border-color: var(--chip); box-shadow: 0 8px 24px rgba(217, 161, 63, 0.18); }
+.platform.recommended { border-color: var(--chip); background: var(--chip-soft); }
+.platform.soon { background: transparent; border-style: dashed; }
+.fine { color: var(--haze); font-size: 0.92rem; margin: 22px 0 0; max-width: 75ch; }
+
+.foot { background: var(--board); color: #A9B8AF; padding: 34px 0; font-size: 0.92rem; }
+.foot-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.foot nav { display: flex; flex-wrap: wrap; gap: 18px; }
+.foot a { color: #D8E2DC; text-decoration: none; }
+.foot a:hover { color: var(--chip); }
+.foot p { margin: 0; }
+.brand.small { font-size: 1rem; }
+
+@media (max-width: 920px) {
+  .hero-grid, .split, .gallery-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero { padding: 48px 0 72px; }
+  .hero-shots { min-height: 0; margin-top: 8px; }
+  .shot.phone { width: 32%; right: 2%; bottom: -10%; }
+  .cards, .platforms { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery figure.narrow { max-width: 320px; }
+}
+@media (max-width: 600px) {
+  .top nav { gap: 14px; }
+  .top nav a:nth-child(-n+3) { display: none; }
+  .cards, .cards.two, .platforms { grid-template-columns: minmax(0, 1fr); }
+  .section { padding: 64px 0; }
+  .button { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

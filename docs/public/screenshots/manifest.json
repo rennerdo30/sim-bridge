@@ -1,0 +1,64 @@
+{
+  "format": 1,
+  "purpose": "documentation preview; not store media",
+  "captureType": "production Flutter widgets with synthetic in-memory data",
+  "nativeDeviceCapture": false,
+  "locale": "en-US",
+  "flutter": "3.38.6",
+  "bodyFont": "Flutter SDK Roboto; native system typography may differ",
+  "capturedUtc": "2026-11-03T09:37:04.731789+00:00",
+  "sourceDigests": {
+    "app/test/support/documentation_capture.dart": "0a481635dc5b58ac016424b8ccfa357f231b241eb15b10471a378c208a0cb993",
+    "app/lib/bridge_page.dart": "cb1e1346cf7138a3b8a5c94868a8ec93e9b20091a842d99be9d7e991d3c863f4",
+    "app/lib/theme.dart": "3d9eda9115fa4f540925aed91dce785d3a7251ab743c93bb96f632a9e72bbba4",
+    "app/lib/l10n/app_en.arb": "d489496c57f5410fb1787e1687f6e9b2c0660de1f5584fd21f0d3dc21a315d60",
+    "app/pubspec.lock": "634c3bf74c5a2a9d3e9bac95da29c656cf6496f0865e6114939e3c2fb5bdb667"
+  },
+  "images": [
+    {
+      "path": "docs/public/screenshots/desktop-devices.png",
+      "sha256": "8a5ba215e167e665c8f531038494832863822dcb62796bbc0519a13396168437",
+      "bytes": 119364,
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG",
+      "mode": "RGBA"
+    },
+    {
+      "path": "docs/public/screenshots/desktop-inbox.png",
+      "sha256": "c0617db1db7b3c2f87a0217f8f161ad07669e4badc75ff1e84a34d0c84b9e47b",
+      "bytes": 393701,
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG",
+      "mode": "RGBA"
+    },
+    {
+      "path": "docs/public/screenshots/desktop-onboarding.png",
+      "sha256": "23d744804b4263b5fafcc6009c4f6d06c2f36fdb310153f669cd17d316bfabe2",
+      "bytes": 510375,
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG",
+      "mode": "RGBA"
+    },
+    {
+      "path": "docs/public/screenshots/desktop-settings.png",
+      "sha256": "bee89382c22cf13b78cef02eaa445165737d0afeeb4edaddeff1b23c6bb6bd25",
+      "bytes": 212912,
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG",
+      "mode": "RGBA"
+    },
+    {
+      "path": "docs/public/screenshots/mobile-inbox.png",
+      "sha256": "42ccf00bfdf24f44d0c3442c7dd2ce98e862358f8ec566094cee0875fffa8248",
+      "bytes": 416306,
+      "width": 1170,
+      "height": 2532,
+      "format": "PNG",
+      "mode": "RGBA"
+    }
+  ]
+}

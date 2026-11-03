@@ -1,0 +1,108 @@
+name: Draft desktop release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: draft-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate immutable tag and app version
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
+      source_sha: ${{ steps.version.outputs.source_sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Match semantic tag to pubspec
+        id: version
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          test "$GITHUB_REF_TYPE" = tag
+          source_sha="$(git rev-parse HEAD)"
+          python3 .github/scripts/release_artifacts.py validate-tag \
+            --tag "$RELEASE_TAG" --source-sha "$source_sha" --pubspec app/pubspec.yaml
+
+  desktop:
+    name: Build all desktop packages from the tag snapshot
+    needs: validate
+    uses: ./.github/workflows/desktop.yml
+    with:
+      source_sha: ${{ needs.validate.outputs.source_sha }}
+
+  preparation:
+    name: Validate release data, notices and documentation
+    needs: validate
+    uses: ./.github/workflows/project.yml
+    with:
+      source_sha: ${{ needs.validate.outputs.source_sha }}
+
+  relay:
+    name: Test relay from the tag snapshot
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ needs.validate.outputs.source_sha }}
+          persist-credentials: false
+      - name: Install Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: server/.nvmrc
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Run isolated relay tests
+        run: npm test
+
+  draft:
+    name: Verify packages and create a draft release
+    needs: [validate, desktop, relay, preparation]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      RELEASE_TAG: ${{ needs.validate.outputs.tag }}
+      SOURCE_SHA: ${{ needs.validate.outputs.source_sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ needs.validate.outputs.source_sha }}
+          persist-credentials: false
+      - name: Download only this run's desktop artifacts
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          pattern: Sim-Bridge-*
+          path: downloaded-desktop
+          merge-multiple: false
+      - name: Verify all packages and prepare draft notes
+        run: |
+          python3 .github/scripts/release_artifacts.py assemble \
+            --tag "$RELEASE_TAG" --source-sha "$SOURCE_SHA" \
+            --artifacts downloaded-desktop --output release-assets --notes release-notes.md
+      - name: Verify unchanged tag and create draft only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 .github/scripts/release_artifacts.py verify-remote-tag \
+            --repository "$GITHUB_REPOSITORY" --tag "$RELEASE_TAG" --source-sha "$SOURCE_SHA"
+          gh release create "$RELEASE_TAG" --verify-tag --target "$SOURCE_SHA" \
+            --title "Sim Bridge $RELEASE_TAG" --notes-file release-notes.md --draft release-assets/*

@@ -1,0 +1,39 @@
+// Sim Bridge relay on Cloudflare Workers.
+//
+// One Durable Object holds the whole relay in instance memory. It never calls
+// its storage API; Cloudflare only requires new Durable Object classes to be
+// declared with a (here unused) SQLite backend.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "sim-bridge-relay",
+  "main": "src/worker.mjs",
+  "compatibility_date": "2026-09-15",
+  // enable_request_signal and request_signal_passthrough let the Durable Object
+  // learn when an event-stream client disconnects.
+  "compatibility_flags": ["nodejs_compat", "enable_request_signal", "request_signal_passthrough"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    // Every request, including the dashboard, goes through the relay so its
+    // security headers and Host checks apply.
+    "run_worker_first": true
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "RELAY", "class_name": "RelayObject" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RelayObject"] }],
+  "rules": [{ "type": "CompiledWasm", "globs": ["**/*.wasm"], "fallthrough": true }],
+  // Request logs would record client addresses and paths; keep them off.
+  "observability": { "enabled": false },
+  "vars": {
+    // Set this to the Worker's public hostname, for example
+    // sim-bridge-relay.<your-subdomain>.workers.dev or a custom domain.
+    "SIM_BRIDGE_ALLOWED_HOSTS": "",
+    "SIM_BRIDGE_RELAY_NAME": "Sim Bridge relay"
+  }
+  // Secrets (never in this file): wrangler secret put SIM_BRIDGE_ACCESS_KEY
+  // Optional push: SIM_BRIDGE_APNS_KEY (PEM text), SIM_BRIDGE_APNS_KEY_ID,
+  // SIM_BRIDGE_APNS_TEAM_ID.
+}

@@ -1,0 +1,537 @@
+{
+  "kind": "store-media-candidates",
+  "source": "Production Flutter widgets rendered by app/test/support/store_capture.dart with synthetic fixtures; icons from app/assets/sim_bridge_icon.svg.",
+  "status": "candidate; owner media review pending",
+  "files": [
+    {
+      "path": "store/media-candidates/apple/de-DE/ipad-13-1-activity.png",
+      "store": "apple",
+      "scope": "de-DE",
+      "slot": "ipad-13-1",
+      "width": 2064,
+      "height": 2752,
+      "format": "PNG RGB",
+      "sha256": "5f48cf0c3b8397f327e7ae2a4c3f1f298a224953cd82ed58c23e5dfb19b53db5"
+    },
+    {
+      "path": "store/media-candidates/apple/de-DE/ipad-13-2-compose.png",
+      "store": "apple",
+      "scope": "de-DE",
+      "slot": "ipad-13-2",
+      "width": 2064,
+      "height": 2752,
+      "format": "PNG RGB",
+      "sha256": "2713f9ada57a9c95feaa29947d932b6b1f74ab996adfc4adad09121e3356ecbe"
+    },
+    {
+      "path": "store/media-candidates/apple/de-DE/ipad-13-3-devices.png",
+      "store": "apple",
+      "scope": "de-DE",
+      "slot": "ipad-13-3",
+      "width": 2064,
+      "height": 2752,
+      "format": "PNG RGB",
+      "sha256": "9caa8094a59c6a2b2daf258521416a1d0c0eb894ff150fa129a01fbc62c5a5bc"
+    },
+    {
+      "path": "store/media-candidates/apple/de-DE/ipad-13-4-settings.png",
+      "store": "apple",
+      "scope": "de-DE",
+      "slot": "ipad-13-4",
+      "width": 2064,
+      "height": 2752,
+      "format": "PNG RGB",
+      "sha256": "cda39c30afce0e25d6dad5bc7c02f4f7109dd3b7d451bf44572bec9ea21a4125"
+    },
+    {
+      "path": "store/media-candidates/apple/de-DE/iphone-6.3-1-activity.png",
+      "store": "apple",
+      "scope": "de-DE",
+      "slot": "iphone-6.3-1",
+      "width": 1206,
+      "height": 2622,
+      "format": "PNG RGB",
+      "sha256": "ee3d972442e19e999dff3e650312a261eb1a3104bf6002e80df210c709232e43"
+    },
+    {
+      "path": "store/media-candidates/apple/de-DE/iphone-6.3-2-compose.png",
+      "store": "apple",
+      "scope": "de-DE",
+      "slot": "iphone-6.3-2",
+      "width": 1206,
+      "height": 2622,
+      "format": "PNG RGB",
+      "sha256": "20e5157d834851d8c455d2a7a44df7749a659026b43cac35ea68803641ddb6df"
+    },
+    {
+      "path": "store/media-candidates/apple/de-DE/iphone-6.3-3-devices.png",
+      "store": "apple",
+      "scope": "de-DE",
+      "slot": "iphone-6.3-3",
+      "width": 1206,
+      "height": 2622,
+      "format": "PNG RGB",
+      "sha256": "01cc98479b79e7713e2f4d91a04ac5aa7ec104ca6594fb1ea0c01e4ea13e4c5a"
+    },
+    {
+      "path": "store/media-candidates/apple/de-DE/iphone-6.3-4-settings.png",
+      "store": "apple",
+      "scope": "de-DE",
+      "slot": "iphone-6.3-4",
+      "width": 1206,
+      "height": 2622,
+      "format": "PNG RGB",
+      "sha256": "434073023232f58e84e682d5c9b7be3314d68614bbb3178cd8899c850d035e96"
+    },
+    {
+      "path": "store/media-candidates/apple/de-DE/iphone-6.9-1-activity.png",
+      "store": "apple",
+      "scope": "de-DE",
+      "slot": "iphone-6.9-1",
+      "width": 1320,
+      "height": 2868,
+      "format": "PNG RGB",
+      "sha256": "11ef3bb40ccccd17edec3baf26e6bcc97692a1a2858568f182b25eeda0027c34"
+    },
+    {
+      "path": "store/media-candidates/apple/de-DE/iphone-6.9-2-compose.png",
+      "store": "apple",
+      "scope": "de-DE",
+      "slot": "iphone-6.9-2",
+      "width": 1320,
+      "height": 2868,
+      "format": "PNG RGB",
+      "sha256": "3bf0323dc939f782e00736c118cbf1d859e99512d760acead45b09e987de7f88"
+    },
+    {
+      "path": "store/media-candidates/apple/de-DE/iphone-6.9-3-devices.png",
+      "store": "apple",
+      "scope": "de-DE",
+      "slot": "iphone-6.9-3",
+      "width": 1320,
+      "height": 2868,
+      "format": "PNG RGB",
+      "sha256": "991ca75370bcfd4a55f5f3aace0e6f0935b19a76b65e1983c5b8d455a4325627"
+    },
+    {
+      "path": "store/media-candidates/apple/de-DE/iphone-6.9-4-settings.png",
+      "store": "apple",
+      "scope": "de-DE",
+      "slot": "iphone-6.9-4",
+      "width": 1320,
+      "height": 2868,
+      "format": "PNG RGB",
+      "sha256": "11541521d44610a9e6f0c5791bc22b0c032d49ebcb8f001534bb1a7e4f7ef437"
+    },
+    {
+      "path": "store/media-candidates/apple/en-US/ipad-13-1-activity.png",
+      "store": "apple",
+      "scope": "en-US",
+      "slot": "ipad-13-1",
+      "width": 2064,
+      "height": 2752,
+      "format": "PNG RGB",
+      "sha256": "110db01095cec05cd8be5bddae968ade305040671a59f1d0138fe048e3f8ffa1"
+    },
+    {
+      "path": "store/media-candidates/apple/en-US/ipad-13-2-compose.png",
+      "store": "apple",
+      "scope": "en-US",
+      "slot": "ipad-13-2",
+      "width": 2064,
+      "height": 2752,
+      "format": "PNG RGB",
+      "sha256": "4148a590d69f7ba9cacbc97e36ce0a8eab58ef4c371af2cdefdc2c299f459da4"
+    },
+    {
+      "path": "store/media-candidates/apple/en-US/ipad-13-3-devices.png",
+      "store": "apple",
+      "scope": "en-US",
+      "slot": "ipad-13-3",
+      "width": 2064,
+      "height": 2752,
+      "format": "PNG RGB",
+      "sha256": "e364bf9b1cf0f29e34288713e95f91b36081822001822800cd69c5dd99402227"
+    },
+    {
+      "path": "store/media-candidates/apple/en-US/ipad-13-4-settings.png",
+      "store": "apple",
+      "scope": "en-US",
+      "slot": "ipad-13-4",
+      "width": 2064,
+      "height": 2752,
+      "format": "PNG RGB",
+      "sha256": "1be1616538bf1e7654f9aa421640f821ae4bacccc4beecc5467e9898a48af376"
+    },
+    {
+      "path": "store/media-candidates/apple/en-US/iphone-6.3-1-activity.png",
+      "store": "apple",
+      "scope": "en-US",
+      "slot": "iphone-6.3-1",
+      "width": 1206,
+      "height": 2622,
+      "format": "PNG RGB",
+      "sha256": "7e561d24eab7fdce795f10d9541820037e1cc38525ae79f4aa9d748f1381bb4f"
+    },
+    {
+      "path": "store/media-candidates/apple/en-US/iphone-6.3-2-compose.png",
+      "store": "apple",
+      "scope": "en-US",
+      "slot": "iphone-6.3-2",
+      "width": 1206,
+      "height": 2622,
+      "format": "PNG RGB",
+      "sha256": "8e75b1c44f4bfd887840ef49cd7b2e10b2b4958f2c0f0ba15b3a97e0f0ec0b09"
+    },
+    {
+      "path": "store/media-candidates/apple/en-US/iphone-6.3-3-devices.png",
+      "store": "apple",
+      "scope": "en-US",
+      "slot": "iphone-6.3-3",
+      "width": 1206,
+      "height": 2622,
+      "format": "PNG RGB",
+      "sha256": "7d628e9abe7abe32d50ea741dc8846492f56797296e64705a267d28e84c743a1"
+    },
+    {
+      "path": "store/media-candidates/apple/en-US/iphone-6.3-4-settings.png",
+      "store": "apple",
+      "scope": "en-US",
+      "slot": "iphone-6.3-4",
+      "width": 1206,
+      "height": 2622,
+      "format": "PNG RGB",
+      "sha256": "4ad92567ece21cd0765e6c989d7fc673979d1693724207a7da47702d215ac527"
+    },
+    {
+      "path": "store/media-candidates/apple/en-US/iphone-6.9-1-activity.png",
+      "store": "apple",
+      "scope": "en-US",
+      "slot": "iphone-6.9-1",
+      "width": 1320,
+      "height": 2868,
+      "format": "PNG RGB",
+      "sha256": "b6bcdd90e784dfef10b39f6ea874fe4f5c7c4eb57cb923a806b050d83fd65815"
+    },
+    {
+      "path": "store/media-candidates/apple/en-US/iphone-6.9-2-compose.png",
+      "store": "apple",
+      "scope": "en-US",
+      "slot": "iphone-6.9-2",
+      "width": 1320,
+      "height": 2868,
+      "format": "PNG RGB",
+      "sha256": "1b55315a333e70792fb8da300310180237dcdc4081e2617c7cca1eb6f694c6f4"
+    },
+    {
+      "path": "store/media-candidates/apple/en-US/iphone-6.9-3-devices.png",
+      "store": "apple",
+      "scope": "en-US",
+      "slot": "iphone-6.9-3",
+      "width": 1320,
+      "height": 2868,
+      "format": "PNG RGB",
+      "sha256": "013c80263ddb7d468bcad058f373f06800e05e8f6b9165cb555badf226d13088"
+    },
+    {
+      "path": "store/media-candidates/apple/en-US/iphone-6.9-4-settings.png",
+      "store": "apple",
+      "scope": "en-US",
+      "slot": "iphone-6.9-4",
+      "width": 1320,
+      "height": 2868,
+      "format": "PNG RGB",
+      "sha256": "ae3d56dd4c03db2890e94eb0a8f3ffe74ea88ecd6c9e2441a813301b14b331ae"
+    },
+    {
+      "path": "store/media-candidates/google_play/_global/icon-512.png",
+      "store": "google_play",
+      "scope": "_global",
+      "slot": "icon-512",
+      "width": 512,
+      "height": 512,
+      "format": "PNG RGB",
+      "sha256": "d4acebd479d61de61f5972c64f0c6750e2a6577fd02ff5c886ed00e27ab357f3"
+    },
+    {
+      "path": "store/media-candidates/google_play/de-DE/feature-graphic.png",
+      "store": "google_play",
+      "scope": "de-DE",
+      "slot": "feature",
+      "width": 1024,
+      "height": 500,
+      "format": "PNG RGB",
+      "sha256": "b71851eb2de5ed0b366a7ba356493f6be7d0d5f877566708275d67cdc6295418"
+    },
+    {
+      "path": "store/media-candidates/google_play/de-DE/phone-1-activity.png",
+      "store": "google_play",
+      "scope": "de-DE",
+      "slot": "phone-1",
+      "width": 1080,
+      "height": 1920,
+      "format": "PNG RGB",
+      "sha256": "e30aeab93356ab1488e15cadcff0d307817cacf2ea284d800f88df299307affa"
+    },
+    {
+      "path": "store/media-candidates/google_play/de-DE/phone-2-compose.png",
+      "store": "google_play",
+      "scope": "de-DE",
+      "slot": "phone-2",
+      "width": 1080,
+      "height": 1920,
+      "format": "PNG RGB",
+      "sha256": "32035f9218a54fd8d456cd9e5418e911aac63822da98d984bb4f4e2ac66231b2"
+    },
+    {
+      "path": "store/media-candidates/google_play/de-DE/phone-3-devices.png",
+      "store": "google_play",
+      "scope": "de-DE",
+      "slot": "phone-3",
+      "width": 1080,
+      "height": 1920,
+      "format": "PNG RGB",
+      "sha256": "a4bbd4dd1cee45f374025495784d46fbeb1532709905cf061ab7dcf82aa0e88b"
+    },
+    {
+      "path": "store/media-candidates/google_play/de-DE/phone-4-settings.png",
+      "store": "google_play",
+      "scope": "de-DE",
+      "slot": "phone-4",
+      "width": 1080,
+      "height": 1920,
+      "format": "PNG RGB",
+      "sha256": "dd47c7d5e05d7581cc05164c2aac104796d39b0b1cedab0642189bf470212315"
+    },
+    {
+      "path": "store/media-candidates/google_play/en-US/feature-graphic.png",
+      "store": "google_play",
+      "scope": "en-US",
+      "slot": "feature",
+      "width": 1024,
+      "height": 500,
+      "format": "PNG RGB",
+      "sha256": "72bc6a48c0a63f3ca91fde3d1c0473f719ad90a785efad6cf75b2809c05d22fc"
+    },
+    {
+      "path": "store/media-candidates/google_play/en-US/phone-1-activity.png",
+      "store": "google_play",
+      "scope": "en-US",
+      "slot": "phone-1",
+      "width": 1080,
+      "height": 1920,
+      "format": "PNG RGB",
+      "sha256": "677600fbf40a809accb81f89ec2de34b65b07f17f60b52de8ec777411d3b5ce9"
+    },
+    {
+      "path": "store/media-candidates/google_play/en-US/phone-2-compose.png",
+      "store": "google_play",
+      "scope": "en-US",
+      "slot": "phone-2",
+      "width": 1080,
+      "height": 1920,
+      "format": "PNG RGB",
+      "sha256": "ea73221138a5ff4c4a996e440a01b429b3347ddec678b63e6107857e2c5c5be8"
+    },
+    {
+      "path": "store/media-candidates/google_play/en-US/phone-3-devices.png",
+      "store": "google_play",
+      "scope": "en-US",
+      "slot": "phone-3",
+      "width": 1080,
+      "height": 1920,
+      "format": "PNG RGB",
+      "sha256": "96290deb73a6133c63cdfc9a536f4cb57e16f8c559187f15c37787226d33cfde"
+    },
+    {
+      "path": "store/media-candidates/google_play/en-US/phone-4-settings.png",
+      "store": "google_play",
+      "scope": "en-US",
+      "slot": "phone-4",
+      "width": 1080,
+      "height": 1920,
+      "format": "PNG RGB",
+      "sha256": "02f5cef847d83ad8f78e2787c79925236a8bd09b4d256a3c980efa1dc8b7cfba"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/_global/icon-256.png",
+      "store": "renner_dev",
+      "scope": "_global",
+      "slot": "icon-256",
+      "width": 256,
+      "height": 256,
+      "format": "PNG RGB",
+      "sha256": "1855ed277523a2e503ec8541d73be4f56c802490ebe61978b0cbb000e966360a"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/_global/icon-512.png",
+      "store": "renner_dev",
+      "scope": "_global",
+      "slot": "icon-512",
+      "width": 512,
+      "height": 512,
+      "format": "PNG RGB",
+      "sha256": "d4acebd479d61de61f5972c64f0c6750e2a6577fd02ff5c886ed00e27ab357f3"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/de-DE/macos-1-activity.png",
+      "store": "renner_dev",
+      "scope": "de-DE",
+      "slot": "macos-1",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "793e1596169571dcb097e0bc2172fb025f6ef93bad64892eca67dcc647ba6117"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/de-DE/macos-2-devices.png",
+      "store": "renner_dev",
+      "scope": "de-DE",
+      "slot": "macos-2",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "5525a324d8c6ef24008172a7997a908e8de3d9b5ed5d622539cd3e69588bbcb8"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/de-DE/macos-3-settings.png",
+      "store": "renner_dev",
+      "scope": "de-DE",
+      "slot": "macos-3",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "9f8edae3a764834cfdedaf1c6f323bdcd700668af95d2ada3254d4d076c9c6c4"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/de-DE/macos-4-setup.png",
+      "store": "renner_dev",
+      "scope": "de-DE",
+      "slot": "macos-4",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "80f7e4d29b12a050cb7e44727b39ee15aa010898f7d5ba4f48ed8d2c21674b5f"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/de-DE/windows-1-activity.png",
+      "store": "renner_dev",
+      "scope": "de-DE",
+      "slot": "windows-1",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "793e1596169571dcb097e0bc2172fb025f6ef93bad64892eca67dcc647ba6117"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/de-DE/windows-2-devices.png",
+      "store": "renner_dev",
+      "scope": "de-DE",
+      "slot": "windows-2",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "5525a324d8c6ef24008172a7997a908e8de3d9b5ed5d622539cd3e69588bbcb8"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/de-DE/windows-3-settings.png",
+      "store": "renner_dev",
+      "scope": "de-DE",
+      "slot": "windows-3",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "2d0503303714292d43afe5c79a1bc89417e409e0ad2bbba283a8d5c46845e9ae"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/de-DE/windows-4-setup.png",
+      "store": "renner_dev",
+      "scope": "de-DE",
+      "slot": "windows-4",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "b8ed6464e80eda64455e70f00cdbc3e397e8829de69c477dde25a7c22a37ae4b"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/en-US/macos-1-activity.png",
+      "store": "renner_dev",
+      "scope": "en-US",
+      "slot": "macos-1",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "8a804350ff38141c20d3edcf57f86d710b9ec46994d5181145cbb945b6070169"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/en-US/macos-2-devices.png",
+      "store": "renner_dev",
+      "scope": "en-US",
+      "slot": "macos-2",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "f5fc39f3989130e0fbf04bcdc571b87f6ab3dfaad955c25f76cf044d913ace00"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/en-US/macos-3-settings.png",
+      "store": "renner_dev",
+      "scope": "en-US",
+      "slot": "macos-3",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "36f07923aeb2829c979cb5c959d9eaedfc3f541be219aa396f42a5cdb037586c"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/en-US/macos-4-setup.png",
+      "store": "renner_dev",
+      "scope": "en-US",
+      "slot": "macos-4",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "908c51b9eafaefbff8d2c41a7e0334eab9f869421fe76f7c09ef5ceab7fd2fc2"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/en-US/windows-1-activity.png",
+      "store": "renner_dev",
+      "scope": "en-US",
+      "slot": "windows-1",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "e9a18880200ebbeaebdbf2653ce8fdfd530e01b39122cb0cd0afd81e40cba468"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/en-US/windows-2-devices.png",
+      "store": "renner_dev",
+      "scope": "en-US",
+      "slot": "windows-2",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "f5fc39f3989130e0fbf04bcdc571b87f6ab3dfaad955c25f76cf044d913ace00"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/en-US/windows-3-settings.png",
+      "store": "renner_dev",
+      "scope": "en-US",
+      "slot": "windows-3",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "4959e45910dcfa3618f9861c7ccfdc5ff47829058f9421f34b487890c3840717"
+    },
+    {
+      "path": "store/media-candidates/renner_dev/en-US/windows-4-setup.png",
+      "store": "renner_dev",
+      "scope": "en-US",
+      "slot": "windows-4",
+      "width": 2360,
+      "height": 1600,
+      "format": "PNG RGB",
+      "sha256": "50e005fbfe3d60e9aa601277ac27b1d092c81a9a110c7ca958acfeeb05fcdd88"
+    }
+  ]
+}

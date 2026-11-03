@@ -1,0 +1,11 @@
+<resources>
+    <string name="gateway_notification_channel">SIM-Gateway</string>
+    <string name="gateway_notification_channel_description">Hält die verschlüsselte SIM-Verbindung bereit</string>
+    <string name="gateway_notification_title">SIM-Gateway</string>
+    <string name="gateway_notification_starting">Sichere Verbindung wird gestartet</string>
+    <string name="gateway_notification_connected">Mit Relay verbunden</string>
+    <string name="gateway_notification_waiting">Wartet auf Relay-Verbindung</string>
+    <string name="gateway_notification_attention">Sim Bridge öffnen und Gateway prüfen</string>
+    <string name="gateway_notification_stopping">Gateway wird beendet</string>
+    <string name="gateway_notification_backlog">Viele Nachrichten warten auf Übertragung</string>
+</resources>

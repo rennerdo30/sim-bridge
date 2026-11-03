@@ -1,0 +1,66 @@
+name: Release preparation checks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'LICENSE'
+      - 'app/assets/licenses/**'
+      - 'app/pubspec.yaml'
+      - '.github/scripts/**'
+      - '.github/workflows/project.yml'
+  pull_request:
+    paths:
+      - 'LICENSE'
+      - 'app/assets/licenses/**'
+      - 'app/pubspec.yaml'
+      - '.github/scripts/**'
+      - '.github/workflows/project.yml'
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      source_sha:
+        description: Immutable source commit supplied by the tag validation job
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ inputs.source_sha || github.sha }}
+          persist-credentials: false
+      - name: Validate immutable source
+        if: github.event_name == 'workflow_call' || inputs.source_sha != ''
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        run: python -c "import os,re; assert re.fullmatch(r'[0-9a-f]{40}(?:[0-9a-f]{24})?', os.environ['SOURCE_SHA'])"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13'
+      - name: Verify release integrity rejection gates
+        run: python -m unittest discover -s .github/scripts -p 'test_*.py'
+      - name: Verify distributed MIT notice
+        run: |
+          cmp LICENSE app/assets/licenses/SimBridge-MIT.txt
+          python -c "from pathlib import Path; assert '    - assets/licenses/SimBridge-MIT.txt' in Path('app/pubspec.yaml').read_text()"
+      - name: Install documentation toolchain for tag preparation
+        if: inputs.source_sha != ''
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version-file: docs/.nvmrc
+          cache: npm
+          cache-dependency-path: docs/package-lock.json
+      - name: Verify documentation from the tag snapshot
+        if: inputs.source_sha != ''
+        working-directory: docs
+        run: |
+          npm ci
+          npm run build

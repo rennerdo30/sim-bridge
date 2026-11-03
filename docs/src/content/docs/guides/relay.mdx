@@ -1,0 +1,136 @@
+---
+title: Relay configuration
+description: Configure owner access, volatile relay state, HTTPS, LAN discovery, and optional APNs.
+---
+
+The Node relay routes encrypted envelopes, uses short-lived memory-only queues, and exposes an
+owner-authenticated dashboard. It does not decrypt SMS bodies, phone numbers, SIM
+details, or command payloads. Each deployment is operated by its own relay owner.
+
+## Environment settings
+
+Use Node.js 22 or newer. Keep local configuration in ignored `server/.env.local` with
+restricted permissions. From `server/`, run `npm ci`, then
+`node --env-file=.env.local src/server.mjs`. Do not use your operating relay's
+configuration for tests.
+
+| Variable | Purpose |
+| --- | --- |
+| `SIM_BRIDGE_ACCESS_KEY` | Required owner secret for bridge creation and administration |
+| `PORT` | Listening port; defaults to 8787 |
+| `SIM_BRIDGE_DATABASE` | Legacy setting ignored; cannot enable database persistence |
+| `SIM_BRIDGE_LOG_FILE` | Legacy setting ignored; cannot enable application log files |
+| `SIM_BRIDGE_RELAY_NAME` | Friendly relay name used in status and LAN discovery |
+| `SIM_BRIDGE_TLS_CERT`, `SIM_BRIDGE_TLS_KEY` | Certificate/key files for HTTPS; configure both together |
+| `SIM_BRIDGE_ALLOWED_HOSTS` | Explicit comma-separated host allowlist in addition to local hosts |
+
+Only expose the relay to trusted networks. HTTPS protects transport but does not
+replace owner authentication, enrollment controls, application security, or network
+access restrictions. The current prototype is not a public managed service.
+
+## Dashboard and memory-only state
+
+Open the relay's root URL and unlock the dashboard with the owner key. It displays
+metadata such as device capabilities, health, latency, and queue counts. The owner
+can revoke enrolled devices, close further enrollment, or delete a complete bridge.
+Permanent revoke, lock, and delete operations require the Android gateway to save
+the updated authorization policy. An unavailable gateway means the action cannot
+be confirmed. Revocation also closes enrollment. Deleting a bridge erases its
+current relay records and closes its event connections;
+it does not erase content already received on devices or independent hosting records.
+Revoking the authority gateway, or having it leave, deletes the entire bridge;
+another member cannot silently replace that durable authority.
+
+The relay uses an in-memory SQLite database for transactions and writes no application
+database, WAL, journal, temporary-table or log files. Device bearer tokens and
+enrollment verifiers are hashed in RAM. Encrypted messages, commands and APNs
+previews expire within five minutes; count caps also apply. Upload deduplication
+receipts contain only minimal acknowledgements and expire within 24 hours.
+
+All relay enrollment, subscriptions and pending work disappear when the process stops.
+The Android gateway keeps durable authorization and restores it after restart;
+clients keep their pairing credentials and wait for it, then resume using proof
+of possession without changing IDs or clearing SMS journals. Pending work does
+not survive. Permanent revocations are restored from the current gateway policy.
+Do not restore stale gateway authorization backups. Existing installations need
+an explicit identity-preserving migration before upgrading the live relay; the
+new upgrade endpoint cannot recover an old mapping already lost on replacement.
+See the [recovery protocol](https://github.com/rennerdo30/sim-bridge/blob/main/PAIRING-RECOVERY-PROTOCOL.md).
+There is no persistent relay archive
+or durable offline delivery. No old database is imported or deleted by an upgrade;
+handle old files and backups separately. Device-side credentials and Android
+execution journals remain persistent.
+
+Clients and the Android worker connect to an authenticated event stream. They
+fetch encrypted work initially, after a change, or after reconnecting. Comment
+heartbeats establish liveness without fetching. Do not put bearer tokens in URLs.
+Reverse proxies must support streaming and should disable response buffering.
+
+Host access logs, service-manager console retention, swap, crash dumps and VM
+snapshots can independently retain data. Review them before making any deployment
+retention promise. See the [privacy notice](/docs/legal/privacy/).
+
+## Discovery and HTTPS
+
+The relay advertises `_simbridge._tcp.local` with mDNS/Bonjour. Its announcement carries
+an address, protocol information, and a non-secret relay identifier. It never announces
+the owner key or bridge root key. With TLS configured, the advertised scheme is HTTPS.
+
+Discovery usually stays within the local network. A manual URL is useful across
+networks or where multicast is blocked. The app permits HTTP for private/LAN hosts and
+requires HTTPS elsewhere. Linux desktop discovery separately requires Avahi on system
+D-Bus; it is independent of credential storage's session Secret Service.
+
+## Optional iPhone push delivery
+
+Configure APNs only on the relay host:
+
+| Variable | Value |
+| --- | --- |
+| `SIM_BRIDGE_APNS_KEY_PATH` | Path to the Apple APNs `.p8` private key outside the repository |
+| `SIM_BRIDGE_APNS_KEY_ID` | Apple key identifier |
+| `SIM_BRIDGE_APNS_TEAM_ID` | Apple developer team identifier |
+| `SIM_BRIDGE_APNS_TOPIC` | iOS bundle identifier; defaults to `dev.renner.simbridge` |
+
+The key path, key ID, and team ID must be configured together. Without them, sending
+is disabled. Sandbox builds need a key authorized for sandbox APNs; production builds
+need production authorization. The iOS `SIM_BRIDGE_PUSH_ENVIRONMENT` setting must match
+the signed `aps-environment` entitlement.
+
+The Android gateway seals a separate notification preview. APNs receives that
+ciphertext and a generic fallback alert; the iPhone's notification service extension
+decrypts the preview locally. Payload size is bounded to 4096 bytes. Retries are bounded
+and invalid tokens are removed. This does not add an Android/desktop push wake-up path.
+
+Build success alone does not verify APNs. Test a credentialed deployment with a paired,
+locked physical iPhone and record its actual delivery result separately.
+
+
+## Hosting on Cloudflare Workers
+
+The relay also runs as a Cloudflare Worker, so you do not have to operate a server.
+One Durable Object holds the whole relay in memory and never writes to storage.
+
+```sh
+cd server
+npm ci
+npx wrangler login
+npx wrangler secret put SIM_BRIDGE_ACCESS_KEY   # a new random secret, 32+ characters
+npm run deploy:worker
+```
+
+Enter the resulting `https://sim-bridge-relay.<your-subdomain>.workers.dev` address in the
+apps. Cloudflare provides HTTPS and routes only that hostname to the Worker. Request logs are
+disabled in `wrangler.jsonc`; Cloudflare's own platform logging remains subject to its terms.
+
+Differences from a self-hosted relay:
+
+- Restarts, deploys and idle eviction clear relay memory. Clients keep their identities and
+  the Android gateway restores pairing; encrypted messages still waiting at that moment are lost.
+- Event streams reconnect every four minutes by design.
+- There is no LAN discovery; type the HTTPS address.
+- iPhone push from a Worker is not verified yet.
+- An always-connected gateway keeps the relay active most of the day. That fits the free
+  allowance for one bridge, but check your Cloudflare usage.
+
+Details are in [server/README.md](https://github.com/rennerdo30/sim-bridge/blob/main/server/README.md#cloudflare-workers-recommended-hosting).

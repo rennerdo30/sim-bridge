@@ -1,0 +1,79 @@
+---
+title: Architecture
+description: Understand device roles, sealed content, durable gateway work, and notification paths.
+---
+
+## Three roles
+
+| Component | Responsibility | Sensitive content |
+| --- | --- | --- |
+| Android gateway | Read its SIM's SMS, upload events, execute addressed SMS/call commands | Sees local plaintext and holds bridge key |
+| Client app | Read the shared inbox and request actions through a selected gateway | Decrypts locally and holds bridge key |
+| Node relay | Authenticate devices, route sealed envelopes, route through short-lived RAM queues | Sees ciphertext and routing metadata, not bridge key |
+
+Android can be both a client and a gateway. iOS, macOS, Windows, and Linux are clients.
+Multiple clients and gateways can belong to the same encrypted bridge. A client can
+select the gateway/SIM for a request; the relay enforces gateway authority at enrollment.
+
+```text
+Android SIM → gateway seals event → relay buffers/routes ciphertext in RAM → client decrypts
+Client action → client seals command → relay routes ciphertext → gateway validates/acts
+```
+
+## Enrollment and keys
+
+Bridge creation requires the relay owner's access key. The creating device generates
+a random 256-bit bridge root key locally. A QR invitation or full 52-character recovery
+code transfers that key to another client. The relay uses a derived enrollment verifier
+and never receives the root key separately.
+
+Each device also has an independent signing key, an operator-issued identity
+certificate, and a renewable relay bearer token. Private keys and credentials live
+in the platform's secure-storage service. Revoking relay access
+does not make a former bridge member forget a root key it already held.
+
+The relay retains all enrollment and routing state only in memory. The Android
+owner gateway durably keeps current membership and revocation policy. After a restart,
+it restores authorization using its independent signing identity; clients then
+prove possession of their own keys and resume with unchanged IDs and encryption
+keys. They wait if that gateway is unavailable. Certificates alone cannot restore
+an allowlist, and permanent authorization changes require durable gateway confirmation.
+The current gateway policy is trusted; stale authorization backups must not be restored.
+Existing installations require an explicit migration before replacing the relay.
+Encrypted messages, commands, and push previews expire within
+five minutes. There is no relay archive or durable offline delivery. Upload success
+confirms acceptance into volatile relay memory, not receipt by another device.
+
+## Durable Android work
+
+The Android foreground service owns a headless Flutter gateway engine. Receivers persist
+SMS/call events with stable IDs before waking it. The visible app reads state and worker
+status rather than starting another command executor.
+
+Events are acknowledged locally after successful upload. The gateway reuses an opaque
+`uploadId` when retrying, and the relay keeps bounded in-memory deduplication receipts so a lost response
+does not produce duplicate pushes during the same relay lifetime. These receipts contain only acknowledgements, not message payloads. Commands claim a durable journal entry before hardware
+side effects. If a crash makes an SMS outcome uncertain, the system reports that uncertainty
+rather than automatically resending the SMS.
+
+Android recovery remains subject to permissions, battery restrictions, force-stop, reboot,
+and manufacturer policies. The readiness UI distinguishes what the app measured from a
+setting that the user confirmed manually.
+
+## Notification paths
+
+Clients maintain an authenticated event stream while running. Changes trigger encrypted inbox/roster catch-up; the Android worker fetches commands addressed to it. Heartbeats measure liveness without fetching work. Reconnects use bounded backoff. Local notifications use that device's notification
+service and permission. Optional iPhone APNs delivery carries a second encrypted preview,
+which the notification extension decrypts using the device's shared notification Keychain
+access. The gateway must first upload the event.
+
+Desktop clients have no tray service or push wake-up. Closing the last window ends the event connection.
+The current Android client path has no FCM wake-up. These limits matter when interpreting
+online status and alert delivery.
+
+## Calls stay cellular on Android
+
+Clients can request dialing and, with the required Android role, addressed decline/hang-up
+controls. They can receive encrypted ringing/missed-call activity. They do not stream the
+carrier's audio; ordinary apps cannot treat another phone's SIM as a remote audio device.
+iOS cannot inject bridged SMS into Apple Messages.

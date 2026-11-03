@@ -1,0 +1,153 @@
+name: Desktop builds
+
+on:
+  push:
+    branches: ['**']
+    paths:
+      - 'app/**'
+      - '.github/workflows/desktop.yml'
+  pull_request:
+    paths:
+      - 'app/**'
+      - '.github/workflows/desktop.yml'
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      source_sha:
+        description: Immutable source commit to build; defaults to the triggering commit.
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desktop-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: macOS-arm64
+            runner: macos-15
+            platform: macos
+            flutter_arch: arm64
+            artifact: Sim-Bridge-macOS-arm64
+          - target: macOS-x86_64
+            runner: macos-15-intel
+            platform: macos
+            flutter_arch: x64
+            artifact: Sim-Bridge-macOS-x86_64
+          - target: Windows-x64
+            runner: windows-2022
+            platform: windows
+            flutter_arch: x64
+            artifact: Sim-Bridge-windows-x64
+          - target: Linux-x64
+            runner: ubuntu-24.04
+            platform: linux
+            flutter_arch: x64
+            artifact: Sim-Bridge-linux-x64
+    defaults:
+      run:
+        working-directory: app
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ inputs.source_sha || github.sha }}
+          persist-credentials: false
+
+      - name: Require an immutable source commit
+        shell: bash
+        working-directory: .
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
+        run: |
+          if ! [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}([0-9a-f]{24})?$ ]]; then
+            echo 'Desktop source must be an immutable commit SHA.' >&2
+            exit 1
+          fi
+
+      - name: Install Linux build dependencies
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libsecret-1-dev zip
+
+      - name: Check Windows C++ and ATL tools
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $installation = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.VC.ATL -property installationPath
+          if (-not $installation) { throw 'Visual Studio C++ desktop tools and ATL are required.' }
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: '3.38.6'
+          channel: stable
+          cache: true
+          architecture: ${{ matrix.flutter_arch }}
+
+      - name: Resolve locked dependencies
+        run: flutter pub get --enforce-lockfile
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Unit and widget tests
+        run: flutter test
+
+      - name: Build and package macOS development app
+        if: matrix.platform == 'macos'
+        run: tool/build_macos_desktop.sh --ci
+
+      - name: Build Windows app
+        if: matrix.platform == 'windows'
+        run: flutter build windows --release
+
+      - name: Package complete Windows bundle
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          $bundle = 'build/windows/x64/runner/Release'
+          if (-not (Test-Path "$bundle/sim_bridge.exe")) { throw 'Windows executable was not produced.' }
+          if (-not (Test-Path "$bundle/data/flutter_assets")) { throw 'Flutter assets are missing.' }
+          New-Item -ItemType Directory -Force -Path build/desktop-ci | Out-Null
+          $archive = 'build/desktop-ci/Sim-Bridge-windows-x64.zip'
+          Compress-Archive -Path "$bundle/*" -DestinationPath $archive -Force
+          $hash = (Get-FileHash $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  Sim-Bridge-windows-x64.zip" | Set-Content "$archive.sha256" -Encoding ascii
+
+      - name: Build Linux app
+        if: matrix.platform == 'linux'
+        run: flutter build linux --release
+
+      - name: Package complete Linux bundle
+        if: matrix.platform == 'linux'
+        run: |
+          test -x build/linux/x64/release/bundle/sim_bridge
+          test -d build/linux/x64/release/bundle/data/flutter_assets
+          mkdir -p build/desktop-ci
+          # A zip with the bundle at its root; -y keeps symlinks, modes are stored.
+          (cd build/linux/x64/release/bundle && zip -qry ../../../../desktop-ci/Sim-Bridge-linux-x64.zip .)
+          cd build/desktop-ci
+          sha256sum Sim-Bridge-linux-x64.zip > Sim-Bridge-linux-x64.zip.sha256
+
+      - name: Upload runnable bundle and checksum
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: ${{ matrix.artifact }}
+          path: app/build/desktop-ci/*
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0

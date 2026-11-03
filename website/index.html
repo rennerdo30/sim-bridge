@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sim Bridge: your SMS on every device, end-to-end encrypted</title>
+  <meta name="description" content="Sim Bridge brings the SMS messages and verification codes of your Android phone to your iPhone, Mac, Windows PC and Linux desktop. End-to-end encrypted, through a relay you run yourself. Free and open source.">
+  <meta name="theme-color" content="#0E1B16">
+  <link rel="canonical" href="https://sim-bridge.renner.dev/">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/icon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icon-180.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sim Bridge">
+  <meta property="og:description" content="Your Android SMS and verification codes on every device, end-to-end encrypted, through a relay you run yourself.">
+  <meta property="og:url" content="https://sim-bridge.renner.dev/">
+  <meta property="og:image" content="https://sim-bridge.renner.dev/assets/desktop-activity.webp">
+  <link rel="preload" href="fonts/BricolageGrotesque-ExtraBold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <script src="releases.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <div class="wrap top-row">
+      <a class="brand" href="./" aria-label="Sim Bridge home">
+        <img src="assets/icon.svg" alt="" width="34" height="34">
+        <span>Sim Bridge</span>
+      </a>
+      <nav aria-label="Main">
+        <a href="#features">Features</a>
+        <a href="#security">Security</a>
+        <a href="#relay">Relay</a>
+        <a href="docs/">Docs</a>
+        <a href="https://github.com/rennerdo30/sim-bridge">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Free and open source · MIT</p>
+          <h1>Your SMS.<br>On every device.</h1>
+          <p class="lede">
+            Sim Bridge brings the messages and verification codes of your Android phone to your
+            iPhone, Mac, Windows PC and Linux desktop. End-to-end encrypted, through a relay you
+            run yourself.
+          </p>
+          <div class="cta">
+            <a class="button primary" href="https://github.com/rennerdo30/sim-bridge/releases/latest" data-download="recommended">
+              <span data-download-label>Download for desktop</span>
+            </a>
+            <a class="button ghost" href="docs/getting-started/setup/">Set up a bridge</a>
+          </div>
+          <p class="release-note" data-release="note" hidden>
+            Version <span data-release="version"></span> · released <span data-release="date"></span>
+          </p>
+          <ul class="badges" aria-label="Highlights">
+            <li>AES-256-GCM</li>
+            <li>No account</li>
+            <li>Nothing stored on disk</li>
+          </ul>
+        </div>
+        <div class="hero-shots" aria-hidden="true">
+          <img class="shot desktop" src="assets/desktop-activity.webp" width="1600" height="1085" alt="">
+          <img class="shot phone" src="assets/phone-activity.webp" width="600" height="1304" alt="">
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="wrap">
+        <h2>Everything your SIM receives, wherever you are</h2>
+        <p class="section-lede">One Android phone with an active SIM is the gateway. Every other device joins it as a client.</p>
+        <div class="cards">
+          <article class="card">
+            <h3>Read every SMS</h3>
+            <p>Incoming messages appear on all paired devices within moments, decrypted only on the device itself.</p>
+          </article>
+          <article class="card accent">
+            <h3>Verification codes, ready to copy</h3>
+            <p>Codes are detected and shown large. Copied codes are marked sensitive and cleared from the clipboard after three minutes.</p>
+          </article>
+          <article class="card">
+            <h3>Send from anywhere</h3>
+            <p>Write an SMS on your computer or iPhone; the gateway sends it on the SIM you choose and reports the carrier result.</p>
+          </article>
+          <article class="card">
+            <h3>Start and end calls</h3>
+            <p>Dial or hang up on the gateway phone from another device. Call audio stays on the Android phone.</p>
+          </article>
+          <article class="card">
+            <h3>Dual SIM</h3>
+            <p>Pick the line for every message or call. Each SIM is labelled with its name and number.</p>
+          </article>
+          <article class="card">
+            <h3>Pair in seconds</h3>
+            <p>Scan a QR code with a phone, or type the relay address and recovery code on a computer.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery" aria-label="Screenshots">
+      <div class="wrap gallery-grid">
+        <figure>
+          <img src="assets/desktop-devices.webp" width="1600" height="1085" loading="lazy" alt="Desktop app showing the paired Android gateway, a computer and an iPhone, all online">
+          <figcaption>All paired devices and their live status.</figcaption>
+        </figure>
+        <figure class="narrow">
+          <img src="assets/phone-compose.webp" width="600" height="757" loading="lazy" alt="iPhone app with the sheet to send a text or place a call through the gateway">
+          <figcaption>Send a text or place a call through the gateway.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="security" class="section dark">
+      <div class="wrap split">
+        <div>
+          <h2>Private by design</h2>
+          <p class="section-lede">The relay in the middle cannot read what it forwards.</p>
+        </div>
+        <ul class="checks">
+          <li><strong>End-to-end encrypted.</strong> Messages, numbers, SIM details and commands are sealed with AES-256-GCM before they leave a device.</li>
+          <li><strong>Your key stays yours.</strong> The 256-bit bridge key is created on the gateway and shared only by QR code or recovery code.</li>
+          <li><strong>Nothing on disk.</strong> The relay keeps ciphertext in memory for at most five minutes and writes no database or log files.</li>
+          <li><strong>Commands can't be replayed.</strong> Every command is bound to one bridge, sender and gateway, and refused if repeated or late.</li>
+          <li><strong>Honest about metadata.</strong> The relay still sees device names, IP addresses, sizes and timing. <a href="docs/guides/security/">Read the security model</a>.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="relay" class="section">
+      <div class="wrap">
+        <h2>Run your own relay in minutes</h2>
+        <p class="section-lede">There is no Sim Bridge account and no central server. Choose where your relay runs.</p>
+        <div class="cards two">
+          <article class="card">
+            <h3>Cloudflare Workers</h3>
+            <p>No server to maintain. The relay lives in memory in a single Durable Object and fits the free plan for a personal bridge.</p>
+            <pre><code>cd server && npm ci
+npx wrangler secret put SIM_BRIDGE_ACCESS_KEY
+npm run deploy:worker</code></pre>
+          </article>
+          <article class="card">
+            <h3>Your own machine</h3>
+            <p>Run it with Node.js on a home server or in Docker behind a tunnel. On your LAN, apps find it automatically.</p>
+            <pre><code>cd server && npm ci
+SIM_BRIDGE_ACCESS_KEY=… npm start</code></pre>
+          </article>
+        </div>
+        <p class="more"><a href="docs/guides/relay/">Relay guide</a></p>
+      </div>
+    </section>
+
+    <section id="download" class="section soft">
+      <div class="wrap">
+        <h2>Get Sim Bridge</h2>
+        <div class="platforms">
+          <a class="platform" href="https://github.com/rennerdo30/sim-bridge/releases/latest" data-platform="macos">
+            <strong>macOS</strong><span>Apple silicon · zip</span>
+          </a>
+          <a class="platform" href="https://github.com/rennerdo30/sim-bridge/releases/latest" data-platform="windows">
+            <strong>Windows</strong><span>x64 · portable zip</span>
+          </a>
+          <a class="platform" href="https://github.com/rennerdo30/sim-bridge/releases/latest" data-platform="linux">
+            <strong>Linux</strong><span>x64 · portable zip</span>
+          </a>
+          <div class="platform soon">
+            <strong>Android &amp; iOS</strong><span>Store releases in preparation · build from source</span>
+          </div>
+        </div>
+        <p class="fine">
+          Desktop packages are not yet code-signed by a publisher, so your system may ask you to
+          confirm the first launch. A Sim Bridge gateway needs an Android phone with an active SIM.
+          Sim Bridge is not an emergency calling service.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-row">
+      <div class="brand small"><img src="assets/icon.svg" alt="" width="24" height="24"><span>Sim Bridge</span></div>
+      <nav aria-label="Footer">
+        <a href="docs/">Documentation</a>
+        <a href="docs/support/">Support</a>
+        <a href="docs/legal/privacy/">Privacy</a>
+        <a href="docs/legal/terms/">Terms</a>
+        <a href="https://github.com/rennerdo30/sim-bridge">Source code</a>
+      </nav>
+      <p>MIT licensed · made by <a href="https://renner.dev">rennerdo30</a></p>
+    </div>
+  </footer>
+</body>
+</html>

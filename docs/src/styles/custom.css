@@ -1,0 +1,70 @@
+/* Sim Bridge: porcelain, circuit-board green, and restrained gold. */
+:root {
+  --sl-color-accent-low: #183c2b;
+  --sl-color-accent: #73c995;
+  --sl-color-accent-high: #cef1db;
+  --sl-color-black: #0e1b16;
+  --sl-color-white: #f5f3ec;
+  --sl-color-text: #dee8df;
+  --sl-color-bg: #0e1b16;
+  --sl-color-bg-nav: #12251d;
+  --sl-color-bg-sidebar: #12251d;
+  --sl-color-hairline-light: #294738;
+  --sl-color-hairline: #365847;
+  --sl-content-width: 52rem;
+  --purple-hsl: 145, 40%, 50%;
+  --fb-table-header-bg-color: #183228;
+  --fb-toc-color-current-bg: #73c99520;
+  --fb-sidebar-color-current-bg: #24443a;
+  --fb-sidebar-color-current-hover: #1e3a30;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #e3f0e5;
+  --sl-color-accent: #2e7d4f;
+  --sl-color-accent-high: #24443a;
+  --sl-color-black: #fffdf7;
+  --sl-color-white: #16211d;
+  --sl-color-text: #16211d;
+  --sl-color-bg: #f5f3ec;
+  --sl-color-bg-nav: #fffdf7;
+  --sl-color-bg-sidebar: #fffdf7;
+  --sl-color-hairline-light: #e3e0d4;
+  --sl-color-hairline: #d2d7ce;
+  --fb-table-header-bg-color: #e3f0e5;
+  --fb-toc-color-current-bg: #2e7d4f15;
+  --fb-sidebar-color-current-bg: #e3f0e5;
+  --fb-sidebar-color-current-hover: #d6e8da;
+}
+
+.sl-markdown-content .app-shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1.5rem auto 0;
+  border: 1px solid var(--sl-color-hairline-light);
+  border-radius: 0.85rem;
+  box-shadow: 0 0.5rem 1.75rem rgb(0 0 0 / 0.1);
+}
+
+.sl-markdown-content .phone-shot {
+  max-width: 25rem;
+}
+
+.sl-markdown-content .shot-caption {
+  margin-top: 0.6rem;
+  color: var(--sl-color-gray-2);
+  font-size: var(--sl-text-sm);
+}
+
+.sl-markdown-content .platform-table td:first-child {
+  font-weight: 600;
+}
+
+:root .hero .tagline {
+  max-width: 39rem;
+}
+
+:root .hero h1 {
+  letter-spacing: -0.035em;
+}

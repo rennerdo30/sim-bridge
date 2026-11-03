@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sim-bridge.renner.dev/docs/sitemap-index.xml

@@ -1,0 +1,53 @@
+name: Relay checks
+
+on:
+  push:
+    paths:
+      - 'server/**'
+      - '.github/workflows/relay.yml'
+  pull_request:
+    paths:
+      - 'server/**'
+      - '.github/workflows/relay.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: relay-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Relay tests (Node and Cloudflare Worker)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Install Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: server/.nvmrc
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Run isolated relay tests
+        run: npm test
+
+      - name: Run relay tests on the WebAssembly SQLite engine
+        run: npm run test:wasm
+
+      - name: Run relay tests against the Cloudflare Worker in local workerd
+        run: npm run test:worker
+
+      - name: Check the Worker bundle builds
+        run: npx wrangler deploy --dry-run --outdir "$RUNNER_TEMP/worker-bundle"

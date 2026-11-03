@@ -1,0 +1,222 @@
+/* Sim Bridge relay dashboard — tokens shared with the mobile app:
+   porcelain / board-green / gold SIM-chip accent, chamfered SIM cut. */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/fonts/BricolageGrotesque-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/fonts/BricolageGrotesque-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+:root {
+  --ink: #eef3ec;
+  --muted: #8fa098;
+  --deep: #0e1b16;
+  --panel: #142a22;
+  --panel-2: #0f2019;
+  --line: #24443a;
+  --chip: #d9a13f;
+  --chip-ink: #0e1b16;
+  --signal: #58b380;
+  --danger: #e06a5a;
+  --field: #0a1712;
+  --field-line: #2c4c40;
+  --cut: 18px;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --ink: #16211d;
+    --muted: #6a736d;
+    --deep: #f5f3ec;
+    --panel: #ffffff;
+    --panel-2: #fbfaf5;
+    --line: #e3e0d4;
+    --signal: #2e7d4f;
+    --danger: #b03b2e;
+    --field: #ffffff;
+    --field-line: #d8d4c6;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--deep);
+  color: var(--ink);
+  font: 15px/1.5 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  min-height: 100vh;
+}
+h1, h2, h3, .logo, button, .brand strong {
+  font-family: "Bricolage Grotesque", ui-sans-serif, -apple-system, sans-serif;
+}
+.shell { width: min(1180px, calc(100% - 40px)); margin: auto; padding: 28px 0 60px; }
+header, .brand, .health, .key-row, .topline, .panel-title { display: flex; align-items: center; }
+header, .topline, .panel-title { justify-content: space-between; }
+.brand { gap: 12px; }
+.brand strong, .brand small { display: block; }
+.brand strong { font-size: 17px; }
+.brand small { color: var(--muted); font-size: 12px; }
+.logo {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  background: var(--chip);
+  color: var(--chip-ink);
+  clip-path: polygon(0 5px, 5px 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%, 0 calc(100% - 5px));
+}
+.health {
+  gap: 9px;
+  padding: 9px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.health i { width: 8px; height: 8px; border-radius: 50%; background: var(--chip); box-shadow: 0 0 12px currentColor; }
+.health.online i { background: var(--signal); }
+.health.offline i { background: var(--danger); }
+.hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 70px; align-items: end; padding: 90px 0 70px; }
+.eyebrow { margin: 0 0 10px; color: var(--chip); font-size: 11px; font-weight: 800; letter-spacing: .17em; }
+.hero h1 { font-size: clamp(44px, 6vw, 74px); line-height: 1.01; letter-spacing: -.04em; margin: 0; }
+.hero h1 em { font-style: normal; color: var(--chip); }
+.lede { max-width: 590px; color: var(--muted); font-size: 17px; }
+.login, .panel, .metrics article {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .14);
+}
+.login {
+  padding: 24px;
+  border-radius: 10px;
+  clip-path: polygon(0 10px, 10px 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));
+}
+.login label { display: block; font-weight: 750; margin-bottom: 10px; }
+.login p { font-size: 12px; color: var(--muted); margin: 11px 2px 0; }
+.key-row { gap: 9px; }
+input, button { border: 0; border-radius: 9px; font: inherit; }
+input {
+  min-width: 0;
+  flex: 1;
+  background: var(--field);
+  color: var(--ink);
+  border: 1px solid var(--field-line);
+  padding: 14px 15px;
+  outline: none;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+}
+input:focus { border-color: var(--chip); box-shadow: 0 0 0 3px rgba(217, 161, 63, .16); }
+button {
+  background: var(--chip);
+  color: var(--chip-ink);
+  font-weight: 800;
+  padding: 14px 17px;
+  cursor: pointer;
+  transition: .15s transform, .15s opacity;
+  clip-path: polygon(0 4px, 4px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px));
+}
+button:hover { transform: translateY(-1px); }
+button:disabled { opacity: .55; cursor: wait; }
+.hidden { display: none; }
+.topline { margin-bottom: 20px; }
+.topline h2 { font-size: 30px; margin: 0; }
+.secondary { background: transparent; color: var(--ink); border: 1px solid var(--line); clip-path: none; border-radius: 9px; }
+.metrics { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.metrics article { padding: 19px; border-radius: 10px; }
+.metrics span { display: block; color: var(--muted); font-size: 12px; }
+.metrics strong {
+  display: block;
+  font-size: 32px;
+  margin-top: 4px;
+  font-family: "Bricolage Grotesque", ui-sans-serif, sans-serif;
+}
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.panel { border-radius: 10px; padding: 22px; }
+.panel h3 { font-size: 20px; margin: 0; }
+.secure { color: var(--signal); font-size: 12px; border: 1px solid var(--line); padding: 6px 10px; border-radius: 999px; }
+dl { margin: 17px 0 0; }
+dl div { display: flex; justify-content: space-between; gap: 30px; padding: 11px 0; border-top: 1px solid var(--line); }
+dt { color: var(--muted); }
+dd {
+  margin: 0;
+  text-align: right;
+  max-width: 65%;
+  word-break: break-all;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12.5px;
+}
+.actions { display: flex; gap: 10px; margin-top: 19px; }
+.output {
+  margin-top: 13px;
+  padding: 14px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--muted);
+  font: 12px/1.5 "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  min-height: 68px;
+  white-space: pre-wrap;
+}
+.output.success { color: var(--signal); }
+.output.failure { color: var(--danger); }
+.devices { margin-top: 14px; }
+.device-list { margin-top: 14px; }
+.device { display: grid; grid-template-columns: 42px 1fr auto; gap: 12px; align-items: center; padding: 13px 0; border-top: 1px solid var(--line); }
+.device-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  color: var(--chip);
+  clip-path: polygon(0 5px, 5px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%, 0 calc(100% - 5px));
+}
+.device strong, .device small { display: block; }
+.row-actions { display: flex; align-items: center; gap: 10px; }
+button.small { padding: 7px 11px; font-size: 12.5px; }
+.device small, .empty { color: var(--muted); }
+.status { font-size: 12px; color: var(--signal); }
+#toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  padding: 12px 16px;
+  border-radius: 9px;
+  background: var(--ink);
+  color: var(--deep);
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: .2s;
+  pointer-events: none;
+}
+#toast.show { opacity: 1; transform: none; }
+@media (max-width: 800px) {
+  .hero, .grid { grid-template-columns: 1fr; }
+  .hero { gap: 28px; padding: 60px 0 45px; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .metrics article:last-child { grid-column: span 2; }
+  .key-row, .actions { align-items: stretch; flex-direction: column; }
+}
+@media (max-width: 480px) {
+  .shell { width: min(100% - 24px, 1180px); }
+  .hero h1 { font-size: 42px; }
+  .health span { display: none; }
+}
