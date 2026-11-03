@@ -141,4 +141,34 @@ void main() {
       throwsA(isA<UpdateException>()),
     );
   });
+
+  test('a rate-limited API falls back to the release checksum list', () async {
+    final digest = '1' * 64;
+    final updater = DesktopUpdater(
+      currentVersion: '1.0.0',
+      package: _windows,
+      client: MockClient((request) async {
+        if (request.url.host == 'api.github.com') {
+          return http.Response('{"message":"API rate limit exceeded"}', 403);
+        }
+        expect(
+          request.url.toString(),
+          'https://github.com/rennerdo30/sim-bridge/releases/latest/download/SHA256SUMS.txt',
+        );
+        return http.Response(
+          '$digest  Sim-Bridge-1.2.0-linux-x64.zip\n'
+          '$digest  Sim-Bridge-1.2.0-windows-x64-setup.exe\n',
+          200,
+        );
+      }),
+    );
+    final release = (await updater.check())!;
+    expect(release.version, '1.2.0');
+    expect(release.assetName, 'Sim-Bridge-1.2.0-windows-x64-setup.exe');
+    expect(
+      release.assetUrl.toString(),
+      '$_download/v1.2.0/Sim-Bridge-1.2.0-windows-x64-setup.exe',
+    );
+    expect(release.checksumsUrl.toString(), '$_download/v1.2.0/SHA256SUMS.txt');
+  });
 }

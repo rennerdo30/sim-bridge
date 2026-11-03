@@ -14,6 +14,10 @@ const _latestReleaseApi =
 const _downloadPrefix =
     'https://github.com/$updateRepository/releases/download/';
 const _checksumsAsset = 'SHA256SUMS.txt';
+// Served without the API's per-address rate limit; "latest" excludes drafts
+// and prereleases.
+const _latestChecksums =
+    'https://github.com/$updateRepository/releases/latest/download/$_checksumsAsset';
 
 /// Automatic checks run at most this often; "Check now" is always allowed.
 const updateCheckInterval = Duration(days: 1);
@@ -130,6 +134,11 @@ class DesktopUpdater {
         )
         .timeout(_metadataTimeout);
     if (response.statusCode == 404) return null; // No release published yet.
+    // The API allows few anonymous requests per address (shared networks hit
+    // that quickly); the release's own checksum list is enough to find it.
+    if (response.statusCode == 403 || response.statusCode == 429) {
+      return _checkFromChecksums(package);
+    }
     if (response.statusCode != 200) {
       throw UpdateException('metadata_${response.statusCode}');
     }
@@ -175,6 +184,42 @@ class DesktopUpdater {
       checksumsUrl: checksumsUrl,
       method: package.method,
     );
+  }
+
+  Future<DesktopRelease?> _checkFromChecksums(
+    ({String suffix, UpdateMethod method}) package,
+  ) async {
+    final response = await _client
+        .get(Uri.parse(_latestChecksums))
+        .timeout(_metadataTimeout);
+    if (response.statusCode == 404) return null;
+    if (response.statusCode != 200) {
+      throw UpdateException('checksums_${response.statusCode}');
+    }
+    final pattern = RegExp(
+      '^[0-9a-fA-F]{64}\\s+\\*?(Sim-Bridge-(\\d+\\.\\d+\\.\\d+)-'
+      '${RegExp.escape(package.suffix)})\$',
+    );
+    for (final line in const LineSplitter().convert(response.body)) {
+      final match = pattern.firstMatch(line.trim());
+      if (match == null) continue;
+      final version = match.group(2)!;
+      if (compareVersions(version, currentVersion) <= 0) return null;
+      final base =
+          '$_downloadPrefix'
+          'v$version/';
+      return DesktopRelease(
+        version: version,
+        pageUrl: Uri.parse(
+          'https://github.com/$updateRepository/releases/tag/v$version',
+        ),
+        assetName: match.group(1)!,
+        assetUrl: Uri.parse('$base${match.group(1)}'),
+        checksumsUrl: Uri.parse('$base$_checksumsAsset'),
+        method: package.method,
+      );
+    }
+    return null;
   }
 
   /// Downloads the package into [directory] and verifies it against the
