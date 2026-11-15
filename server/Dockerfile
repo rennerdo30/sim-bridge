@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Sim Bridge relay. State is memory-only, so the image needs no volumes.
-FROM node:22-bookworm-slim AS build
+FROM node:26-bookworm-slim AS build
 WORKDIR /app
 # better-sqlite3 compiles its native module from source.
 RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ \
@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3 make g+
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 
-FROM node:22-bookworm-slim
+FROM node:26-bookworm-slim
 ENV NODE_ENV=production \
     PORT=8787 \
     SIM_BRIDGE_DISCOVERY=off
