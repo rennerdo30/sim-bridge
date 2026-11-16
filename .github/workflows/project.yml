@@ -42,7 +42,7 @@ jobs:
         env:
           SOURCE_SHA: ${{ inputs.source_sha }}
         run: python -c "import os,re; assert re.fullmatch(r'[0-9a-f]{40}(?:[0-9a-f]{24})?', os.environ['SOURCE_SHA'])"
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.13'
       - name: Verify release integrity rejection gates
