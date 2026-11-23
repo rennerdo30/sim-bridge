@@ -15,13 +15,13 @@
     "node": ">=22"
   },
   "dependencies": {
-    "better-sqlite3": "^13.0.3",
+    "better-sqlite3": "^13.2.0",
     "bonjour-service": "^1.4.4",
-    "sql.js": "^1.15.2"
+    "sql.js": "^1.17.0"
   },
   "license": "MIT",
   "devDependencies": {
-    "wrangler": "^4.137.0"
+    "wrangler": "^4.166.0"
   },
   "cloudflare": {
     "bindings": {
